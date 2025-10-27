@@ -11,9 +11,15 @@ const theme = extendTheme({
         heading: `'Poppins', sans-serif`,
         body: `'Inter', sans-serif`
     },
-    colors: {
-        brand: {
-            500: "#6C63FF"
+    semanticTokens: {
+        colors: {
+            background: {
+                default: "#6C63FF",
+                _dark: "#0d1117"
+            },
+            brand: {
+                500: "#6C63FF"
+            }
         }
     }
 });
