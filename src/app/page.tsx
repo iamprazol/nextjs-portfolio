@@ -98,7 +98,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                width={"60%"}
+                width={"80%"}
             >
                 <Box position={"relative"} marginBottom={"40px"}>
                     <Box
@@ -111,7 +111,7 @@ export default function Home() {
                     ></Box>
                     <Heading
                         mb={4}
-                        fontSize={{ base: "50px", md: "75px", lg: "100px" }}
+                        fontSize={{ base: "40px", md: "75px", lg: "100px" }}
                         position={"relative"}
                     >
                         {meta.name}
@@ -121,7 +121,11 @@ export default function Home() {
                     <VStack gap="24px">
                         <HStack>
                             <Text
-                                fontSize="40px"
+                                fontSize={{
+                                    base: "20px",
+                                    md: "30px",
+                                    lg: "40px"
+                                }}
                                 mb={6}
                                 backgroundImage="linear(to-r, #3b82f6, #a855f7, #ec4899)"
                                 fontWeight={800}
@@ -164,7 +168,11 @@ export default function Home() {
                             </Text>
                         </HStack>
                         <Text
-                            fontSize="20px"
+                            fontSize={{
+                                base: "14px",
+                                md: "16px",
+                                lg: "20px"
+                            }}
                             mb={6}
                             color={"#9ca3af"}
                             margin={"0"}
@@ -172,7 +180,11 @@ export default function Home() {
                             Transforming complex ideas, driven by curiosity,
                             into elegance defined by code.
                         </Text>
-                        <HStack>
+                        <HStack
+                            flexWrap="wrap"
+                            justifyContent="center"
+                            zIndex={1}
+                        >
                             <Button
                                 color="#d1d5db"
                                 variant="outline"
@@ -181,6 +193,8 @@ export default function Home() {
                                 fontWeight={"500"}
                                 border={"0.5px solid #2d333b"}
                                 fontSize={"14px"}
+                                lineHeight={"20px"}
+                                height={"30px"}
                                 _hover={{
                                     border: "1px solid teal"
                                 }}
@@ -195,6 +209,8 @@ export default function Home() {
                                 fontWeight={"500"}
                                 border={"0.5px solid #2d333b"}
                                 fontSize={"14px"}
+                                lineHeight={"20px"}
+                                height={"30px"}
                                 _hover={{
                                     border: "1px solid teal"
                                 }}
@@ -209,6 +225,8 @@ export default function Home() {
                                 fontWeight={"500"}
                                 border={"0.5px solid #2d333b"}
                                 fontSize={"14px"}
+                                lineHeight={"20px"}
+                                height={"30px"}
                                 _hover={{
                                     border: "1px solid teal"
                                 }}
@@ -223,6 +241,8 @@ export default function Home() {
                                 fontWeight={"500"}
                                 border={"0.5px solid #2d333b"}
                                 fontSize={"14px"}
+                                lineHeight={"20px"}
+                                height={"30px"}
                                 _hover={{
                                     border: "1px solid teal"
                                 }}
@@ -237,6 +257,8 @@ export default function Home() {
                                 fontWeight={"500"}
                                 border={"0.5px solid #2d333b"}
                                 fontSize={"14px"}
+                                lineHeight={"20px"}
+                                height={"30px"}
                                 _hover={{
                                     border: "1px solid teal"
                                 }}
@@ -244,7 +266,11 @@ export default function Home() {
                                 React
                             </Button>
                         </HStack>
-                        <HStack>
+                        <HStack
+                            flexWrap="wrap"
+                            justifyContent="center"
+                            zIndex={1}
+                        >
                             <Box
                                 position={"relative"}
                                 onMouseEnter={() => setIsHovered(true)}
@@ -407,8 +433,16 @@ export default function Home() {
                 bottom={"10px"}
             >
                 <VStack color={"#9ca3af"}>
-                    <Text>Scroll to explore</Text>
-                    <ArrowDownIcon boxSize={8} />
+                    <Text
+                        fontSize={{
+                            base: "12px",
+                            md: "14px",
+                            lg: "16px"
+                        }}
+                    >
+                        Scroll to explore
+                    </Text>
+                    <ArrowDownIcon boxSize={{ base: 4, md: 6, lg: 8 }} />
                 </VStack>
             </MotionBox>
         </VStack>
