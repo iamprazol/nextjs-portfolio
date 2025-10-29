@@ -7,10 +7,10 @@ interface SkillBadgeProps extends ButtonProps {
 
 const SkillBadge: FC<SkillBadgeProps> = ({ label, ...props }) => (
     <Button
-        color="#d1d5db"
         variant="outline"
         borderRadius="full"
-        bgColor="#1a1f2b"
+        bgColor="badgeBg"
+        color="badgeText"
         fontWeight="500"
         border="0.5px solid #2d333b"
         fontSize="14px"

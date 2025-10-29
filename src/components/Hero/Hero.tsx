@@ -134,6 +134,7 @@ const Hero = () => {
                         mb={4}
                         fontSize={{ base: "40px", md: "75px", lg: "100px" }}
                         position="relative"
+                        color={"primaryText"}
                     >
                         {meta.name}
                     </Heading>
@@ -179,7 +180,7 @@ const Hero = () => {
                     <Text
                         fontSize={{ base: "14px", md: "16px", lg: "20px" }}
                         mb={6}
-                        color="#9ca3af"
+                        color="primaryText"
                     >
                         Transforming complex ideas, driven by curiosity, into
                         elegance defined by code.
@@ -208,16 +209,16 @@ const Hero = () => {
                                 borderRadius="9999px"
                                 top="-2px"
                                 right="-3px"
-                                filter="blur(8px)"
+                                filter="blur(3px)"
                             />
                             <Button
-                                color="#d1d5db"
+                                color="buttonPrimaryText"
                                 variant="outline"
                                 borderRadius="9999px"
-                                bgColor="#1a1f2b"
-                                fontWeight="500"
-                                border="0.5px solid #2d333b"
-                                fontSize="14px"
+                                bgColor="buttonPrimaryGradient"
+                                fontWeight="700"
+                                border="0.5px solid"
+                                fontSize="16px"
                                 size="lg"
                                 rightIcon={<ArrowForwardIcon />}
                             >
@@ -226,14 +227,18 @@ const Hero = () => {
                         </Box>
 
                         <Button
-                            color="#d1d5db"
+                            color="buttonSecondaryText"
                             variant="outline"
                             borderRadius="9999px"
-                            bgColor="#1a1f2b"
+                            bgColor="buttonSecondaryBg"
                             fontWeight="500"
                             border="0.5px solid #2d333b"
                             fontSize="14px"
                             size="lg"
+                            _hover={{
+                                bgColor: "buttonSecondaryHoverBg",
+                                color: "buttonSecondaryHoverText"
+                            }}
                         >
                             Get In Touch
                         </Button>
@@ -255,11 +260,10 @@ const Hero = () => {
                     repeat: Infinity,
                     ease: "easeInOut"
                 }}
-                width="60%"
                 position="absolute"
                 bottom="10px"
             >
-                <VStack color="#9ca3af">
+                <VStack color="secondaryText">
                     <Text fontSize={{ base: "12px", md: "14px", lg: "16px" }}>
                         Scroll to explore
                     </Text>
