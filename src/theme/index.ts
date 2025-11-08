@@ -8,8 +8,8 @@ const config: ThemeConfig = {
 const theme = extendTheme({
     config,
     fonts: {
-        heading: `'Poppins', sans-serif`,
-        body: `'Inter', sans-serif`
+        heading: `ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`,
+        body: `ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`
     },
     colors: {
         brand: {
@@ -21,6 +21,8 @@ const theme = extendTheme({
             bgGradientLight:
                 "linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 100%)",
             bgGradientDark: "linear-gradient(135deg, #6366F1 0%, #EC4899 100%)",
+            cardBgLight: "#dbe4f0",
+            cardBgDark: "#ffffff0f",
 
             // Texts
             textPrimaryLight: "#0f0f0f",
@@ -94,6 +96,10 @@ const theme = extendTheme({
             bgGradient: {
                 default: "brand.bgGradientLight",
                 _dark: "brand.bgGradientDark"
+            },
+            cardBg: {
+                default: "brand.cardBgLight",
+                _dark: "brand.cardBgDark"
             },
             primaryText: {
                 default: "brand.textPrimaryLight",

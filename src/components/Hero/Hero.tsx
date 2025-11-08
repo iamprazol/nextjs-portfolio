@@ -119,9 +119,14 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                width="80%"
+                width="60%"
             >
-                <Box position="relative" mb="40px">
+                <Box
+                    position="relative"
+                    mb="40px"
+                    display={"flex"}
+                    justifyContent={"center"}
+                >
                     <Box
                         bgGradient="linear(to-r, #3b82f6, #a855f7, #ec4899)"
                         opacity={0.75}
