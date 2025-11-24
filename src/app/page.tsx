@@ -4,7 +4,8 @@ import { IconButton, useColorMode } from "@chakra-ui/react";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 
 import Hero from "@/components/Hero/Hero";
-import Skills from "@/components/Hero/Skills/Skills";
+import Skills from "@/components/Skills/Skills";
+import WorkExperience from "@/components/WorkExperience/WorkExperience";
 
 export default function Home(): JSX.Element {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -28,6 +29,7 @@ export default function Home(): JSX.Element {
             />
             <Hero />
             <Skills />
+            <WorkExperience />
         </>
     );
 }

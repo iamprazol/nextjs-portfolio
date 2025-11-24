@@ -21,7 +21,7 @@ const theme = extendTheme({
             bgGradientLight:
                 "linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 100%)",
             bgGradientDark: "linear-gradient(135deg, #6366F1 0%, #EC4899 100%)",
-            cardBgLight: "#dbe4f0",
+            cardBgLight: "#fafafa",
             cardBgDark: "#ffffff0f",
 
             // Texts
@@ -29,6 +29,8 @@ const theme = extendTheme({
             textPrimaryDark: "#f2f2f2",
             textSecondaryLight: "#4b5563",
             textSecondaryDark: "#9ca3af",
+            textTertiaryLight: "#2563eb",
+            textTertiaryDark: "#22c3b6",
             textHeadingLight: "#111827",
             textHeadingDark: "#F1F5F9",
 
@@ -108,6 +110,10 @@ const theme = extendTheme({
             secondaryText: {
                 default: "brand.textSecondaryLight",
                 _dark: "brand.textSecondaryDark"
+            },
+            tertiaryText: {
+                default: "brand.textTertiaryLight",
+                _dark: "brand.textTertiaryDark"
             },
             headingText: {
                 default: "brand.textHeadingLight",
