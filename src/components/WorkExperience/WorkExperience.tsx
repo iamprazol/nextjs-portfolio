@@ -71,10 +71,10 @@ const WorkExperience = () => {
         <Box id="work" py={24} px={6}>
             <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
                 <Heading>
-                    Work{" "}
                     <Text as="span" color={"cyan.500"}>
-                        Experience
+                        Work
                     </Text>
+                    Experience
                 </Heading>
             </Box>
             <Flex maxW="7xl" mx="auto" justify="center" py={10}>

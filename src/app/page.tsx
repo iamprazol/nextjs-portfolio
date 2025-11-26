@@ -6,6 +6,7 @@ import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import Hero from "@/components/Hero/Hero";
 import Skills from "@/components/Skills/Skills";
 import WorkExperience from "@/components/WorkExperience/WorkExperience";
+import FeaturedProjects from "@/components/Projects/Projects";
 
 export default function Home(): JSX.Element {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -29,6 +30,7 @@ export default function Home(): JSX.Element {
             />
             <Hero />
             <Skills />
+            <FeaturedProjects />
             <WorkExperience />
         </>
     );

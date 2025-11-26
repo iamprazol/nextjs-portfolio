@@ -21,8 +21,9 @@ const theme = extendTheme({
             bgGradientLight:
                 "linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 100%)",
             bgGradientDark: "linear-gradient(135deg, #6366F1 0%, #EC4899 100%)",
-            cardBgLight: "#fafafa",
+            cardBgLight: "#ffffff",
             cardBgDark: "#ffffff0f",
+            cardBorder: "#0c0d3c1a",
 
             // Texts
             textPrimaryLight: "#0f0f0f",
@@ -102,6 +103,10 @@ const theme = extendTheme({
             cardBg: {
                 default: "brand.cardBgLight",
                 _dark: "brand.cardBgDark"
+            },
+            cardBorder: {
+                default: "brand.cardBorder",
+                _dark: "brand.cardBorder"
             },
             primaryText: {
                 default: "brand.textPrimaryLight",
