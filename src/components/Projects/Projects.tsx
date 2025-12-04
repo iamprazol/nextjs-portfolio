@@ -105,7 +105,7 @@ export default function FeaturedProjects() {
         <Box w="100%" py={10}>
             <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
                 <Heading>
-                    Featured
+                    Featured{" "}
                     <Text as="span" color={"cyan.500"}>
                         Projects
                     </Text>

@@ -8,6 +8,7 @@ import Skills from "@/components/Skills/Skills";
 import WorkExperience from "@/components/WorkExperience/WorkExperience";
 import FeaturedProjects from "@/components/Projects/Projects";
 import { OtherProjectsSection } from "@/components/Projects/OtherProjects";
+import { ContactSection } from "@/components/ContactMe/ContactMe";
 
 export default function Home(): JSX.Element {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -34,6 +35,7 @@ export default function Home(): JSX.Element {
             <FeaturedProjects />
             <OtherProjectsSection />
             <WorkExperience />
+            <ContactSection />
         </>
     );
 }

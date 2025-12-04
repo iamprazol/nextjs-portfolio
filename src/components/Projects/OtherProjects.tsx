@@ -204,14 +204,14 @@ export const OtherProjectsSection: React.FC = () => {
     return (
         <Box as="section" py={16} px={{ base: 4, md: 8 }}>
             <Box maxW="6xl" mx="auto">
-                <Heading
-                    as="h2"
-                    size="xl"
-                    mb={10}
-                    textAlign={{ base: "left", md: "center" }}
-                >
-                    Other Projects
-                </Heading>
+                <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
+                    <Heading>
+                        <Text as="span" color={"cyan.500"}>
+                            Other{" "}
+                        </Text>
+                        Projects
+                    </Heading>
+                </Box>
 
                 <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
                     {projects.map((project) => (
