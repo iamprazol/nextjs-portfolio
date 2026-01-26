@@ -1,22 +1,22 @@
 // OtherProjectsSection.tsx
-import React from "react";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
     Box,
-    Heading,
-    Text,
-    Stack,
-    HStack,
-    Tag,
-    SimpleGrid,
     Button,
+    Heading,
+    HStack,
     Icon,
-    Link,
-    useColorModeValue,
     Image,
+    Link,
+    ListItem,
+    SimpleGrid,
+    Stack,
+    Tag,
+    Text,
     UnorderedList,
-    ListItem
+    useColorMode
 } from "@chakra-ui/react";
-import { ExternalLinkIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import React from "react";
 type Project = {
     name: string;
     period?: string;
@@ -137,6 +137,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                             size="sm"
                             borderRadius="full"
                             bg="badgeBg"
+                            color={"badgeText"}
                         >
                             {tech}
                         </Tag>
@@ -201,12 +202,19 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
 };
 
 export const OtherProjectsSection: React.FC = () => {
+    const { colorMode } = useColorMode();
+
     return (
         <Box as="section" py={16} px={{ base: 4, md: 8 }}>
             <Box maxW="6xl" mx="auto">
                 <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
                     <Heading>
-                        <Text as="span" color={"cyan.500"}>
+                        <Text
+                            as="span"
+                            color={
+                                colorMode === "light" ? "#be185d" : "cyan.500"
+                            }
+                        >
                             Other{" "}
                         </Text>
                         Projects

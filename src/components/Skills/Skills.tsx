@@ -1,19 +1,18 @@
-import React from "react";
-
 import {
     Box,
     Heading,
-    Text,
-    SimpleGrid,
-    VStack,
     Image,
-    Flex
+    SimpleGrid,
+    Text,
+    VStack,
+    useColorMode
 } from "@chakra-ui/react";
-import { Code } from "@chakra-ui/icons";
-import { motion, MotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 const MotionBox = motion(Box);
 
 const Skills = () => {
+    const { colorMode } = useColorMode();
+
     const skills = {
         "Programming Languages": [
             {
@@ -113,7 +112,10 @@ const Skills = () => {
         <Box id="skills" py={24} px={6}>
             <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
                 <Heading>
-                    <Text as="span" color={"cyan.500"}>
+                    <Text
+                        as="span"
+                        color={colorMode === "light" ? "#be185d" : "cyan.500"}
+                    >
                         Technical
                     </Text>{" "}
                     Skills
@@ -133,7 +135,12 @@ const Skills = () => {
                         borderColor="whiteAlpha.200"
                         rounded="lg"
                         p={6}
-                        _hover={{ borderColor: "cyan.500" }}
+                        _hover={{
+                            borderColor:
+                                colorMode === "light"
+                                    ? "1px solid #be185d"
+                                    : "1px solid teal"
+                        }}
                         transition="0.2s"
                         bgColor={"bgSecondary"}
                     >

@@ -1,24 +1,24 @@
 // ContactSection.tsx
-import React, { useState } from "react";
+import { EmailIcon, LinkIcon } from "@chakra-ui/icons";
 import {
     Box,
-    Heading,
-    Text,
-    Grid,
-    GridItem,
-    VStack,
-    HStack,
-    Icon,
-    Link,
+    Button,
     FormControl,
     FormLabel,
+    Grid,
+    GridItem,
+    Heading,
+    HStack,
+    Icon,
     Input,
+    Link,
+    Text,
     Textarea,
-    Button,
+    useColorMode,
     useToast,
-    useColorModeValue
+    VStack
 } from "@chakra-ui/react";
-import { EmailIcon, LinkIcon } from "@chakra-ui/icons";
+import React, { useState } from "react";
 
 type ContactFormValues = {
     name: string;
@@ -27,6 +27,7 @@ type ContactFormValues = {
 };
 
 export const ContactSection: React.FC = () => {
+    const { colorMode } = useColorMode();
     const [form, setForm] = useState<ContactFormValues>({
         name: "",
         email: "",
@@ -90,17 +91,20 @@ export const ContactSection: React.FC = () => {
     };
 
     return (
-        <Box as="section" py={24} px={{ base: 4, md: 10 }}>
-            <Box maxW="6xl" mx="auto">
-                <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
-                    <Heading>
-                        <Text as="span" color={"cyan.500"}>
-                            Contact{" "}
-                        </Text>
-                        Me
-                    </Heading>
-                </Box>
+        <Box w="100%" py={24} px={6}>
+            <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
+                <Heading>
+                    <Text
+                        as="span"
+                        color={colorMode === "light" ? "#be185d" : "cyan.500"}
+                    >
+                        Contact{" "}
+                    </Text>
+                    Me
+                </Heading>
+            </Box>
 
+            <VStack spacing={10} w="100%">
                 <Grid
                     templateColumns={{ base: "1fr", md: "1.1fr 1.5fr" }}
                     gap={12}
@@ -195,13 +199,32 @@ export const ContactSection: React.FC = () => {
                                         placeholder="Your name"
                                         value={form.name}
                                         onChange={handleChange}
-                                        bg="bg"
-                                        borderColor="gray.700"
-                                        _hover={{ borderColor: "gray.600" }}
+                                        color={"tertiaryText"}
+                                        bg={
+                                            colorMode === "light"
+                                                ? "#fce7f3"
+                                                : "bg"
+                                        }
+                                        border={
+                                            colorMode === "light"
+                                                ? "1px solid #fce7f3"
+                                                : "0.5px solid #2d333b"
+                                        }
+                                        _hover={{
+                                            borderColor:
+                                                colorMode === "light"
+                                                    ? "#be185d"
+                                                    : "teal"
+                                        }}
                                         _focus={{
-                                            borderColor: "accentPrimary",
+                                            borderColor:
+                                                colorMode === "light"
+                                                    ? "#be185d"
+                                                    : "teal",
                                             boxShadow:
-                                                "0 0 0 1px " + "accentPrimary"
+                                                colorMode === "light"
+                                                    ? "0 0 0 1px #be185d"
+                                                    : "0 0 0 1px teal"
                                         }}
                                     />
                                 </FormControl>
@@ -209,18 +232,37 @@ export const ContactSection: React.FC = () => {
                                 <FormControl isRequired>
                                     <FormLabel>Email</FormLabel>
                                     <Input
+                                        color={"tertiaryText"}
                                         type="email"
                                         name="email"
                                         placeholder="Your email"
                                         value={form.email}
                                         onChange={handleChange}
-                                        bg="bg"
-                                        borderColor="gray.700"
-                                        _hover={{ borderColor: "gray.600" }}
+                                        bg={
+                                            colorMode === "light"
+                                                ? "#fce7f3"
+                                                : "bg"
+                                        }
+                                        border={
+                                            colorMode === "light"
+                                                ? "1px solid #fce7f3"
+                                                : "0.5px solid #2d333b"
+                                        }
+                                        _hover={{
+                                            borderColor:
+                                                colorMode === "light"
+                                                    ? "#be185d"
+                                                    : "teal"
+                                        }}
                                         _focus={{
-                                            borderColor: "accentPrimary",
+                                            borderColor:
+                                                colorMode === "light"
+                                                    ? "#be185d"
+                                                    : "teal",
                                             boxShadow:
-                                                "0 0 0 1px " + "accentPrimary"
+                                                colorMode === "light"
+                                                    ? "0 0 0 1px #be185d"
+                                                    : "0 0 0 1px teal"
                                         }}
                                     />
                                 </FormControl>
@@ -228,18 +270,37 @@ export const ContactSection: React.FC = () => {
                                 <FormControl isRequired>
                                     <FormLabel>Message</FormLabel>
                                     <Textarea
+                                        color={"tertiaryText"}
                                         name="message"
                                         placeholder="Your message"
                                         rows={6}
                                         value={form.message}
                                         onChange={handleChange}
-                                        bg="bg"
-                                        borderColor="gray.700"
-                                        _hover={{ borderColor: "gray.600" }}
+                                        bg={
+                                            colorMode === "light"
+                                                ? "#fce7f3"
+                                                : "bg"
+                                        }
+                                        border={
+                                            colorMode === "light"
+                                                ? "1px solid #fce7f3"
+                                                : "0.5px solid #2d333b"
+                                        }
+                                        _hover={{
+                                            borderColor:
+                                                colorMode === "light"
+                                                    ? "#be185d"
+                                                    : "teal"
+                                        }}
                                         _focus={{
-                                            borderColor: "accentPrimary",
+                                            borderColor:
+                                                colorMode === "light"
+                                                    ? "#be185d"
+                                                    : "teal",
                                             boxShadow:
-                                                "0 0 0 1px " + "accentPrimary"
+                                                colorMode === "light"
+                                                    ? "0 0 0 1px #be185d"
+                                                    : "0 0 0 1px teal"
                                         }}
                                         resize="vertical"
                                     />
@@ -262,7 +323,7 @@ export const ContactSection: React.FC = () => {
                         </Box>
                     </GridItem>
                 </Grid>
-            </Box>
+            </VStack>
         </Box>
     );
 };

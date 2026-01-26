@@ -1,14 +1,14 @@
 "use client";
 
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { IconButton, useColorMode } from "@chakra-ui/react";
-import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 
+import { ContactSection } from "@/components/ContactMe/ContactMe";
 import Hero from "@/components/Hero/Hero";
+import { OtherProjectsSection } from "@/components/Projects/OtherProjects";
+import FeaturedProjects from "@/components/Projects/Projects";
 import Skills from "@/components/Skills/Skills";
 import WorkExperience from "@/components/WorkExperience/WorkExperience";
-import FeaturedProjects from "@/components/Projects/Projects";
-import { OtherProjectsSection } from "@/components/Projects/OtherProjects";
-import { ContactSection } from "@/components/ContactMe/ContactMe";
 
 export default function Home(): JSX.Element {
     const { colorMode, toggleColorMode } = useColorMode();

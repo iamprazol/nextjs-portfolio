@@ -1,25 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import FloatingIcon from "@/components/Hero/FloatingIcon";
+import SkillBadge from "@/components/Hero/SkillBadge";
+import { ArrowDownIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import {
     Box,
-    Heading,
-    Text,
-    IconButton,
-    useColorMode,
-    VStack,
     Button,
-    HStack
+    Heading,
+    HStack,
+    Text,
+    useColorMode,
+    VStack
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import {
-    SunIcon,
-    MoonIcon,
-    ArrowForwardIcon,
-    ArrowDownIcon
-} from "@chakra-ui/icons";
-import SkillBadge from "@/components/Hero/SkillBadge";
-import FloatingIcon from "@/components/Hero/FloatingIcon";
+import { useEffect, useState } from "react";
 
 // Types
 interface FloatingIconProps {
@@ -93,25 +87,10 @@ const Hero = () => {
             className="hero-section"
             color="white"
             spacing={6}
-            bgColor="background"
+            bg={colorMode === "light" ? "bgGradientMain" : "background"}
             position="relative"
         >
-            {/* Toggle Color Mode */}
-            <IconButton
-                aria-label="Toggle color mode"
-                variant="solid"
-                icon={
-                    colorMode === "light" ? (
-                        <MoonIcon boxSize={8} />
-                    ) : (
-                        <SunIcon boxSize={8} />
-                    )
-                }
-                onClick={toggleColorMode}
-                position="fixed"
-                top="50px"
-                right="100px"
-            />
+            <div className="hero-section-bg"></div>
 
             {/* Hero Text */}
             <MotionBox
@@ -127,19 +106,25 @@ const Hero = () => {
                     display={"flex"}
                     justifyContent={"center"}
                 >
-                    <Box
-                        bgGradient="linear(to-r, #3b82f6, #a855f7, #ec4899)"
-                        opacity={0.75}
-                        position="absolute"
-                        w="100%"
-                        h="100%"
-                        filter="blur(24px) brightness(1.2) contrast(1.1)"
-                    />
+                    {colorMode !== "light" && (
+                        <Box
+                            bgGradient="linear(to-r, #3b82f6, #a855f7, #ec4899)"
+                            opacity={0.75}
+                            position="absolute"
+                            w="100%"
+                            h="100%"
+                            filter="blur(24px) brightness(1.2) contrast(1.1)"
+                        />
+                    )}
                     <Heading
                         mb={4}
                         fontSize={{ base: "40px", md: "75px", lg: "100px" }}
                         position="relative"
                         color={"primaryText"}
+                        background={
+                            colorMode === "light" ? "accentGradient" : ""
+                        }
+                        backgroundClip={colorMode === "light" ? "text" : ""}
                     >
                         {meta.name}
                     </Heading>
@@ -183,7 +168,7 @@ const Hero = () => {
                     </HStack>
 
                     <Text
-                        fontSize={{ base: "14px", md: "16px", lg: "20px" }}
+                        fontSize={{ base: "16px", md: "20px", lg: "24px" }}
                         mb={6}
                         color="primaryText"
                     >
@@ -220,9 +205,17 @@ const Hero = () => {
                                 color="buttonPrimaryText"
                                 variant="outline"
                                 borderRadius="9999px"
-                                bgColor="buttonPrimaryGradient"
+                                bgColor={
+                                    colorMode === "light"
+                                        ? "white"
+                                        : "buttonPrimaryGradient"
+                                }
                                 fontWeight="700"
-                                border="0.5px solid"
+                                border={
+                                    colorMode === "light"
+                                        ? "none"
+                                        : "0.5px solid"
+                                }
                                 fontSize="16px"
                                 size="lg"
                                 rightIcon={<ArrowForwardIcon />}

@@ -1,25 +1,20 @@
-import React from "react";
-
 import {
     Box,
-    Heading,
-    Text,
-    SimpleGrid,
-    VStack,
-    Image,
-    Flex,
-    HStack,
     Circle,
-    Divider,
-    useColorModeValue,
-    Tag
+    Flex,
+    Heading,
+    HStack,
+    Text,
+    useColorMode,
+    VStack
 } from "@chakra-ui/react";
+import SkillBadge from "../Hero/SkillBadge";
 
-import { Code } from "@chakra-ui/icons";
-import { motion, MotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 const MotionBox = motion(Box);
 
 const WorkExperience = () => {
+    const { colorMode } = useColorMode();
     const experience = [
         {
             title: "Senior WordPress Plugin Developer (Team Lead)",
@@ -72,7 +67,10 @@ const WorkExperience = () => {
             <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
                 <Heading>
                     Work{" "}
-                    <Text as="span" color={"cyan.500"}>
+                    <Text
+                        as="span"
+                        color={colorMode === "light" ? "#be185d" : "cyan.500"}
+                    >
                         Experience
                     </Text>
                 </Heading>
@@ -85,7 +83,7 @@ const WorkExperience = () => {
                         left="20px"
                         width="3px"
                         height="100%"
-                        bg="cyan.400"
+                        bg="tertiaryText"
                     />
 
                     <VStack align="stretch" spacing={10}>
@@ -97,8 +95,12 @@ const WorkExperience = () => {
                             >
                                 <Circle
                                     size="14px"
-                                    bg="cyan.400"
-                                    border="3px solid #222"
+                                    bg="tertiaryText"
+                                    border={
+                                        colorMode === "light"
+                                            ? "3px solid #be185d"
+                                            : "3px solid #2d333b"
+                                    }
                                     position="absolute"
                                     left="13px"
                                     top="6px"
@@ -108,41 +110,36 @@ const WorkExperience = () => {
                                 <Box
                                     bg={"cardBg"}
                                     borderRadius="lg"
-                                    p={6}
+                                    p={10}
+                                    pb={"50px"}
                                     ml="50px"
                                     w="100%"
                                     boxShadow="lg"
-                                    border="1px solid #222"
                                 >
                                     <Flex
                                         justify="space-between"
-                                        align="center"
+                                        flexDir={{ base: "column", lg: "row" }}
+                                        gap={4}
                                     >
-                                        <Box>
+                                        <Flex direction="column" gap={2}>
                                             <Text
                                                 fontWeight="bold"
-                                                fontSize="lg"
+                                                fontSize="xl"
                                             >
                                                 {item.title}
                                             </Text>
                                             <Text
-                                                fontSize="sm"
+                                                fontSize="md"
                                                 color="tertiaryText"
                                                 fontWeight={"500"}
                                             >
                                                 {item.company}, {item.location}
                                             </Text>
-                                        </Box>
+                                        </Flex>
 
-                                        <Tag
-                                            size="sm"
-                                            variant="outline"
-                                            borderColor="linkDefault"
-                                            color="tertiaryText"
-                                            fontWeight={"500"}
-                                        >
-                                            {item.date}
-                                        </Tag>
+                                        <SkillBadge
+                                            label={item.date}
+                                        ></SkillBadge>
                                     </Flex>
 
                                     <VStack align="start" spacing={2} mt={4}>
@@ -150,12 +147,12 @@ const WorkExperience = () => {
                                             <HStack
                                                 key={i}
                                                 align="start"
-                                                spacing={2}
+                                                spacing={4}
                                             >
                                                 <Box
                                                     w="6px"
                                                     h="6px"
-                                                    bg="cyan.400"
+                                                    bg="tertiaryText"
                                                     borderRadius="full"
                                                     mt="8px"
                                                 />

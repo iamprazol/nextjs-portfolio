@@ -1,18 +1,18 @@
+import { CheckCircleIcon } from "@chakra-ui/icons";
 import {
     Box,
-    Flex,
-    Heading,
-    Text,
-    VStack,
-    List,
-    ListItem,
-    ListIcon,
-    Image,
     Button,
     Divider,
-    useColorMode
+    Flex,
+    Heading,
+    Image,
+    List,
+    ListIcon,
+    ListItem,
+    Text,
+    useColorMode,
+    VStack
 } from "@chakra-ui/react";
-import { CheckCircleIcon } from "@chakra-ui/icons";
 
 interface Project {
     title: string;
@@ -102,11 +102,14 @@ export default function FeaturedProjects() {
     const { colorMode } = useColorMode();
 
     return (
-        <Box w="100%" py={10}>
+        <Box w="100%" py={24} px={6}>
             <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
                 <Heading>
                     Featured{" "}
-                    <Text as="span" color={"cyan.500"}>
+                    <Text
+                        as="span"
+                        color={colorMode === "light" ? "#be185d" : "cyan.500"}
+                    >
                         Projects
                     </Text>
                 </Heading>
@@ -127,6 +130,7 @@ export default function FeaturedProjects() {
                         p={8}
                         border={"1px solid"}
                         borderColor={"cardBorder"}
+                        flexDir={{ base: "column", lg: "row" }}
                     >
                         <Box
                             overflow="hidden"
@@ -206,6 +210,7 @@ export default function FeaturedProjects() {
                         </Box>
                         <Box
                             flex="30%"
+                            width={{ base: "80%", xl: "30%" }}
                             gap={4}
                             display="flex"
                             flexDirection="column"
@@ -213,6 +218,7 @@ export default function FeaturedProjects() {
                             py={"20px"}
                             borderRadius={"15px"}
                             bgGradient={project.background}
+                            textAlign={"center"}
                         >
                             <Heading size="md">Project Overview</Heading>
                             <Divider

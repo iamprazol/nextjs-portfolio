@@ -18,6 +18,8 @@ const theme = extendTheme({
             bgDark: "#0d1117",
             bgSecondaryLight: "#F8F9FA",
             bgSecondaryDark: "#1E293B",
+            bgGradientMain:
+                "linear-gradient(135deg, #eff6ff 0%, #f3e8ff 50%, #fce7f3 100%)",
             bgGradientLight:
                 "linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 100%)",
             bgGradientDark: "linear-gradient(135deg, #6366F1 0%, #EC4899 100%)",
@@ -26,11 +28,11 @@ const theme = extendTheme({
             cardBorder: "#0c0d3c1a",
 
             // Texts
-            textPrimaryLight: "#0f0f0f",
+            textPrimaryLight: "#525252",
             textPrimaryDark: "#f2f2f2",
             textSecondaryLight: "#4b5563",
             textSecondaryDark: "#9ca3af",
-            textTertiaryLight: "#2563eb",
+            textTertiaryLight: "#be185d",
             textTertiaryDark: "#22c3b6",
             textHeadingLight: "#111827",
             textHeadingDark: "#F1F5F9",
@@ -41,7 +43,7 @@ const theme = extendTheme({
             accentSecondaryLight: "#EC4899",
             accentSecondaryDark: "#F472B6",
             accentGradientLight:
-                "linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)",
+                "linear-gradient(135deg, #2563eb 0%, #9333ea 50%, #ec4899 100%)",
             accentGradientDark:
                 "linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)",
 
@@ -70,9 +72,9 @@ const theme = extendTheme({
             linkVisitedDark: "#DDD6FE",
 
             // Badges
-            badgeBgLight: "#E5E7EB",
+            badgeBgLight: "#fdf2f8",
             badgeBgDark: "#1a1f2b",
-            badgeTextLight: "#374151",
+            badgeTextLight: "#be185d",
             badgeTextDark: "#d1d5db",
 
             // Shadows
@@ -95,6 +97,9 @@ const theme = extendTheme({
             bgSecondary: {
                 default: "brand.bgSecondaryLight",
                 _dark: "brand.bgSecondaryDark"
+            },
+            bgGradientMain: {
+                default: "brand.bgGradientMain"
             },
             bgGradient: {
                 default: "brand.bgGradientLight",
@@ -133,8 +138,7 @@ const theme = extendTheme({
                 _dark: "brand.accentSecondaryDark"
             },
             accentGradient: {
-                default: "brand.accentGradientLight",
-                _dark: "brand.accentGradientDark"
+                default: "brand.accentGradientLight"
             },
             buttonPrimaryGradient: {
                 default: "brand.buttonPrimaryGradientLight",
