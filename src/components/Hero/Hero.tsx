@@ -19,7 +19,7 @@ import NextLink from "next/link"
 // Types
 interface FloatingIconProps {
     emoji: string;
-    position: {
+    placement: {
         top?: string;
         bottom?: string;
         left?: string;
@@ -30,7 +30,7 @@ interface FloatingIconProps {
 const MotionBox = motion(Box);
 
 const Hero = () => {
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { colorMode } = useColorMode();
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [index, setIndex] = useState<number>(0);
     const [displayedText, setDisplayedText] = useState<string>("");
@@ -47,11 +47,11 @@ const Hero = () => {
 
     const skills: string[] = ["PHP", "WordPress", "Laravel", "JS", "React"];
     const floatingIcons: FloatingIconProps[] = [
-        { emoji: "⚛️", position: { bottom: "100px", left: "0px" } },
-        { emoji: "🚀", position: { top: "210px", right: "-200px" } },
-        { emoji: "💻", position: { bottom: "250px", right: "0px" } },
-        { emoji: "💡", position: { bottom: "150px", right: "-150px" } },
-        { emoji: "🐘", position: { top: "100px", left: "0px" } }
+        { emoji: "⚛️", placement: { bottom: "100px", left: "0px" } },
+        { emoji: "🚀", placement: { top: "210px", right: "-200px" } },
+        { emoji: "💻", placement: { bottom: "250px", right: "0px" } },
+        { emoji: "💡", placement: { bottom: "150px", right: "-150px" } },
+        { emoji: "🐘", placement: { top: "100px", left: "0px" } }
     ];
 
     useEffect(() => {

@@ -6,7 +6,7 @@ interface SkillBadgeProps extends ButtonProps {
 }
 
 const SkillBadge: FC<SkillBadgeProps> = ({ label, ...props }) => {
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { colorMode } = useColorMode();
 
     return (
         <Button

@@ -10,9 +10,6 @@ import {
 } from "@chakra-ui/react";
 import SkillBadge from "../Hero/SkillBadge";
 
-import { motion } from "framer-motion";
-const MotionBox = motion(Box);
-
 const WorkExperience = () => {
     const { colorMode } = useColorMode();
     const experience = [

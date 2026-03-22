@@ -10,7 +10,7 @@ import FeaturedProjects from "@/components/Projects/Projects";
 import Skills from "@/components/Skills/Skills";
 import WorkExperience from "@/components/WorkExperience/WorkExperience";
 
-export default function Home(): JSX.Element {
+export default function Home() {
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (

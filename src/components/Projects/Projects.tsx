@@ -277,9 +277,9 @@ export default function FeaturedProjects() {
                                             : "white"
                                     }
                                     background={
-                                        colorMode === "light" && "#22c3b6"
+                                        colorMode === "light" ? "#22c3b6" : undefined
                                     }
-                                    variant={colorMode === "dark" && "outline"}
+                                    variant={colorMode === "dark" ? "outline" : undefined}
                                 >
                                     Backend
                                 </Button>
@@ -300,9 +300,9 @@ export default function FeaturedProjects() {
                                             : "white"
                                     }
                                     background={
-                                        colorMode === "light" && "#ec3333"
+                                        colorMode === "light" ? "#ec3333" : undefined
                                     }
-                                    variant={colorMode === "dark" && "outline"}
+                                    variant={colorMode === "dark" ? "outline" : undefined}
                                 >
                                     Frontend
                                 </Button>
@@ -322,9 +322,9 @@ export default function FeaturedProjects() {
                                             : "white"
                                     }
                                     background={
-                                        colorMode === "light" && "#146ef5"
+                                        colorMode === "light" ? "#146ef5" : undefined
                                     }
-                                    variant={colorMode === "dark" && "outline"}
+                                    variant={colorMode === "dark" ? "outline" : undefined}
                                 >
                                     Download
                                 </Button>
@@ -343,10 +343,10 @@ export default function FeaturedProjects() {
                                             : "white"
                                     }
                                     background={
-                                        colorMode === "light" && "#ff7a00"
+                                        colorMode === "light" ? "#ff7a00" : undefined
                                     }
                                     borderColor="#ff7a00"
-                                    variant={colorMode === "dark" && "outline"}
+                                    variant={colorMode === "dark" ? "outline" : undefined}
                                 >
                                     Live Demo
                                 </Button>

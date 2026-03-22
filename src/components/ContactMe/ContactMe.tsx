@@ -73,10 +73,10 @@ export const ContactSection: React.FC = () => {
 			email: "",
 			message: "",
 			});
-		} catch (error: any) {
+		} catch (error: unknown) {
 			toast({
 			title: "Failed to send message.",
-			description: error.message || "Please try again.",
+			description: (error as Error).message || "Please try again.",
 			status: "error",
 			duration: 4000,
 			isClosable: true,
