@@ -26,9 +26,15 @@ export default function Home(): JSX.Element {
                     )
                 }
                 onClick={toggleColorMode}
-                position="fixed"
+                position="absolute"
                 top="50px"
                 right="100px"
+                zIndex={"9999"}
+                color={colorMode === "light" ? "#be185d" : "linkDefault "}
+                border="1px solid"
+                borderColor={colorMode === "light" ? "#be185d" : "linkDefault"}
+                bgColor={colorMode === "light" ? "#fdf2f8" : undefined}
+                padding={"25px 10px"}
             />
             <Hero />
             <Skills />

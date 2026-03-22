@@ -219,7 +219,11 @@ const Skills = () => {
                                         <Box
                                             bg="cardBg"
                                             border="1px solid"
-                                            borderColor="linkDefault"
+                                            borderColor={
+                                                colorMode === "light"
+                                                    ? "#be185d"
+                                                    : "linkDefault"
+                                            }
                                             px={3}
                                             py={1}
                                             rounded="md"

@@ -44,54 +44,50 @@ export const ContactSection: React.FC = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+		e.preventDefault();
+		setIsSubmitting(true);
 
-        if (!form.name || !form.email || !form.message) {
-            toast({
-                status: "warning",
-                title: "Please fill all fields.",
-                duration: 3000,
-                isClosable: true
-            });
-            return;
-        }
+		try {
+			const res = await fetch("/api/contact", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(form),
+			});
 
-        try {
-            setIsSubmitting(true);
+			const data = await res.json();
 
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form)
-            });
+			if (!res.ok) {
+			throw new Error(data.message || "Something went wrong");
+			}
 
-            if (!res.ok) throw new Error("Failed to send");
+			toast({
+			title: "Message sent.",
+			description: "Thanks for reaching out.",
+			status: "success",
+			duration: 4000,
+			isClosable: true,
+			});
 
-            toast({
-                status: "success",
-                title: "Message sent!",
-                description: "Thanks for reaching out.",
-                duration: 4000,
-                isClosable: true
-            });
-
-            setForm({ name: "", email: "", message: "" });
-        } catch (err) {
-            console.error(err);
-            toast({
-                status: "error",
-                title: "Something went wrong.",
-                description: "Please try again later.",
-                duration: 4000,
-                isClosable: true
-            });
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+			setForm({
+			name: "",
+			email: "",
+			message: "",
+			});
+		} catch (error: any) {
+			toast({
+			title: "Failed to send message.",
+			description: error.message || "Please try again.",
+			status: "error",
+			duration: 4000,
+			isClosable: true,
+			});
+		} finally {
+			setIsSubmitting(false);
+		}
+		};
 
     return (
-        <Box w="100%" py={24} px={6}>
+        <Box id="contact"w="100%" py={24} px={6}>
             <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
                 <Heading>
                     <Text

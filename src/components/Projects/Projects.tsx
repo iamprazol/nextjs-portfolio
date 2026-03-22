@@ -45,8 +45,8 @@ const projects: Project[] = [
         ],
         projectOverview: {
             overviewPoints: [
-                "3+ 5 Star Rating",
-                "100+ Active Installations",
+                "5+ 5 Star Rating",
+                "200+ Active Installations",
                 "Regular updates"
             ],
             links: {
@@ -102,7 +102,7 @@ export default function FeaturedProjects() {
     const { colorMode } = useColorMode();
 
     return (
-        <Box w="100%" py={24} px={6}>
+        <Box id="projects" w="100%" py={24} px={6}>
             <Box maxW="6xl" mx="auto" textAlign="center" mb={12}>
                 <Heading>
                     Featured{" "}

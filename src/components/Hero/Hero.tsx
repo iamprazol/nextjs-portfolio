@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import NextLink from "next/link"
 
 // Types
 interface FloatingIconProps {
@@ -220,7 +221,9 @@ const Hero = () => {
                                 size="lg"
                                 rightIcon={<ArrowForwardIcon />}
                             >
-                                View My Work
+                                <NextLink href="#projects">
+									View My Work
+								</NextLink>
                             </Button>
                         </Box>
 
@@ -238,7 +241,9 @@ const Hero = () => {
                                 color: "buttonSecondaryHoverText"
                             }}
                         >
-                            Get In Touch
+							<NextLink href="#contact">
+                            	Get In Touch
+							</NextLink>
                         </Button>
                     </HStack>
                 </VStack>
