@@ -29,18 +29,18 @@ type Project = {
 };
 
 const projects: Project[] = [
-    {
-        name: "WPMake Site",
-        period: "2024",
-        liveUrl: "https://www.wpmake.net/",
-        description:
-            "Created a site using WordPress for hosting self created WordPress Plugin Showcase.",
-        points: [
-            "Showcase for self created and hosted WordPress plugins",
-            "Modern and sleek design"
-        ],
-        techStack: ["PHP", "jQuery", "React", "HTML", "CSS", "WordPress"]
-    },
+    // {
+    //     name: "WPMake Site",
+    //     period: "2024",
+    //     liveUrl: "https://www.wpmake.net/",
+    //     description:
+    //         "Created a site using WordPress for hosting self created WordPress Plugin Showcase.",
+    //     points: [
+    //         "Showcase for self created and hosted WordPress plugins",
+    //         "Modern and sleek design"
+    //     ],
+    //     techStack: ["PHP", "jQuery", "React", "HTML", "CSS", "WordPress"]
+    // },
     {
         name: "Kuwa",
         period: "2022",

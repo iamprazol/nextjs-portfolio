@@ -32,31 +32,31 @@ interface Project {
 }
 
 const projects: Project[] = [
-    {
-        title: "Advanced User Avatar",
-        description:
-            "WordPress plugin allowing users to upload or capture profile photos with built-in cropping.",
-        image: "/images/advanced-user-avatar.png",
-        icon: "/icons/advanced-user-avatar.png",
-        technicalPoints: [
-            "Webcam capture + cropping using JS libraries",
-            "Custom WP Media Handling & REST APIs",
-            "Plugin on WordPress.org"
-        ],
-        projectOverview: {
-            overviewPoints: [
-                "5+ 5 Star Rating",
-                "200+ Active Installations",
-                "Regular updates"
-            ],
-            links: {
-                download:
-                    "https://wordpress.org/plugins/wpmake-advance-user-avatar/",
-                liveDemo: "https://www.wpmake.net/advance-user-avatar/"
-            }
-        },
-        background: "linear(135deg,rgba(246,76,127,.078),rgba(246,76,127,.078))"
-    },
+    // {
+    //     title: "Advanced User Avatar",
+    //     description:
+    //         "WordPress plugin allowing users to upload or capture profile photos with built-in cropping.",
+    //     image: "/images/advanced-user-avatar.png",
+    //     icon: "/icons/advanced-user-avatar.png",
+    //     technicalPoints: [
+    //         "Webcam capture + cropping using JS libraries",
+    //         "Custom WP Media Handling & REST APIs",
+    //         "Plugin on WordPress.org"
+    //     ],
+    //     projectOverview: {
+    //         overviewPoints: [
+    //             "5+ 5 Star Rating",
+    //             "200+ Active Installations",
+    //             "Regular updates"
+    //         ],
+    //         links: {
+    //             download:
+    //                 "https://wordpress.org/plugins/wpmake-advance-user-avatar/",
+    //             liveDemo: "https://www.wpmake.net/advance-user-avatar/"
+    //         }
+    //     },
+    //     background: "linear(135deg,rgba(246,76,127,.078),rgba(246,76,127,.078))"
+    // },
     {
         title: "Food Ordering System (Full-Stack)",
         description:
@@ -71,31 +71,31 @@ const projects: Project[] = [
         ],
         projectOverview: {
             links: {
-                liveDemo: "http://foodie.wpmake.net"
+                // liveDemo: "http://foodie.wpmake.net"
             }
         },
         background: "linear(135deg,rgba(24,212,253,.078),rgba(0,64,227,.078))"
     },
-    {
-        title: "Timed Content Locker",
-        description:
-            "A WordPress plugin that locks content for a specific duration based on admin-defined rules.",
-        image: "https://via.placeholder.com/400x260?text=Timed+Content+Locker",
-        icon: "https://via.placeholder.com/400x260?text=Timed+Content+Locker",
-        technicalPoints: [
-            "PHP + jQuery based WordPress plugin",
-            "Custom WordPress hooks & access-control logic",
-            "Plugin available on WordPress.org"
-        ],
-        projectOverview: {
-            overviewPoints: ["10+ Active Installations", "Regular updates"],
-            links: {
-                download: "https://wordpress.org/plugins/content-time-lock/",
-                liveDemo: "https://www.wpmake.net/timed-content-locker/"
-            }
-        },
-        background: "linear( 135deg,rgba(52,224,116,.078),rgba(11,142,65,.078))"
-    }
+    // {
+    //     title: "Timed Content Locker",
+    //     description:
+    //         "A WordPress plugin that locks content for a specific duration based on admin-defined rules.",
+    //     image: "https://via.placeholder.com/400x260?text=Timed+Content+Locker",
+    //     icon: "https://via.placeholder.com/400x260?text=Timed+Content+Locker",
+    //     technicalPoints: [
+    //         "PHP + jQuery based WordPress plugin",
+    //         "Custom WordPress hooks & access-control logic",
+    //         "Plugin available on WordPress.org"
+    //     ],
+    //     projectOverview: {
+    //         overviewPoints: ["10+ Active Installations", "Regular updates"],
+    //         links: {
+    //             download: "https://wordpress.org/plugins/content-time-lock/",
+    //             liveDemo: "https://www.wpmake.net/timed-content-locker/"
+    //         }
+    //     },
+    //     background: "linear( 135deg,rgba(52,224,116,.078),rgba(11,142,65,.078))"
+    // }
 ];
 
 export default function FeaturedProjects() {
