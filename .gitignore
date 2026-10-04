@@ -42,3 +42,6 @@ yarn-error.log*
 next-env.d.ts
 
 wp-dev-portfolio.tsx
+
+# real-account fixture recordings (may contain private repo names)
+/src/lib/github/fixtures.local/

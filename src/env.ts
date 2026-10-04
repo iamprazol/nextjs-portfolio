@@ -46,6 +46,11 @@ const schema = z
                 .default("0")
                 .transform((flag) => flag === "1" || flag === "true")
         ),
+        // Where mock mode reads fixtures from, relative to the project root.
+        GITHUB_FIXTURES_DIR: z.preprocess(
+            blankToUndefined,
+            z.string().trim().default("src/lib/github/fixtures")
+        ),
         WP_API_KEY: optionalString
     })
     .superRefine((value, ctx) => {
@@ -79,6 +84,7 @@ const parsed = schema.safeParse({
     GITHUB_WEBHOOK_SECRET: process.env.GITHUB_WEBHOOK_SECRET,
     CRON_SECRET: process.env.CRON_SECRET,
     GITHUB_MOCK: process.env.GITHUB_MOCK,
+    GITHUB_FIXTURES_DIR: process.env.GITHUB_FIXTURES_DIR,
     WP_API_KEY: process.env.WP_API_KEY
 });
 

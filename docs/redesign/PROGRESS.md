@@ -17,7 +17,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 1.5 Remove Chakra
 
 ## M02 GitHub data layer
-- [ ] 2.1 Client + mock mode
+- [x] 2.1 Client + mock mode
 - [ ] 2.2 Schemas
 - [ ] 2.3 Queries
 - [ ] 2.4 Content loader
