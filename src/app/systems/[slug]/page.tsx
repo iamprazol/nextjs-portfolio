@@ -3,10 +3,11 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { StaticUrlState, UrlStateProvider } from "@/components/shell/url-state";
+import { OverviewTab } from "@/components/system/OverviewTab";
 import { SystemHeader } from "@/components/system/SystemHeader";
 import { SystemTabs } from "@/components/system/SystemTabs";
 import { MonoLabel, type TabItem } from "@/components/ui";
-import { getSystem, getSystems } from "@/lib/github";
+import { getLog, getSystem, getSystems } from "@/lib/github";
 
 export const revalidate = 3600;
 
@@ -32,9 +33,17 @@ export default async function SystemPage({ params }: Props) {
     const system = await getSystem((await params).slug);
     if (!system) notFound();
 
+    // getLog() lists pinned entries first; "recent" means newest.
+    const log = await getLog({ system: system.slug });
+    const recent = [...log].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
+
     // A tab exists only when GitHub has something to put in it.
     const tabs: TabItem[] = [
-        { id: "overview", label: "Overview", panel: <MonoLabel>Overview</MonoLabel> },
+        {
+            id: "overview",
+            label: "Overview",
+            panel: <OverviewTab system={system} recent={recent} />
+        },
         ...(system.architecture
             ? [{ id: "architecture", label: "Architecture", panel: <MonoLabel>Architecture</MonoLabel> }]
             : []),

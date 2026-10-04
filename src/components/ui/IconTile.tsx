@@ -7,8 +7,8 @@ type IconTileProps = {
     icon?: LucideIcon;
     /** One or two characters, shown when there is no icon. */
     monogram?: string;
-    /** "lg" is the round 56px tile used in page headers. */
-    size?: "md" | "lg";
+    /** "sm" for dense lists; "lg" is the round 56px tile used in page headers. */
+    size?: "sm" | "md" | "lg";
     className?: string;
 };
 
@@ -19,7 +19,11 @@ export function IconTile({ icon: Icon, monogram, size = "md", className }: IconT
             aria-hidden="true"
             className={cn(
                 "border-line bg-panel-2 text-ink inline-flex shrink-0 items-center justify-center border font-mono font-medium",
-                size === "lg" ? "size-14 rounded-full text-base" : "size-11 rounded-lg text-sm",
+                {
+                    sm: "size-9 rounded-lg text-xs",
+                    md: "size-11 rounded-lg text-sm",
+                    lg: "size-14 rounded-full text-base"
+                }[size],
                 className
             )}
         >
