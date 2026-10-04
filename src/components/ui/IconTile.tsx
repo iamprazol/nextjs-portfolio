@@ -7,16 +7,19 @@ type IconTileProps = {
     icon?: LucideIcon;
     /** One or two characters, shown when there is no icon. */
     monogram?: string;
+    /** "lg" is the round 56px tile used in page headers. */
+    size?: "md" | "lg";
     className?: string;
 };
 
 // Decorative: the tile sits beside a visible name, so it is hidden from AT.
-export function IconTile({ icon: Icon, monogram, className }: IconTileProps) {
+export function IconTile({ icon: Icon, monogram, size = "md", className }: IconTileProps) {
     return (
         <span
             aria-hidden="true"
             className={cn(
-                "border-line bg-panel-2 text-ink inline-flex size-11 shrink-0 items-center justify-center rounded-lg border font-mono text-sm font-medium",
+                "border-line bg-panel-2 text-ink inline-flex shrink-0 items-center justify-center border font-mono font-medium",
+                size === "lg" ? "size-14 rounded-full text-base" : "size-11 rounded-lg text-sm",
                 className
             )}
         >

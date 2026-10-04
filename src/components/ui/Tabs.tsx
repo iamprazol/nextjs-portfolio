@@ -15,15 +15,18 @@ type TabsProps = {
     /** Accessible name for the tab list. */
     label: string;
     defaultTab?: string;
+    /** Controlled selection. When set, the parent owns the state via onChange. */
+    value?: string;
     onChange?: (id: string) => void;
     className?: string;
 };
 
 // WAI-ARIA tabs with automatic activation: arrows / Home / End move focus and
 // select. Every panel stays in the DOM (inactive ones are `hidden`).
-export function Tabs({ tabs, label, defaultTab, onChange, className }: TabsProps) {
+export function Tabs({ tabs, label, defaultTab, value, onChange, className }: TabsProps) {
     const baseId = useId();
-    const [active, setActive] = useState(defaultTab ?? tabs[0]?.id);
+    const [internal, setActive] = useState(defaultTab ?? tabs[0]?.id);
+    const active = value ?? internal;
     const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
     const select = (index: number) => {

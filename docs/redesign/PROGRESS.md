@@ -46,7 +46,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 5.3 Metadata + test
 
 ## M06 System profile
-- [ ] 6.1 Route, header, tabs
+- [x] 6.1 Route, header, tabs
 - [ ] 6.2 Overview
 - [ ] 6.3 Interactive architecture
 - [ ] 6.4 Problems tab
