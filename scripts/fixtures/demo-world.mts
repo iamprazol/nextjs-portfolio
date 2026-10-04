@@ -391,6 +391,7 @@ function pr(
         url: `https://github.com/${repoName}/pull/${number}`,
         additions: size[0],
         deletions: size[1],
+        changedFiles: Math.max(1, Math.round((size[0] + size[1]) / 45)),
         labels: { nodes: labels.map((name) => ({ name })) },
         repository: { nameWithOwner: repoName }
     };

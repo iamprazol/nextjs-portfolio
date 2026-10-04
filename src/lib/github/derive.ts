@@ -268,6 +268,32 @@ export function extractSummary(body: string | null | undefined): string | null {
     return null;
 }
 
+export const BODY_EXCERPT_MAX = 1200;
+
+/**
+ * The first part of a PR description, as markdown, for the log's expanded
+ * view: at most `max` characters, cut at a paragraph break where there is one
+ * in the last 40%, and without template comments. null if nothing is left.
+ */
+export function excerptBody(
+    body: string | null | undefined,
+    max = BODY_EXCERPT_MAX
+): { markdown: string; truncated: boolean } | null {
+    const text = (body ?? "")
+        .replace(/\r\n/g, "\n")
+        .replace(/<!--[\s\S]*?-->/g, "")
+        .trim();
+    if (!text) return null;
+    if (text.length <= max) return { markdown: text, truncated: false };
+
+    const cut = text.slice(0, max);
+    const paragraph = cut.lastIndexOf("\n\n");
+    return {
+        markdown: (paragraph > max * 0.6 ? cut.slice(0, paragraph) : cut).trimEnd(),
+        truncated: true
+    };
+}
+
 /** A repo whose PRs and releases appear in the log: a system or an experiment. */
 export type LogSource = {
     repo: string;
@@ -311,8 +337,15 @@ export function deriveLog(input: {
                 systemSlug: source.slug,
                 systemName: source.name,
                 pinned: labels.includes(HIGHLIGHT_LABEL),
-                pr: { number: pr.number, additions: pr.additions, deletions: pr.deletions },
-                releaseTag: null
+                pr: {
+                    number: pr.number,
+                    additions: pr.additions,
+                    deletions: pr.deletions,
+                    changedFiles: pr.changedFiles
+                },
+                releaseTag: null,
+                body: null,
+                problems: []
             });
         });
 
@@ -332,7 +365,9 @@ export function deriveLog(input: {
                 systemName: source.name,
                 pinned: false,
                 pr: null,
-                releaseTag: release.tag
+                releaseTag: release.tag,
+                body: null,
+                problems: []
             });
         }
     }

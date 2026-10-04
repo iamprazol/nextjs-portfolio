@@ -25,6 +25,7 @@ function makePrs(count: number, everyDays: number, repo = "demo-dev/a"): PullReq
         url: `https://github.com/${repo}/pull/${count - i}`,
         additions: 1,
         deletions: 1,
+        changedFiles: 1,
         labels: { nodes: [] },
         repository: { nameWithOwner: repo }
     }));

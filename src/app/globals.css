@@ -309,3 +309,15 @@
         border: 1px solid var(--line);
     }
 }
+
+/* For markdown shown inside a list item: its headings stay at body size. */
+@utility prose-compact {
+    &:is(.prose) :where(h1, h2, h3, h4) {
+        font-size: 1rem;
+        margin-top: 1.2em;
+    }
+
+    &:is(.prose) > :first-child {
+        margin-top: 0;
+    }
+}

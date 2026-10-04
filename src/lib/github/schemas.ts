@@ -296,8 +296,15 @@ export type LogEntry = {
     /** The entry's tag: the system (or experiment) name. */
     systemName: string;
     pinned: boolean;
-    pr: { number: number; additions: number; deletions: number } | null;
+    pr: { number: number; additions: number; deletions: number; changedFiles: number } | null;
     releaseTag: string | null;
+    /**
+     * The start of the PR description as sanitized HTML. `truncated` means the
+     * description continues on GitHub. null when there is no description.
+     */
+    body: { html: string; truncated: boolean } | null;
+    /** Case studies whose relatedPRs cite this PR. */
+    problems: { slug: string; title: string }[];
 };
 
 export type TimelineYear = {

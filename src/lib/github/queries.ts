@@ -143,6 +143,7 @@ export const MERGED_PRS = /* GraphQL */ `
                     url
                     additions
                     deletions
+                    changedFiles
                     labels(first: 10) {
                         nodes {
                             name
@@ -351,6 +352,7 @@ export type PullRequestNode = {
     url: string;
     additions: number;
     deletions: number;
+    changedFiles: number;
     labels: { nodes: ({ name: string } | null)[] } | null;
     repository: { nameWithOwner: string };
 };

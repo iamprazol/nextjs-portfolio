@@ -15,6 +15,7 @@ import {
     deriveSystem,
     deriveTimeline,
     deriveToolUsage,
+    excerptBody,
     extractSummary,
     sortSystems,
     type LogSource
@@ -99,6 +100,7 @@ const pr = (number: number, days: number, extra: Partial<PullRequestNode> & { la
         url: `https://github.com/demo-dev/atlas/pull/${number}`,
         additions: 10,
         deletions: 2,
+        changedFiles: 3,
         labels: { nodes: labelNames.map((name) => ({ name })) },
         repository: { nameWithOwner: "demo-dev/atlas" },
         ...rest
@@ -340,6 +342,38 @@ describe("extractSummary", () => {
     });
 });
 
+describe("excerptBody", () => {
+    it.each<[string, string | null | undefined, ReturnType<typeof excerptBody>]>([
+        ["no body", "", null],
+        ["null body", null, null],
+        ["undefined body", undefined, null],
+        ["only a template comment", "<!-- describe -->\n", null],
+        ["short body is kept whole", "One.\n\nTwo.", { markdown: "One.\n\nTwo.", truncated: false }],
+        ["comments are removed", "<!-- x -->Text", { markdown: "Text", truncated: false }],
+        ["windows line endings", "A\r\n\r\nB", { markdown: "A\n\nB", truncated: false }]
+    ])("%s", (_label, body, expected) => {
+        expect(excerptBody(body)).toEqual(expected);
+    });
+
+    it("cuts a long body at a paragraph break near the limit", () => {
+        const body = `${"a".repeat(80)}\n\n${"b".repeat(80)}\n\n${"c".repeat(80)}`;
+        expect(excerptBody(body, 200)).toEqual({
+            markdown: `${"a".repeat(80)}\n\n${"b".repeat(80)}`,
+            truncated: true
+        });
+    });
+
+    it("hard-cuts when there is no paragraph break near the limit", () => {
+        const excerpt = excerptBody(`intro\n\n${"x".repeat(500)}`, 200)!;
+        expect(excerpt.truncated).toBe(true);
+        expect(excerpt.markdown).toHaveLength(200);
+    });
+
+    it("defaults to 1200 characters", () => {
+        expect(excerptBody("y".repeat(3000))!.markdown).toHaveLength(1200);
+    });
+});
+
 describe("deriveLog", () => {
     const sources: LogSource[] = [
         {
@@ -406,8 +440,10 @@ describe("deriveLog", () => {
             systemSlug: "atlas",
             systemName: "Atlas",
             pinned: true,
-            pr: { number: 11, additions: 10, deletions: 2 },
-            releaseTag: null
+            pr: { number: 11, additions: 10, deletions: 2, changedFiles: 3 },
+            releaseTag: null,
+            body: null,
+            problems: []
         });
     });
 
@@ -453,8 +489,10 @@ describe("deriveEvidence", () => {
         systemSlug: "atlas",
         systemName: "Atlas",
         pinned: false,
-        pr: prNumber === null ? null : { number: prNumber, additions: 0, deletions: 0 },
-        releaseTag: null
+        pr: prNumber === null ? null : { number: prNumber, additions: 0, deletions: 0, changedFiles: 0 },
+        releaseTag: null,
+        body: null,
+        problems: []
     });
 
     const evidence = deriveEvidence(
@@ -509,8 +547,10 @@ describe("deriveReleaseNotes", () => {
         systemSlug: "atlas",
         systemName: "Atlas",
         pinned: false,
-        pr: type === "pr" ? { number, additions: 0, deletions: 0 } : null,
-        releaseTag: null
+        pr: type === "pr" ? { number, additions: 0, deletions: 0, changedFiles: 0 } : null,
+        releaseTag: null,
+        body: null,
+        problems: []
     });
 
     const notes = deriveReleaseNotes(

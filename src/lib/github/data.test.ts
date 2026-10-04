@@ -159,6 +159,18 @@ describe("data layer in mock mode", () => {
         expect(log.find((entry) => entry.pr?.number === 398)?.summary).toBeNull();
         expect(log.find((entry) => entry.systemSlug === "docsmith" && entry.type === "pr")?.url).toBeNull();
 
+        // the expanded view: rendered description, size, and the case studies that cite the PR
+        const highlighted = log.find((entry) => entry.pr?.number === 412);
+        expect(highlighted?.pr?.changedFiles).toBeGreaterThan(0);
+        expect(highlighted?.body).toMatchObject({ truncated: false });
+        expect(highlighted?.body?.html).toContain("<h2");
+        expect(highlighted?.body?.html).not.toContain("Describe your change");
+        expect(highlighted?.problems).toEqual([
+            { slug: "checkout-race", title: "Double charges under concurrent checkout" }
+        ]);
+        expect(log.find((entry) => entry.pr?.number === 398)?.body).toBeNull();
+        expect(log.find((entry) => entry.pr?.number === 58)?.problems).toEqual([]);
+
         const releases = log.filter((entry) => entry.type === "release");
         expect(releases.map((entry) => entry.releaseTag).sort()).toEqual([
             "v0.1.0",

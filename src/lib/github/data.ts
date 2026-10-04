@@ -3,6 +3,7 @@ import "server-only";
 import { cache } from "react";
 
 import { getConfig } from "./config";
+import { renderMarkdown } from "./markdown";
 import {
     loadArchitecture,
     loadDeclaredSystemRepos,
@@ -27,6 +28,7 @@ import {
     deriveSystem,
     deriveTimeline,
     deriveToolUsage,
+    excerptBody,
     sortSystems,
     topicsOf,
     type LogSource,
@@ -211,9 +213,33 @@ export async function getProblem(slug: string, problem: string): Promise<Problem
 type MergedPrsOfSources = { total: number; log: LogEntry[] };
 
 const loadLog = cache(async (): Promise<MergedPrsOfSources> => {
-    const { sources } = await loadWorld();
+    const { sources, problems } = await loadWorld();
     const { prs, total } = await fetchMergedPrs(sources.map((source) => source.repo));
-    return { total, log: deriveLog({ prs, total, sources }) };
+    const bodies = new Map(prs.map((pr) => [key(`${pr.repository.nameWithOwner}#${pr.number}`), pr.body]));
+
+    // deriveLog is pure; rendering the description and linking case studies
+    // need the markdown renderer and the loaded problems, so they happen here.
+    const log = await Promise.all(
+        deriveLog({ prs, total, sources }).map(async (entry): Promise<LogEntry> => {
+            if (!entry.pr) return entry;
+
+            const excerpt = excerptBody(bodies.get(key(`${entry.repo}#${entry.pr.number}`)));
+            const number = entry.pr.number;
+            return {
+                ...entry,
+                body: excerpt
+                    ? {
+                          html: (await renderMarkdown(excerpt.markdown)).html,
+                          truncated: excerpt.truncated
+                      }
+                    : null,
+                problems: (problems.get(entry.systemSlug) ?? [])
+                    .filter((problem) => problem.relatedPRs?.includes(number))
+                    .map((problem) => ({ slug: problem.slug, title: problem.title }))
+            };
+        })
+    );
+    return { total, log };
 });
 
 /** The whole log: pinned entries first, then newest. */

@@ -61,7 +61,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 
 ## M08 Engineering log
 - [x] 8.1 List
-- [ ] 8.2 Expand + filter
+- [x] 8.2 Expand + filter
 - [ ] 8.3 Entry pages + RSS
 
 ## M09 Timeline
