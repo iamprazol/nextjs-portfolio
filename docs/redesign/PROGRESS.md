@@ -54,7 +54,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 6.6 Workflow view
 
 ## M07 Engineering problem
-- [ ] 7.1 Article + markdown
+- [x] 7.1 Article + markdown
 - [ ] 7.2 Before/after diagrams
 - [ ] 7.3 Aside + PR evidence
 - [ ] 7.4 Prev/next + metadata

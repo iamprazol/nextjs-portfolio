@@ -188,6 +188,11 @@
         margin-top: 0;
     }
 
+    /* Anchor targets clear the sticky nav bar. */
+    & :where(h1, h2, h3, h4)[id] {
+        scroll-margin-top: 5.5rem;
+    }
+
     & h1,
     & h2 {
         font-size: 1.5rem;
@@ -265,5 +270,42 @@
 
     & hr {
         border-color: var(--line);
+    }
+}
+
+/*
+ * Case-study variant, used together with `prose`: 16px body, 20px section
+ * headings, pull-quotes as dark terminal panels, code on --panel-2.
+ * `:is(.prose)` raises specificity so these win over the base rules.
+ */
+@utility prose-lab {
+    font-size: 1rem;
+
+    &:is(.prose) :where(h1, h2) {
+        font-size: 1.25rem;
+    }
+
+    &:is(.prose) h3 {
+        font-size: 1.0625rem;
+    }
+
+    &:is(.prose) blockquote {
+        background: var(--term);
+        border: 1px solid var(--line-2);
+        border-radius: 12px;
+        color: var(--term-ink);
+        font-size: 1.25rem;
+        line-height: 1.5;
+        margin-block: 1.6em;
+        padding: 1.25rem 1.5rem;
+    }
+
+    &:is(.prose) blockquote :where(a, strong) {
+        color: inherit;
+    }
+
+    &:is(.prose) :not(pre) > code {
+        background: var(--panel-2);
+        border: 1px solid var(--line);
     }
 }
