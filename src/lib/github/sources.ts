@@ -15,13 +15,16 @@ import {
     REPOS_BY_TOPIC,
     USER_PROFILE,
     prSearchQuery,
+    pullRequestsQuery,
     topicSearchQuery,
     type ContributionsNode,
     type ContributionsResponse,
     type EventNode,
     type MergedPrCountResponse,
     type MergedPrsResponse,
+    type PullRequestByNumberNode,
     type PullRequestNode,
+    type PullRequestsByNumberResponse,
     type RecentStarsResponse,
     type RepoByNameResponse,
     type RepoNode,
@@ -164,6 +167,23 @@ export async function countMergedPrs(repos: string[]): Promise<number> {
         })
     );
     return counts.reduce((sum, count) => sum + count, 0);
+}
+
+/** Pull requests of `repo` by number; numbers that do not exist are left out. */
+export async function fetchPullRequests(
+    repo: string,
+    numbers: number[]
+): Promise<PullRequestByNumberNode[]> {
+    const unique = [...new Set(numbers)];
+    if (unique.length === 0) return [];
+
+    const [owner, name] = repo.split("/");
+    const variables = Object.fromEntries(unique.map((number, i) => [`n${i}`, number]));
+    const { repository } = await gql<PullRequestsByNumberResponse>(
+        pullRequestsQuery(unique.length),
+        { owner, name, ...variables }
+    );
+    return unique.map((_, i) => repository?.[`p${i}`]).filter(isPresent);
 }
 
 async function fetchContributions(from: Date, to: Date): Promise<ContributionsNode> {

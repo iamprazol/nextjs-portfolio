@@ -17,6 +17,7 @@ import {
     LAB_TOPIC,
     SYSTEM_TOPIC,
     deriveActivity,
+    deriveEvidence,
     deriveExperiment,
     deriveLog,
     deriveNow,
@@ -38,6 +39,7 @@ import type {
     LogEntry,
     NowState,
     Problem,
+    ProblemEvidence,
     ProfileData,
     Stats,
     System,
@@ -50,6 +52,7 @@ import {
     fetchCommitCounts,
     fetchEvents,
     fetchMergedPrs,
+    fetchPullRequests,
     fetchRecentContributions,
     fetchRepo,
     fetchStars,
@@ -216,6 +219,23 @@ const loadLog = cache(async (): Promise<MergedPrsOfSources> => {
 /** The whole log: pinned entries first, then newest. */
 export async function getFullLog(): Promise<LogEntry[]> {
     return (await loadLog()).log;
+}
+
+/** The merged PRs a case study cites in `relatedPRs`. Empty if it cites none. */
+export async function getProblemEvidence(slug: string, problem: string): Promise<ProblemEvidence[]> {
+    const world = await loadWorld();
+    const system = world.systems.find((item) => item.slug === slug);
+    const numbers = world.problems.get(slug)?.find((item) => item.slug === problem)?.relatedPRs;
+    if (!system || !numbers?.length) return [];
+
+    // Fetched by number rather than read from the log: a case study can cite
+    // work older than the log's window.
+    const [prs, { log }] = await Promise.all([fetchPullRequests(system.repo, numbers), loadLog()]);
+    return deriveEvidence(
+        prs,
+        log.filter((entry) => entry.systemSlug === slug),
+        system.isPrivate
+    );
 }
 
 /** A system's releases, each with the PRs merged since the one before. Null for an unknown slug. */

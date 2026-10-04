@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 
 import { BeforeAfter } from "@/components/problem/BeforeAfter";
+import { ProblemAside } from "@/components/problem/ProblemAside";
 import { ProblemArticle } from "@/components/problem/ProblemArticle";
-import { getProblem, getSystem, getSystems } from "@/lib/github";
+import { getProblem, getProblemEvidence, getSystem, getSystems } from "@/lib/github";
 
 export const revalidate = 3600;
 
@@ -21,8 +22,18 @@ export async function generateStaticParams() {
 
 export default async function ProblemPage({ params }: Props) {
     const { slug, problem: problemSlug } = await params;
-    const [system, problem] = await Promise.all([getSystem(slug), getProblem(slug, problemSlug)]);
+    const [system, problem, evidence] = await Promise.all([
+        getSystem(slug),
+        getProblem(slug, problemSlug),
+        getProblemEvidence(slug, problemSlug)
+    ]);
     if (!system || !problem) notFound();
+
+    const hasAside =
+        evidence.length > 0 ||
+        [problem.role, problem.constraints, problem.tradeoffs, problem.result].some(
+            (items) => items?.length
+        );
 
     return (
         <div className="mx-auto max-w-[1240px] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -35,6 +46,14 @@ export default async function ProblemPage({ params }: Props) {
                         />
                     </ProblemArticle>
                 </div>
+                {hasAside && (
+                    <aside
+                        aria-label="About this problem"
+                        className="flex min-w-0 flex-[1_1_300px] flex-col gap-4 lg:sticky lg:top-24"
+                    >
+                        <ProblemAside problem={problem} evidence={evidence} />
+                    </aside>
+                )}
             </div>
         </div>
     );

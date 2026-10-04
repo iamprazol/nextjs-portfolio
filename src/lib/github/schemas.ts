@@ -251,6 +251,19 @@ export type Problem = ProblemFrontmatter & {
     headings: Heading[];
 };
 
+/** A merged PR cited by a case study's `relatedPRs`. */
+export type ProblemEvidence = {
+    number: number;
+    title: string;
+    additions: number;
+    deletions: number;
+    mergedAt: string;
+    /** null for private repos. */
+    url: string | null;
+    /** The PR's number in the engineering log, when it is listed there. */
+    logNumber: number | null;
+};
+
 /** A problem without its body, for lists. */
 export type ProblemSummary = Omit<Problem, "html" | "headings" | "diagrams">;
 

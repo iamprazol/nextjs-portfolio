@@ -1,0 +1,34 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "PullRequestsByNumber",
+    "variables": {
+      "n0": 409,
+      "n1": 412,
+      "n2": 9999,
+      "name": "atlas-membership",
+      "owner": "demo-labs"
+    }
+  },
+  "response": {
+    "repository": {
+      "p0": {
+        "number": 409,
+        "title": "Lock the order row during checkout",
+        "mergedAt": "2026-09-25T11:00:00.000Z",
+        "url": "https://github.com/demo-labs/atlas-membership/pull/409",
+        "additions": 95,
+        "deletions": 20
+      },
+      "p1": {
+        "number": 412,
+        "title": "Make webhook activation idempotent",
+        "mergedAt": "2026-09-28T11:00:00.000Z",
+        "url": "https://github.com/demo-labs/atlas-membership/pull/412",
+        "additions": 240,
+        "deletions": 61
+      },
+      "p2": null
+    }
+  }
+}

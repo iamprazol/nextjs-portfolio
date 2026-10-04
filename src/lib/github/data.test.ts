@@ -97,12 +97,45 @@ describe("data layer in mock mode", () => {
         const inRepo = await data.getProblem("atlas-membership", "multi-membership");
         expect(inRepo).toMatchObject({ number: 1, date: "2026-03-05", relatedPRs: [380, 398] });
         expect(inRepo?.diagrams?.after?.nodes).toHaveLength(4);
-        expect(inRepo?.headings.map((heading) => heading.id)).toEqual(["the-problem", "the-decision"]);
+        expect(inRepo?.headings.map((heading) => heading.id)).toEqual([
+            "the-problem",
+            "the-decision",
+            "the-result"
+        ]);
 
         const inContentRepo = await data.getProblem("relay-qa", "flaky-selectors");
         expect(inContentRepo?.html).toContain("<table>");
         expect(await data.getProblem("relay-qa", "nope")).toBeNull();
         expect(await data.getProblem("nope", "nope")).toBeNull();
+    });
+
+    it("getProblemEvidence returns the cited PRs that were merged", async () => {
+        const evidence = await data.getProblemEvidence("atlas-membership", "checkout-race");
+        // #9999 is cited but does not exist; newest first
+        expect(evidence.map((item) => [item.number, item.logNumber])).toEqual([
+            [412, 13],
+            [409, 11]
+        ]);
+        expect(evidence[0]).toMatchObject({
+            title: "Make webhook activation idempotent",
+            additions: 240,
+            deletions: 61,
+            url: "https://github.com/demo-labs/atlas-membership/pull/412"
+        });
+
+        expect(await data.getProblemEvidence("relay-qa", "nope")).toEqual([]);
+        expect(await data.getProblemEvidence("nope", "nope")).toEqual([]);
+    });
+
+    it("getReleaseNotes groups a system's PRs by release", async () => {
+        const notes = await data.getReleaseNotes("atlas-membership");
+        expect(notes?.map((item) => [item.release.tag, item.changes.map((c) => c.pr?.number)])).toEqual([
+            ["v4.3.0-beta.1", [409]],
+            ["v4.2.0", [398, 380]],
+            ["v4.1.0", [371]],
+            ["v4.0.0", []]
+        ]);
+        expect(await data.getReleaseNotes("nope")).toBeNull();
     });
 
     it("getFullLog pins highlights, numbers PRs and includes releases", async () => {

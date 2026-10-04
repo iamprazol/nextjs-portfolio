@@ -20,10 +20,13 @@ export async function runAll() {
         ]);
 
     let problems = 0;
+    let evidence = 0;
     for (const { slug } of systems) {
         const system = await data.getSystem(slug);
+        await data.getReleaseNotes(slug);
         for (const problem of system?.problems ?? []) {
             if (await data.getProblem(slug, problem.slug)) problems++;
+            evidence += (await data.getProblemEvidence(slug, problem.slug)).length;
         }
     }
 
@@ -31,6 +34,7 @@ export async function runAll() {
         profile: `${profile.name} (from ${profile.source})`,
         systems: systems.map((system) => `${system.slug}:${system.status}`).join(" ") || "none",
         problems,
+        evidence,
         experiments: experiments.length,
         logEntries: log.length,
         timelineYears: timeline.map((year) => year.year).join(" ") || "none",

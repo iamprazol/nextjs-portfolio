@@ -166,6 +166,29 @@ export const MERGED_PR_COUNT = /* GraphQL */ `
     }
 `;
 
+/**
+ * Pull requests of one repo by number, in a single request. A number that
+ * does not exist comes back as null.
+ */
+export function pullRequestsQuery(count: number) {
+    const indexes = Array.from({ length: count }, (_, i) => i);
+
+    return /* GraphQL */ `
+        query PullRequestsByNumber($owner: String!, $name: String!, ${indexes
+            .map((i) => `$n${i}: Int!`)
+            .join(", ")}) {
+            repository(owner: $owner, name: $name) {
+                ${indexes
+                    .map(
+                        (i) =>
+                            `p${i}: pullRequest(number: $n${i}) { number title mergedAt url additions deletions }`
+                    )
+                    .join("\n                ")}
+            }
+        }
+    `;
+}
+
 export const USER_PROFILE = /* GraphQL */ `
     query UserProfile($login: String!) {
         user(login: $login) {
@@ -339,6 +362,20 @@ export type MergedPrsResponse = {
         // Empty objects are non-PR results; null is an unreadable PR.
         nodes: (Partial<PullRequestNode> | null)[];
     };
+};
+
+export type PullRequestByNumberNode = {
+    number: number;
+    title: string;
+    /** null while open, or closed without merging. */
+    mergedAt: string | null;
+    url: string;
+    additions: number;
+    deletions: number;
+};
+
+export type PullRequestsByNumberResponse = {
+    repository: Record<string, PullRequestByNumberNode | null> | null;
 };
 
 export type MergedPrCountResponse = { search: { issueCount: number } };

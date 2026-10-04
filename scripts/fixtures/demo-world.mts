@@ -283,11 +283,22 @@ const files: Record<string, string> = {
         "---",
         "## The Problem",
         "",
-        "A user row stored a single membership id, and dozens of checks read it directly.",
+        "A user row stored a single membership id, and dozens of checks read it directly: `get_user_meta( $id, 'plan' )` appeared in 40 files.",
+        "",
+        "> Every feature request for the past year had been blocked by one column.",
         "",
         "## The Decision",
         "",
         "Introduce a subscription table and keep the old column as a read-only mirror for one major version.",
+        "",
+        "```sql",
+        "CREATE TABLE subscriptions ( user_id BIGINT, plan_id BIGINT, status VARCHAR(20) );",
+        "```",
+        "",
+        "## The Result",
+        "",
+        "1. Existing sites upgraded without a manual step.",
+        "2. The mirror column was removed one major version later.",
         ""
     ].join("\n"),
     [`${ATLAS}:.portfolio/problems/checkout-race.md`]: [
@@ -295,8 +306,9 @@ const files: Record<string, string> = {
         "number: 2",
         "title: Double charges under concurrent checkout",
         "summary: Two webhook deliveries could both activate the same order.",
-        "relatedPRs: [409]",
+        "relatedPRs: [409, 412, 9999]",
         "nodes: [payments]",
+        "role: [Found the race from a support ticket, Wrote the fix and the regression test]",
         "---",
         "## The Problem",
         "",
@@ -551,6 +563,32 @@ export const demoTransport: Transport = {
                         nodes: matching.slice(start, end)
                     }
                 };
+            }
+
+            case "PullRequestsByNumber": {
+                const name = lower(`${variables.owner}/${variables.name}`);
+                const found = Object.entries(variables)
+                    .filter(([key]) => /^n\d+$/.test(key))
+                    .map(([key, number]) => {
+                        const match = prs.find(
+                            (item) =>
+                                lower(item.repository.nameWithOwner) === name && item.number === number
+                        );
+                        return [
+                            key.replace("n", "p"),
+                            match
+                                ? {
+                                      number: match.number,
+                                      title: match.title,
+                                      mergedAt: match.mergedAt,
+                                      url: match.url,
+                                      additions: match.additions,
+                                      deletions: match.deletions
+                                  }
+                                : null
+                        ];
+                    });
+                return { repository: Object.fromEntries(found) };
             }
 
             case "MergedPrCount":

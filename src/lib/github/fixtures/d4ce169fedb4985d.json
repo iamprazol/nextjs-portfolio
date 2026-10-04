@@ -1,0 +1,32 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "PullRequestsByNumber",
+    "variables": {
+      "n0": 380,
+      "n1": 398,
+      "name": "atlas-membership",
+      "owner": "demo-labs"
+    }
+  },
+  "response": {
+    "repository": {
+      "p0": {
+        "number": 380,
+        "title": "Add the subscriptions table",
+        "mergedAt": "2026-08-02T11:00:00.000Z",
+        "url": "https://github.com/demo-labs/atlas-membership/pull/380",
+        "additions": 340,
+        "deletions": 12
+      },
+      "p1": {
+        "number": 398,
+        "title": "Migrate existing users to subscriptions",
+        "mergedAt": "2026-09-06T11:00:00.000Z",
+        "url": "https://github.com/demo-labs/atlas-membership/pull/398",
+        "additions": 530,
+        "deletions": 210
+      }
+    }
+  }
+}

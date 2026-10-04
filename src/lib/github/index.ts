@@ -51,6 +51,14 @@ export const getProblem = (slug: string, problem: string) =>
         [tags.systems, tags.system(slug)]
     )();
 
+/** The merged PRs a case study cites. */
+export const getProblemEvidence = (slug: string, problem: string) =>
+    cached(
+        () => data.getProblemEvidence(slug, problem),
+        ["gh:problem-evidence", slug, problem],
+        [tags.systems, tags.system(slug), tags.log]
+    )();
+
 // The log is cached once; filtering and slicing happen outside the cache so
 // every combination of options shares one entry.
 const getFullLog = cached(data.getFullLog, ["gh:log"], [tags.log, tags.systems]);

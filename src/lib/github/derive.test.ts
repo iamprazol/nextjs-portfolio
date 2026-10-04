@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
     deriveActivity,
+    deriveEvidence,
     deriveExperiment,
     deriveLanguages,
     deriveLog,
@@ -428,6 +429,63 @@ describe("deriveLog", () => {
 
     it("returns an empty log for no input", () => {
         expect(deriveLog({ prs: [], total: 0, sources: [] })).toEqual([]);
+    });
+});
+
+describe("deriveEvidence", () => {
+    const cited = (number: number, days: number | null) => ({
+        number,
+        title: ` PR ${number} `,
+        mergedAt: days === null ? null : daysAgo(days),
+        url: `https://github.com/demo-dev/atlas/pull/${number}`,
+        additions: number,
+        deletions: 1
+    });
+    const logEntry = (prNumber: number | null, number: number | null) => ({
+        id: `e:${prNumber}:${number}`,
+        type: prNumber === null ? ("release" as const) : ("pr" as const),
+        number,
+        title: "t",
+        summary: null,
+        date: daysAgo(1),
+        url: null,
+        repo: "demo-dev/atlas",
+        systemSlug: "atlas",
+        systemName: "Atlas",
+        pinned: false,
+        pr: prNumber === null ? null : { number: prNumber, additions: 0, deletions: 0 },
+        releaseTag: null
+    });
+
+    const evidence = deriveEvidence(
+        [cited(10, 30), cited(12, 5), cited(11, null), cited(9, 60)],
+        [logEntry(12, 118), logEntry(null, null), logEntry(9, 101)],
+        false
+    );
+
+    it("keeps merged PRs only, newest first", () => {
+        expect(evidence.map((item) => item.number)).toEqual([12, 10, 9]);
+    });
+
+    it("carries the PR's numbers and trims its title", () => {
+        expect(evidence[0]).toEqual({
+            number: 12,
+            title: "PR 12",
+            additions: 12,
+            deletions: 1,
+            mergedAt: daysAgo(5),
+            url: "https://github.com/demo-dev/atlas/pull/12",
+            logNumber: 118
+        });
+    });
+
+    it("has no log number for a PR outside the log", () => {
+        expect(evidence.find((item) => item.number === 10)?.logNumber).toBeNull();
+    });
+
+    it("hides URLs of private repos, and handles no PRs", () => {
+        expect(deriveEvidence([cited(1, 1)], [], true)[0].url).toBeNull();
+        expect(deriveEvidence([], [], false)).toEqual([]);
     });
 });
 

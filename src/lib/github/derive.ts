@@ -1,6 +1,7 @@
 import type {
     ContributionsNode,
     EventNode,
+    PullRequestByNumberNode,
     PullRequestNode,
     ReleaseNode,
     RepoNode,
@@ -11,6 +12,7 @@ import type {
     Experiment,
     LogEntry,
     NowState,
+    ProblemEvidence,
     Release,
     Stats,
     System,
@@ -341,6 +343,34 @@ export function deriveLog(input: {
             b.date.localeCompare(a.date) ||
             a.id.localeCompare(b.id)
     );
+}
+
+/**
+ * The merged PRs behind a case study, newest first. A cited PR that was never
+ * merged is not evidence and is dropped. `entries` are the system's log
+ * entries, used to point each PR at its place in the log.
+ */
+export function deriveEvidence(
+    prs: PullRequestByNumberNode[],
+    entries: LogEntry[],
+    isPrivate: boolean
+): ProblemEvidence[] {
+    const logNumbers = new Map(
+        entries.flatMap((entry) => (entry.pr ? [[entry.pr.number, entry.number] as const] : []))
+    );
+
+    return prs
+        .filter((pr): pr is PullRequestByNumberNode & { mergedAt: string } => pr.mergedAt !== null)
+        .map((pr) => ({
+            number: pr.number,
+            title: pr.title.trim(),
+            additions: pr.additions,
+            deletions: pr.deletions,
+            mergedAt: pr.mergedAt,
+            url: isPrivate ? null : pr.url,
+            logNumber: logNumbers.get(pr.number) ?? null
+        }))
+        .sort((a, b) => b.mergedAt.localeCompare(a.mergedAt));
 }
 
 export type ReleaseNotes = { release: Release; changes: LogEntry[] };
