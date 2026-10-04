@@ -12,7 +12,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 ## M01 Design system
 - [x] 1.1 Tokens + Tailwind theme
 - [x] 1.2 Theme provider + toggle
-- [ ] 1.3 Primitives
+- [x] 1.3 Primitives
 - [ ] 1.4 Diagram primitives
 - [ ] 1.5 Remove Chakra
 
