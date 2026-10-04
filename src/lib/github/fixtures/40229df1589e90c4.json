@@ -7,6 +7,7 @@
       "e1": "HEAD:.portfolio/architecture.json",
       "e2": "HEAD:.portfolio/workflow.json",
       "e3": "HEAD:.portfolio/problems",
+      "e4": "HEAD:README.md",
       "name": "relay-qa",
       "owner": "demo-dev"
     }
@@ -24,7 +25,12 @@
         "text": "{\"steps\":[{\"title\":\"Record\",\"subtitle\":\"Capture the flow\",\"detail\":\"Run the flow once and store a DOM snapshot per step.\",\"node\":\"record\"},{\"title\":\"Run\",\"subtitle\":\"Replay in CI\",\"detail\":\"Replay the steps against the current build.\",\"node\":\"run\"},{\"title\":\"Repair\",\"subtitle\":\"Fix broken selectors\",\"detail\":\"When a selector fails, pick the best match from the snapshot and propose a patch.\",\"node\":\"repair\"}],\"nodes\":[{\"id\":\"record\",\"label\":\"Recorder\"},{\"id\":\"run\",\"label\":\"Runner\"},{\"id\":\"repair\",\"label\":\"Repair loop\"},{\"id\":\"store\",\"label\":\"Snapshot store\"}],\"edges\":[{\"from\":\"record\",\"to\":\"run\"},{\"from\":\"run\",\"to\":\"repair\"},{\"from\":\"repair\",\"to\":\"store\"},{\"from\":\"store\",\"to\":\"repair\"}]}",
         "isBinary": false
       },
-      "f3": null
+      "f3": null,
+      "f4": {
+        "__typename": "Blob",
+        "text": "# relay-qa\n\nBrowser test runner that repairs its own selectors (demo data).\n\n## Install\n\n```sh\n# not a heading\nnpm install relay-qa\n```\n\n## Why I built it\n\nEvery markup refactor broke tests that had nothing to do with the change, and fixing selectors by hand was most of the QA time.\n\n## What works\n\n- Recording a flow once and replaying it in CI\n- Repairing a selector from the last good snapshot\n\n## What doesn't (yet)\n\nFlows that depend on **timing** — animations and debounced inputs — still need a manual wait.\n\n### Known gaps\n\nShadow DOM is not snapshotted.\n\n## Lessons\n\nStability beats cleverness: `role` and label selectors survive almost everything.\n\n## License\n\nMIT\n",
+        "isBinary": false
+      }
     }
   }
 }

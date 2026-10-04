@@ -9,7 +9,8 @@ import { ProblemsTab } from "@/components/system/ProblemsTab";
 import { ReleasesTab } from "@/components/system/ReleasesTab";
 import { SystemHeader } from "@/components/system/SystemHeader";
 import { SystemTabs } from "@/components/system/SystemTabs";
-import { MonoLabel, type TabItem } from "@/components/ui";
+import { WorkflowView } from "@/components/system/WorkflowView";
+import { type TabItem } from "@/components/ui";
 import { getLog, getReleaseNotes, getSystem, getSystems } from "@/lib/github";
 
 export const revalidate = 3600;
@@ -79,7 +80,19 @@ export default async function SystemPage({ params }: Props) {
             ? [{ id: "releases", label: "Releases", panel: <ReleasesTab notes={releaseNotes} /> }]
             : []),
         ...(system.workflow
-            ? [{ id: "workflow", label: "Workflow", panel: <MonoLabel>Workflow</MonoLabel> }]
+            ? [
+                  {
+                      id: "workflow",
+                      label: "Workflow",
+                      panel: (
+                          <WorkflowView
+                              workflow={system.workflow}
+                              systemName={system.name}
+                              notes={system.notes}
+                          />
+                      )
+                  }
+              ]
             : [])
     ];
 

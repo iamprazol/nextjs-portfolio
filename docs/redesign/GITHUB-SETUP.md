@@ -56,6 +56,13 @@ diagrams:
 …
 ```
 
+Optional extras a system's page picks up when they exist:
+
+- `detail` on an `architecture.json` node — shown when the node is inspected on the Architecture tab.
+- `nodes: [id, …]` in a problem's frontmatter — links that case study from those nodes.
+- README sections headed exactly **Why I built it**, **What works**, **What doesn't (yet)** and
+  **Lessons** in a repo with `.portfolio/workflow.json` — shown beside the workflow.
+
 ## 4. Labels (optional, for the log)
 
 In System repos create labels `portfolio:hide` and `portfolio:highlight`. Without them, every merged PR you author is a log entry.

@@ -168,3 +168,102 @@
         background-position: 120px 0;
     }
 }
+
+/* Typography for HTML rendered from markdown written on GitHub (already sanitized). */
+@utility prose {
+    line-height: 1.7;
+
+    & > * + * {
+        margin-top: 0.9em;
+    }
+
+    & :where(h1, h2, h3, h4) {
+        color: var(--ink);
+        font-weight: 600;
+        line-height: 1.25;
+        margin-top: 1.7em;
+    }
+
+    & > :first-child {
+        margin-top: 0;
+    }
+
+    & h1,
+    & h2 {
+        font-size: 1.5rem;
+    }
+
+    & h3 {
+        font-size: 1.2rem;
+    }
+
+    & a {
+        color: var(--link);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
+    & strong {
+        color: var(--ink);
+        font-weight: 600;
+    }
+
+    & ul {
+        list-style: disc;
+        padding-left: 1.25rem;
+    }
+
+    & ol {
+        list-style: decimal;
+        padding-left: 1.25rem;
+    }
+
+    & li + li {
+        margin-top: 0.35em;
+    }
+
+    & blockquote {
+        border-left: 2px solid var(--line-2);
+        padding-left: 1rem;
+    }
+
+    & code {
+        background: var(--chip);
+        border-radius: 4px;
+        font-family: var(--font-geist-mono), ui-monospace, monospace;
+        font-size: 0.9em;
+        padding: 0.1em 0.35em;
+    }
+
+    & pre {
+        background: var(--term);
+        border-radius: 10px;
+        color: var(--term-ink);
+        overflow-x: auto;
+        padding: 1rem;
+    }
+
+    & pre code {
+        background: none;
+        padding: 0;
+    }
+
+    /* A wide table scrolls inside itself instead of widening the page. */
+    & table {
+        border-collapse: collapse;
+        display: block;
+        font-size: 0.9em;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    & :where(th, td) {
+        border: 1px solid var(--line);
+        padding: 0.5rem 0.75rem;
+        text-align: left;
+    }
+
+    & hr {
+        border-color: var(--line);
+    }
+}

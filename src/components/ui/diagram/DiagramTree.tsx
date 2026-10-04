@@ -39,6 +39,9 @@ export function DiagramTree({
         <div
             role="group"
             aria-label={label}
+            // A static diagram has nothing focusable inside, so the scrolling
+            // box itself must be reachable by keyboard.
+            tabIndex={onSelect ? undefined : 0}
             className={cn("overflow-x-auto", className)}
         >
             <div className="mx-auto flex w-max min-w-full flex-col items-center p-1">

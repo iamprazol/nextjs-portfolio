@@ -7,6 +7,7 @@
       "e1": "HEAD:.portfolio/architecture.json",
       "e2": "HEAD:.portfolio/workflow.json",
       "e3": "HEAD:.portfolio/problems",
+      "e4": "HEAD:README.md",
       "name": "atlas-membership",
       "owner": "demo-labs"
     }
@@ -44,7 +45,8 @@
             }
           }
         ]
-      }
+      },
+      "f4": null
     }
   }
 }

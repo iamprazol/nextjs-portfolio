@@ -254,8 +254,13 @@ export type Problem = ProblemFrontmatter & {
 /** A problem without its body, for lists. */
 export type ProblemSummary = Omit<Problem, "html" | "headings" | "diagrams">;
 
+/** A section lifted from the repo's README, rendered to sanitized HTML. */
+export type SystemNote = { title: string; html: string };
+
 export type SystemDetail = System & {
     releases: Release[];
+    /** README sections with the headings listed in content.ts; empty if none exist. */
+    notes: SystemNote[];
     architecture: Diagram | null;
     workflow: Workflow | null;
     problems: ProblemSummary[];

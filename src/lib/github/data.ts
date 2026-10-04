@@ -8,6 +8,7 @@ import {
     loadDeclaredSystemRepos,
     loadProblems,
     loadProfile,
+    loadReadmeNotes,
     loadSystemMeta,
     loadTimelineNote,
     loadWorkflow
@@ -74,10 +75,11 @@ type World = {
 
 async function loadSystem(repo: RepoNode, now: Date) {
     const meta = await loadSystemMeta(repo.nameWithOwner);
-    const [problems, architecture, workflow] = await Promise.all([
+    const [problems, architecture, workflow, notes] = await Promise.all([
         loadProblems(repo.nameWithOwner, meta),
         loadArchitecture(repo.nameWithOwner, meta),
-        loadWorkflow(repo.nameWithOwner, meta)
+        loadWorkflow(repo.nameWithOwner, meta),
+        loadReadmeNotes(repo.nameWithOwner)
     ]);
 
     const system = deriveSystem(repo, meta, now, {
@@ -90,6 +92,7 @@ async function loadSystem(repo: RepoNode, now: Date) {
     const detail: SystemDetail = {
         ...system,
         releases: deriveReleases(repo),
+        notes,
         architecture,
         workflow,
         problems: problems.map((problem) => ({
@@ -178,6 +181,7 @@ const loadWorld = cache(async (): Promise<World> => {
 function toSystem(detail: SystemDetail): System {
     const system: Partial<SystemDetail> = { ...detail };
     delete system.releases;
+    delete system.notes;
     delete system.architecture;
     delete system.workflow;
     delete system.problems;

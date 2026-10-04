@@ -44,6 +44,7 @@ describe("data layer in mock mode", () => {
         // archived repo is hidden; lab repos are not systems
         expect(systems.some((system) => /importer|vector|shell/.test(system.slug))).toBe(false);
         expect(systems[0]).not.toHaveProperty("architecture");
+        expect(systems[0]).not.toHaveProperty("notes");
     });
 
     it("merges repo and content-repo metadata, and hides what is unknown", async () => {
@@ -77,7 +78,17 @@ describe("data layer in mock mode", () => {
         expect(atlas?.problems.map((problem) => problem.slug)).toEqual(["multi-membership", "checkout-race"]);
         expect(atlas?.problems[0]).not.toHaveProperty("html");
 
-        expect((await data.getSystem("relay-qa"))?.workflow?.steps).toHaveLength(3);
+        const relay = await data.getSystem("relay-qa");
+        expect(relay?.workflow?.steps).toHaveLength(3);
+        // README sections, in display order; "Install" and "License" are not lifted
+        expect(relay?.notes.map((note) => note.title)).toEqual([
+            "Why I built it",
+            "What works",
+            "What doesn't (yet)",
+            "Lessons"
+        ]);
+        expect(relay?.notes[2].html).toContain("Known gaps");
+        expect(atlas?.notes).toEqual([]);
         expect(await data.getSystem("old-importer")).toBeNull();
         expect(await data.getSystem("nope")).toBeNull();
     });

@@ -306,6 +306,49 @@ describe("loadArchitecture / loadWorkflow", () => {
     });
 });
 
+describe("loadReadmeNotes", () => {
+    it("lifts the named sections, in display order, and ignores the rest", async () => {
+        files[`${REPO}:README.md`] = [
+            "# Atlas",
+            "Intro.",
+            "## Lessons:",
+            "Keep it **small**.",
+            "## Install",
+            "```",
+            "## Why I built it",
+            "```",
+            "## why i built it",
+            "Because.",
+            "### A sub-heading stays inside its section",
+            "More.",
+            "## What doesn’t (yet)",
+            "",
+            "## What works",
+            "- One",
+            "## Why I built it",
+            "A second section with the same heading is ignored."
+        ].join("\n");
+        const { loadReadmeNotes } = await load();
+
+        const notes = await loadReadmeNotes(REPO);
+        expect(notes.map((note) => note.title)).toEqual(["Why I built it", "What works", "Lessons"]);
+        expect(notes[0].html).toContain("<p>Because.</p>");
+        expect(notes[0].html).toContain("A sub-heading stays inside its section");
+        expect(notes[0].html).not.toContain("second section");
+        expect(notes[1].html).toContain("<li>One</li>");
+        expect(notes[2].html).toBe("<p>Keep it <strong>small</strong>.</p>");
+    });
+
+    it("returns nothing without a README or without matching headings", async () => {
+        const first = await load();
+        expect(await first.loadReadmeNotes(REPO)).toEqual([]);
+
+        files[`${REPO}:README.md`] = "# Atlas\n\n## Usage\n\nRun it.";
+        const second = await load();
+        expect(await second.loadReadmeNotes(REPO)).toEqual([]);
+    });
+});
+
 describe("loadTimelineNote", () => {
     it("parses frontmatter and body, and returns null for other years", async () => {
         files[`${CONTENT}:portfolio/timeline/2024.md`] =

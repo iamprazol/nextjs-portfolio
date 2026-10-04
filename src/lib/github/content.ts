@@ -19,6 +19,7 @@ import {
     type Problem,
     type ProfileData,
     type SystemMetaFile,
+    type SystemNote,
     type TimelineYearFrontmatter,
     type Workflow
 } from "./schemas";
@@ -239,13 +240,14 @@ export async function loadProfile(): Promise<ProfileData> {
 // ---------------------------------------------------------------------------
 
 const loadRepoFolder = cache(async (repo: string) => {
-    const [system, architecture, workflow, problems] = await readPaths(refOf(repo), [
+    const [system, architecture, workflow, problems, readme] = await readPaths(refOf(repo), [
         ".portfolio/system.json",
         ".portfolio/architecture.json",
         ".portfolio/workflow.json",
-        ".portfolio/problems"
+        ".portfolio/problems",
+        "README.md"
     ]);
-    return { system, architecture, workflow, problems };
+    return { system, architecture, workflow, problems, readme };
 });
 
 const loadContentFolder = cache(async (contentSlug: string) => {
@@ -376,6 +378,70 @@ export async function loadWorkflow(
             `${nameOf(getConfig().contentRepo)}:portfolio/systems/${meta.contentSlug}/workflow.json`
         )
     );
+}
+
+/** README headings shown on a system's workflow view, in display order. */
+export const README_SECTIONS = ["Why I built it", "What works", "What doesn't (yet)", "Lessons"];
+
+const normalizeHeading = (heading: string) =>
+    heading
+        .toLowerCase()
+        .replace(/[’`]/g, "'")
+        .replace(/[*_]/g, "")
+        .replace(/[\s:.!?]+$/, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+/**
+ * The markdown under each heading, up to the next heading of the same or a
+ * higher level — so a section keeps its own sub-headings. When a heading
+ * repeats, the first one wins.
+ */
+function splitSections(markdown: string) {
+    const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+    const headings: { line: number; level: number; key: string }[] = [];
+    let fenced = false;
+
+    lines.forEach((text, line) => {
+        if (/^\s*(```|~~~)/.test(text)) fenced = !fenced;
+        const heading = fenced ? null : /^(#{1,6})\s+(.+?)\s*#*\s*$/.exec(text);
+        if (heading) {
+            headings.push({ line, level: heading[1].length, key: normalizeHeading(heading[2]) });
+        }
+    });
+
+    const sections = new Map<string, string>();
+    headings.forEach((heading, index) => {
+        if (sections.has(heading.key)) return;
+        const end = headings.slice(index + 1).find((next) => next.level <= heading.level);
+        sections.set(
+            heading.key,
+            lines
+                .slice(heading.line + 1, end?.line)
+                .join("\n")
+                .trim()
+        );
+    });
+    return sections;
+}
+
+/**
+ * The README sections named in README_SECTIONS, matched by exact heading text
+ * (case and trailing punctuation aside). A missing or empty section is left
+ * out; a repo with no README gives an empty list.
+ */
+export async function loadReadmeNotes(repo: string): Promise<SystemNote[]> {
+    const { readme } = await loadRepoFolder(repo);
+    if (readme?.kind !== "file") return [];
+
+    const sections = splitSections(readme.text);
+    const notes = await Promise.all(
+        README_SECTIONS.map(async (title) => {
+            const body = sections.get(normalizeHeading(title));
+            return body ? { title, html: (await renderMarkdown(body)).html } : null;
+        })
+    );
+    return notes.filter((note): note is SystemNote => note !== null);
 }
 
 export type TimelineNote = TimelineYearFrontmatter & { html: string | null };
