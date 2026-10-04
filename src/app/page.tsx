@@ -1,10 +1,12 @@
 import { CommandBar } from "@/components/home/CommandBar";
 import { Hero } from "@/components/home/Hero";
 import { LocationGlobe } from "@/components/home/LocationGlobe";
+import { LogSection } from "@/components/home/LogSection";
 import { NowCard } from "@/components/home/NowCard";
 import { LocalTimeCard } from "@/components/home/LocalTimeCard";
 import { SessionCard } from "@/components/home/SessionCard";
 import { SystemStatusCard } from "@/components/home/SystemStatusCard";
+import { SystemsSection } from "@/components/home/SystemsSection";
 import {
     getActivity,
     getExperiments,
@@ -22,16 +24,24 @@ const rail =
     "flex min-w-0 flex-[1_1_100%] flex-col gap-4 min-[1100px]:order-none min-[1100px]:max-w-[320px]";
 
 export default async function Home() {
-    // Later steps add the sections that use the rest of these results.
-    const [profile, systems, experiments, now, stats] = await Promise.all([
+    const [profile, systems, experiments, now, stats, fullLog, activity] = await Promise.all([
         getProfile(),
         getSystems(),
         getExperiments(),
         getNow(),
         getStats(),
-        getLog({ limit: 3 }),
+        getLog(),
         getActivity()
     ]);
+
+    // getLog() lists pinned entries first; the home preview wants the newest.
+    const log = [...fullLog].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
+
+    // Sections are numbered in the order they actually appear.
+    const showSystems = systems.length > 0;
+    const showLog = log.length > 0 || activity.length > 0;
+    const eyebrow = (position: number, name: string) =>
+        `${String(position).padStart(2, "0")} — ${name}`;
 
     return (
         <div className="bg-grid">
@@ -66,6 +76,20 @@ export default async function Home() {
                         )}
                         <CommandBar />
                     </aside>
+                </div>
+
+                <div className="space-y-20 pt-10">
+                    {showSystems && (
+                        <SystemsSection eyebrow={eyebrow(1, "SYSTEMS")} systems={systems} />
+                    )}
+                    {showLog && (
+                        <LogSection
+                            eyebrow={eyebrow(showSystems ? 2 : 1, "ENGINEERING LOG")}
+                            log={log}
+                            activity={activity}
+                            githubUrl={profile.links.github}
+                        />
+                    )}
                 </div>
             </div>
         </div>

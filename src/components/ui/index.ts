@@ -2,6 +2,7 @@ export { Button, type ButtonProps } from "./Button";
 export { IconTile } from "./IconTile";
 export { MonoLabel } from "./MonoLabel";
 export { Panel } from "./Panel";
+export { RelativeTime } from "./RelativeTime";
 export { RingGauge } from "./RingGauge";
 export { SectionHeader } from "./SectionHeader";
 export { statusLabel, type SystemStatus } from "./status";
