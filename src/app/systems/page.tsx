@@ -1,4 +1,6 @@
-import { SystemListCard } from "@/components/systems/SystemListCard";
+import { Suspense } from "react";
+
+import { SystemsBrowser, SystemsView } from "@/components/systems/SystemsBrowser";
 import { getSystems } from "@/lib/github";
 
 export const revalidate = 3600;
@@ -19,13 +21,12 @@ export default async function SystemsPage() {
                     No systems are published yet.
                 </p>
             ) : (
-                <ul className="mt-10 grid gap-5 min-[900px]:grid-cols-2">
-                    {systems.map((system) => (
-                        <li key={system.slug}>
-                            <SystemListCard system={system} />
-                        </li>
-                    ))}
-                </ul>
+                // useSearchParams needs a Suspense boundary on a static page.
+                // The fallback is the same view, unfiltered, so the HTML holds
+                // every system and nothing moves when the browser takes over.
+                <Suspense fallback={<SystemsView systems={systems} selected={null} />}>
+                    <SystemsBrowser systems={systems} />
+                </Suspense>
             )}
         </div>
     );

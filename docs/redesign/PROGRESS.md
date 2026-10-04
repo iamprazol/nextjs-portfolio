@@ -42,7 +42,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 
 ## M05 Systems index
 - [x] 5.1 Page + cards
-- [ ] 5.2 Status filter
+- [x] 5.2 Status filter
 - [ ] 5.3 Metadata + test
 
 ## M06 System profile
