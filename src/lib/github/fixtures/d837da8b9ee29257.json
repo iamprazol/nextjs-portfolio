@@ -9,7 +9,7 @@
   },
   "response": {
     "search": {
-      "issueCount": 14,
+      "issueCount": 24,
       "pageInfo": {
         "hasNextPage": false,
         "endCursor": null
@@ -147,11 +147,11 @@
           }
         },
         {
-          "number": 2,
+          "number": 12,
           "title": "Add pipes",
           "body": "Supports `a | b` by wiring stdout to stdin between two child processes.",
           "mergedAt": "2026-08-17T11:00:00.000Z",
-          "url": "https://github.com/demo-dev/tiny-shell/pull/2",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/12",
           "additions": 160,
           "deletions": 22,
           "labels": {
@@ -223,6 +223,156 @@
           },
           "repository": {
             "nameWithOwner": "demo-labs/atlas-membership"
+          }
+        },
+        {
+          "number": 10,
+          "title": "Parse quoted arguments",
+          "body": "",
+          "mergedAt": "2026-06-11T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/10",
+          "additions": 40,
+          "deletions": 5,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
+          }
+        },
+        {
+          "number": 9,
+          "title": "Add a cd builtin",
+          "body": "",
+          "mergedAt": "2026-06-07T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/9",
+          "additions": 47,
+          "deletions": 6,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
+          }
+        },
+        {
+          "number": 8,
+          "title": "Expand environment variables",
+          "body": "",
+          "mergedAt": "2026-06-03T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/8",
+          "additions": 54,
+          "deletions": 7,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
+          }
+        },
+        {
+          "number": 7,
+          "title": "Handle Ctrl-C without exiting",
+          "body": "",
+          "mergedAt": "2026-05-30T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/7",
+          "additions": 61,
+          "deletions": 8,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
+          }
+        },
+        {
+          "number": 6,
+          "title": "Add command history",
+          "body": "",
+          "mergedAt": "2026-05-26T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/6",
+          "additions": 68,
+          "deletions": 9,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
+          }
+        },
+        {
+          "number": 5,
+          "title": "Support output redirection",
+          "body": "",
+          "mergedAt": "2026-05-22T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/5",
+          "additions": 75,
+          "deletions": 10,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
+          }
+        },
+        {
+          "number": 4,
+          "title": "Add an exit builtin",
+          "body": "",
+          "mergedAt": "2026-05-18T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/4",
+          "additions": 82,
+          "deletions": 11,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
+          }
+        },
+        {
+          "number": 3,
+          "title": "Search PATH for executables",
+          "body": "",
+          "mergedAt": "2026-05-14T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/3",
+          "additions": 89,
+          "deletions": 12,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Print a prompt with the working directory",
+          "body": "",
+          "mergedAt": "2026-05-10T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/2",
+          "additions": 96,
+          "deletions": 13,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
+          }
+        },
+        {
+          "number": 1,
+          "title": "Read a line and run it",
+          "body": "",
+          "mergedAt": "2026-05-06T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/1",
+          "additions": 103,
+          "deletions": 14,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
           }
         },
         {

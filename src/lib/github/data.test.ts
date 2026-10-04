@@ -113,8 +113,8 @@ describe("data layer in mock mode", () => {
         const evidence = await data.getProblemEvidence("atlas-membership", "checkout-race");
         // #9999 is cited but does not exist; newest first
         expect(evidence.map((item) => [item.number, item.logNumber])).toEqual([
-            [412, 13],
-            [409, 11]
+            [412, 23],
+            [409, 21]
         ]);
         expect(evidence[0]).toMatchObject({
             title: "Make webhook activation idempotent",
@@ -148,10 +148,10 @@ describe("data layer in mock mode", () => {
         expect(log.some((entry) => entry.pr?.number === 405)).toBe(false);
 
         const numbered = log.filter((entry) => entry.type === "pr").sort((a, b) => b.number! - a.number!);
-        expect(numbered[0]).toMatchObject({ number: 14, systemSlug: "relay-qa", pr: { number: 58 } });
+        expect(numbered[0]).toMatchObject({ number: 24, systemSlug: "relay-qa", pr: { number: 58 } });
         expect(numbered.at(-1)).toMatchObject({ number: 1, systemSlug: "formkit-legacy" });
-        // the hidden PR (#405, sixth newest) still owns number 9
-        expect(numbered.map((entry) => entry.number)).not.toContain(9);
+        // the hidden PR (#405, sixth newest) still owns number 19
+        expect(numbered.map((entry) => entry.number)).not.toContain(19);
 
         expect(log.find((entry) => entry.pr?.number === 412)?.summary).toBe(
             "Order activation now takes a row lock and records the webhook id, so a redelivered event is a no-op."

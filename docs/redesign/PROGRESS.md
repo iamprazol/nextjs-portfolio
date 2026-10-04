@@ -60,7 +60,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 7.4 Prev/next + metadata
 
 ## M08 Engineering log
-- [ ] 8.1 List
+- [x] 8.1 List
 - [ ] 8.2 Expand + filter
 - [ ] 8.3 Entry pages + RSS
 

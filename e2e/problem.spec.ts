@@ -79,7 +79,7 @@ test.describe("engineering problem", () => {
         await expect(evidence.locator("li")).toHaveCount(2);
         await expect(evidence.locator("li").first()).toContainText("Make webhook activation idempotent");
         await expect(evidence.locator("li").first()).toContainText("+240 −61");
-        await expect(evidence.getByRole("link", { name: "Log #13" })).toHaveAttribute("href", "/log/13");
+        await expect(evidence.getByRole("link", { name: "Log #23" })).toHaveAttribute("href", "/log/23");
         await expect(evidence.getByRole("link", { name: "PR #412" })).toHaveAttribute(
             "href",
             "https://github.com/demo-labs/atlas-membership/pull/412"

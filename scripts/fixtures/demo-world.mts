@@ -407,11 +407,23 @@ const prs: PullRequestNode[] = [
     pr(ATLAS, 405, 12, "Bump dev dependencies", "", ["portfolio:hide"], [8, 8]),
     pr(RELAY, 51, 15, "Store a DOM snapshot per step", "Each recorded step now keeps the DOM it ran against, which the repair loop reads later.", [], [420, 30]),
     pr(ATLAS, 398, 25, "Migrate existing users to subscriptions", "", [], [530, 210]),
-    pr(SHELL, 2, 45, "Add pipes", "Supports `a | b` by wiring stdout to stdin between two child processes.", [], [160, 22]),
+    pr(SHELL, 12, 45, "Add pipes", "Supports `a | b` by wiring stdout to stdin between two child processes.", [], [160, 22]),
     pr(RELAY, 40, 50, "First working recorder", "Records clicks and typing into a replayable script.", [], [900, 0]),
     pr(ATLAS, 380, 60, "Add the subscriptions table", "Introduces the table that lets one user hold several memberships. The old column stays as a mirror.", ["portfolio:highlight"], [340, 12]),
     pr(DOCSMITH, 23, 72, "Build search index at compile time", "Moves search indexing out of the browser.", [], [210, 95]),
     pr(ATLAS, 371, 100, "Cache membership checks per request", "Avoids repeating the same access query for every block on a page.", [], [70, 18]),
+    ...[
+        "Parse quoted arguments",
+        "Add a cd builtin",
+        "Expand environment variables",
+        "Handle Ctrl-C without exiting",
+        "Add command history",
+        "Support output redirection",
+        "Add an exit builtin",
+        "Search PATH for executables",
+        "Print a prompt with the working directory",
+        "Read a line and run it"
+    ].map((title, i) => pr(SHELL, 10 - i, 112 + i * 4, title, "", [], [40 + i * 7, 5 + i])),
     pr(FORMKIT, 9, 310, "Fix file upload on multisite", "Uses the site's own upload directory instead of the network's.", [], [24, 6]),
     pr(IMPORTER, 3, 950, "Last change before archiving", "Final cleanup.", [], [5, 40])
 ];
