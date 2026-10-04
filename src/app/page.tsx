@@ -1,5 +1,6 @@
 import { Hero } from "@/components/home/Hero";
 import { LocalTimeCard } from "@/components/home/LocalTimeCard";
+import { SessionCard } from "@/components/home/SessionCard";
 import { SystemStatusCard } from "@/components/home/SystemStatusCard";
 import {
     getActivity,
@@ -46,6 +47,7 @@ export default async function Home() {
                             />
                         )}
                         {systems.length > 0 && <SystemStatusCard systems={systems} />}
+                        <SessionCard />
                     </aside>
                     <div className="order-1 min-w-0 flex-[999_1_100%] min-[1100px]:order-none min-[1100px]:flex-[999_1_520px]">
                         <Hero profile={profile} stats={stats} />
