@@ -6,7 +6,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 0.1 Isolate legacy components + inventory
 - [x] 0.2 Dependencies and tooling
 - [x] 0.3 Fix Vercel branch config
-- [ ] 0.4 Typed environment
+- [x] 0.4 Typed environment
 - [ ] 0.5 CLAUDE.md conventions
 
 ## M01 Design system

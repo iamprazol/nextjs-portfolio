@@ -33,6 +33,7 @@
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
     "remark-rehype": "^11.1.2",
+    "server-only": "^0.0.1",
     "tailwindcss": "^4.3.3",
     "zod": "^4.6.5"
   },
