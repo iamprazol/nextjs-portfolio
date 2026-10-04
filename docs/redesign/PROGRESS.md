@@ -21,7 +21,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 2.2 Schemas
 - [x] 2.3 Queries
 - [x] 2.4 Content loader
-- [ ] 2.5 Derivation rules + tests
+- [x] 2.5 Derivation rules + tests
 - [ ] 2.6 Cached public API
 
 ## M03 App shell

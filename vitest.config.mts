@@ -15,6 +15,14 @@ export default defineConfig({
         env: {
             GITHUB_LOGIN: "demo-dev",
             GITHUB_MOCK: "1"
+        },
+        coverage: {
+            provider: "v8",
+            enabled: true,
+            reporter: ["text"],
+            // The derivation rules are the contract with the design: keep them covered.
+            include: ["src/lib/github/derive.ts"],
+            thresholds: { statements: 90, branches: 90, functions: 90, lines: 90 }
         }
     }
 });

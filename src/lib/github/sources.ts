@@ -34,8 +34,7 @@ import {
 
 const isPresent = <T>(value: T | null | undefined): value is T => value != null;
 
-export const SYSTEM_TOPIC = "portfolio-system";
-export const LAB_TOPIC = "portfolio-lab";
+export { LAB_TOPIC, SYSTEM_TOPIC } from "./derive";
 
 /** The log shows at most this many PRs; see fetchMergedPrs. */
 export const MAX_LOG_PRS = 300;
