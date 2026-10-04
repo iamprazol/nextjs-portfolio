@@ -10,7 +10,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 0.5 CLAUDE.md conventions
 
 ## M01 Design system
-- [ ] 1.1 Tokens + Tailwind theme
+- [x] 1.1 Tokens + Tailwind theme
 - [ ] 1.2 Theme provider + toggle
 - [ ] 1.3 Primitives
 - [ ] 1.4 Diagram primitives

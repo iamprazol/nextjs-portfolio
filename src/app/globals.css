@@ -1,39 +1,149 @@
-:root {
-    --background: #ffffff;
-    --foreground: #171717;
+@import "tailwindcss";
+
+/* Theme is a class on <html> set by next-themes, not the OS preference. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Design tokens — docs/redesign/DESIGN-TOKENS.md is the source of truth.
+ * Light lives on :root; .light exists so a subtree can opt back into it.
+ */
+:root,
+.light {
+    color-scheme: light;
+
+    --bg: #f6f4ef;
+    --panel: #ffffff;
+    --panel-2: #f2efe8;
+    --line: #e4e0d8;
+    --line-2: #dcd7cd;
+    --chip: #ede9e1;
+    --ink: #17171a;
+    --ink-2: #4a4740;
+    --mute: #6b6860;
+    --link: #a34e08;
+    --wire: #9c978c;
+    --acc: #f08a24;
+    --acc-soft: #fdf3e7;
+    --acc-line: #f3d3ae;
+    --acc-ink: #8a4309;
+    --on-acc: #17171a;
+    --ok: #2e9e5b;
+    --ok-soft: #e3f2e8;
+    --teal: #1f8a85;
+    --violet: #7c5cd6;
+    --term: #17171a;
+    --term-ink: #edeae3;
+    --term-mute: #a9a69e;
+    --grid: rgba(23, 23, 26, 0.045);
+    --glow: rgba(240, 138, 36, 0.18);
+    --card-shadow: 0 10px 30px rgba(23, 23, 26, 0.06);
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #0a0a0a;
-        --foreground: #ededed;
+.dark {
+    color-scheme: dark;
+
+    --bg: #0a0d12;
+    --panel: #0e131a;
+    --panel-2: #121821;
+    --line: #1e2631;
+    --line-2: #2a3442;
+    --chip: #1a212b;
+    --ink: #e6eaf0;
+    --ink-2: #b3bcc9;
+    --mute: #8c96a6;
+    --link: #7aa7ff;
+    --wire: #4a5566;
+    --acc: #7aa7ff;
+    --acc-soft: rgba(122, 167, 255, 0.1);
+    --acc-line: rgba(122, 167, 255, 0.35);
+    --acc-ink: #a9c6ff;
+    --on-acc: #0a0d12;
+    --ok: #4ade80;
+    --ok-soft: rgba(74, 222, 128, 0.12);
+    --teal: #5eead4;
+    --violet: #f5b451;
+    --term: #05070a;
+    --term-ink: #e6eaf0;
+    --term-mute: #8c96a6;
+    --grid: rgba(122, 167, 255, 0.035);
+    --glow: rgba(122, 167, 255, 0.22);
+    --card-shadow: none;
+}
+
+@theme inline {
+    /* Only token colors exist as utilities — no default Tailwind palette. */
+    --color-*: initial;
+    --color-bg: var(--bg);
+    --color-panel: var(--panel);
+    --color-panel-2: var(--panel-2);
+    --color-line: var(--line);
+    --color-line-2: var(--line-2);
+    --color-chip: var(--chip);
+    --color-ink: var(--ink);
+    --color-ink-2: var(--ink-2);
+    --color-mute: var(--mute);
+    --color-link: var(--link);
+    --color-wire: var(--wire);
+    --color-acc: var(--acc);
+    --color-acc-soft: var(--acc-soft);
+    --color-acc-line: var(--acc-line);
+    --color-acc-ink: var(--acc-ink);
+    --color-on-acc: var(--on-acc);
+    --color-ok: var(--ok);
+    --color-ok-soft: var(--ok-soft);
+    --color-teal: var(--teal);
+    --color-violet: var(--violet);
+    --color-term: var(--term);
+    --color-term-ink: var(--term-ink);
+    --color-term-mute: var(--term-mute);
+
+    --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+    --font-mono:
+        var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --shadow-card: var(--card-shadow);
+}
+
+@layer base {
+    html,
+    body {
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+
+    body {
+        background-color: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transition:
+            background-color 300ms ease,
+            color 300ms ease;
+    }
+
+    /* --link, not --acc: orange on the light background is too faint for a ring. */
+    :focus-visible {
+        outline: 2px solid var(--link);
+        outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        body {
+            transition: none;
+        }
     }
 }
 
-html,
-body {
-    max-width: 100vw;
-    overflow-x: hidden;
+/* 64px background grid used on the home page. */
+@utility bg-grid {
+    background-image:
+        linear-gradient(to right, var(--grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+    background-size: 64px 64px;
 }
 
-body {
-    color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
+/* Legacy Chakra hero — removed with the legacy site in M01 step 1.5. */
 .chakra-ui-dark {
     .hero-section::before {
         content: "";
@@ -76,11 +186,5 @@ a {
         background: #a855f7;
         border-radius: 50%;
         filter: blur(80px);
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    html {
-        color-scheme: dark;
     }
 }
