@@ -27,12 +27,15 @@ In `iamprazol/iamprazol` (your profile repo) create `portfolio/profile.json`:
   "name": "Prajjwal Poudel",
   "headline": "Software Engineer / Product Builder",
   "intro": "I build production software and developer tools…",
-  "location": { "label": "Kathmandu, NP", "lat": 27.7172, "lng": 85.324 },
+  "location": { "label": "Kathmandu, NP", "lat": 27.7172, "lng": 85.324, "timezone": "Asia/Kathmandu" },
   "links": { "github": "https://github.com/iamprazol", "linkedin": "", "x": "", "email": "" },
   "howIWork": ["Understand the system before changing it", "Find the real constraint", "…"],
   "leadership": { "developersLed": 15 }
 }
 ```
+
+`location.timezone` is optional (an IANA zone). The home page shows the local-time clock only when it
+is set, and the globe only when `lat`/`lng` are set.
 
 Write case studies as `portfolio/systems/urm/problems/multi-membership.md` (or `.portfolio/problems/` inside the repo):
 

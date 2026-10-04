@@ -1,4 +1,6 @@
 import { Hero } from "@/components/home/Hero";
+import { LocalTimeCard } from "@/components/home/LocalTimeCard";
+import { SystemStatusCard } from "@/components/home/SystemStatusCard";
 import {
     getActivity,
     getExperiments,
@@ -17,7 +19,7 @@ const rail =
 
 export default async function Home() {
     // Later steps add the sections that use the rest of these results.
-    const [profile, , , , stats] = await Promise.all([
+    const [profile, systems, , , stats] = await Promise.all([
         getProfile(),
         getSystems(),
         getExperiments(),
@@ -36,7 +38,15 @@ export default async function Home() {
                   the next; below 768px everything stacks.
                 */}
                 <div className="flex flex-wrap items-start gap-6 py-8 lg:py-12">
-                    <aside aria-label="Status" className={`${rail} order-2 md:flex-[1_1_260px]`} />
+                    <aside aria-label="Status" className={`${rail} order-2 md:flex-[1_1_260px]`}>
+                        {profile.location?.timezone && (
+                            <LocalTimeCard
+                                city={profile.location.label.split(",")[0]}
+                                timeZone={profile.location.timezone}
+                            />
+                        )}
+                        {systems.length > 0 && <SystemStatusCard systems={systems} />}
+                    </aside>
                     <div className="order-1 min-w-0 flex-[999_1_100%] min-[1100px]:order-none min-[1100px]:flex-[999_1_520px]">
                         <Hero profile={profile} stats={stats} />
                     </div>

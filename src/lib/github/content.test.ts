@@ -22,7 +22,7 @@ const PROFILE = {
     name: "Demo Developer",
     headline: "Software Engineer",
     intro: "I build things.",
-    location: { label: "Kathmandu, NP", lat: 27.7, lng: 85.3 },
+    location: { label: "Kathmandu, NP", lat: 27.7, lng: 85.3, timezone: "Asia/Kathmandu" },
     links: { github: "https://github.com/demo-dev", linkedin: "", x: "", email: "me@demo.example" },
     howIWork: ["Understand first"],
     leadership: { developersLed: 4 }
@@ -94,7 +94,7 @@ describe("loadProfile", () => {
             name: "Demo Developer",
             headline: "Software Engineer",
             intro: "I build things.",
-            location: { label: "Kathmandu, NP", lat: 27.7, lng: 85.3 },
+            location: { label: "Kathmandu, NP", lat: 27.7, lng: 85.3, timezone: "Asia/Kathmandu" },
             links: {
                 github: "https://github.com/demo-dev",
                 linkedin: null,
@@ -118,7 +118,7 @@ describe("loadProfile", () => {
             name: "Demo Dev",
             headline: "Writes plugins",
             intro: null,
-            location: { label: "Somewhere", lat: null, lng: null },
+            location: { label: "Somewhere", lat: null, lng: null, timezone: null },
             howIWork: [],
             leadership: null,
             source: "github"
@@ -135,7 +135,12 @@ describe("loadProfile", () => {
 
     it.each([
         ["broken JSON", "{ not json", /not valid JSON/],
-        ["a schema violation", JSON.stringify({ ...PROFILE, howIWork: "nope" }), /howIWork/]
+        ["a schema violation", JSON.stringify({ ...PROFILE, howIWork: "nope" }), /howIWork/],
+        [
+            "an unknown time zone",
+            JSON.stringify({ ...PROFILE, location: { ...PROFILE.location, timezone: "Mars/Olympus" } }),
+            /IANA time zone/
+        ]
     ])("falls back and warns on %s", async (_label, text, message) => {
         files[`${CONTENT}:portfolio/profile.json`] = text;
         const { loadProfile } = await load();

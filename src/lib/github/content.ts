@@ -193,7 +193,9 @@ export async function loadProfile(): Promise<ProfileData> {
             name: user.name ?? user.login,
             headline: user.bio,
             intro: null,
-            location: user.location ? { label: user.location, lat: null, lng: null } : null,
+            location: user.location
+                ? { label: user.location, lat: null, lng: null, timezone: null }
+                : null,
             links: {
                 github: user.url,
                 linkedin: null,
@@ -212,7 +214,7 @@ export async function loadProfile(): Promise<ProfileData> {
         name: file.name,
         headline: file.headline,
         intro: file.intro,
-        location: file.location,
+        location: { ...file.location, timezone: file.location.timezone ?? null },
         links: {
             github: file.links.github,
             linkedin: file.links.linkedin ?? null,

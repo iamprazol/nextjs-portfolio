@@ -14,7 +14,7 @@
     "repository": {
       "f0": {
         "__typename": "Blob",
-        "text": "{\"name\":\"Demo Developer\",\"headline\":\"Software Engineer / Product Builder\",\"intro\":\"Fictional profile used for local development. Real content comes from the content repo.\",\"location\":{\"label\":\"Example City\",\"lat\":27.7172,\"lng\":85.324},\"links\":{\"github\":\"https://github.com/demo-dev\",\"linkedin\":\"\",\"x\":\"\",\"email\":\"demo@demo-dev.example\"},\"howIWork\":[\"Understand the system before changing it\",\"Find the real constraint\",\"Ship the smallest change that proves the idea\",\"Leave the code easier to change than I found it\"],\"leadership\":{\"developersLed\":6,\"since\":\"2022\"}}",
+        "text": "{\"name\":\"Demo Developer\",\"headline\":\"Software Engineer / Product Builder\",\"intro\":\"Fictional profile used for local development. Real content comes from the content repo.\",\"location\":{\"label\":\"Example City, EX\",\"lat\":27.7172,\"lng\":85.324,\"timezone\":\"Asia/Kathmandu\"},\"links\":{\"github\":\"https://github.com/demo-dev\",\"linkedin\":\"\",\"x\":\"\",\"email\":\"demo@demo-dev.example\"},\"howIWork\":[\"Understand the system before changing it\",\"Find the real constraint\",\"Ship the smallest change that proves the idea\",\"Leave the code easier to change than I found it\"],\"leadership\":{\"developersLed\":6,\"since\":\"2022\"}}",
         "isBinary": false
       },
       "f1": {

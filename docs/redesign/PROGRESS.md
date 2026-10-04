@@ -33,7 +33,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 ## M04 Home
 - [x] 4.1 Scaffold
 - [x] 4.2 Hero + stats
-- [ ] 4.3 Local time + system status
+- [x] 4.3 Local time + system status
 - [ ] 4.4 Live session card
 - [ ] 4.5 Now card
 - [ ] 4.6 Globe + command bar

@@ -27,7 +27,7 @@ describe("data layer in mock mode", () => {
         expect(profile).toMatchObject({
             name: "Demo Developer",
             source: "content",
-            location: { label: "Example City" },
+            location: { label: "Example City, EX", timezone: "Asia/Kathmandu" },
             leadership: { developersLed: 6, since: "2022" }
         });
         expect(profile.links.linkedin).toBeNull();

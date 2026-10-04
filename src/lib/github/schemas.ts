@@ -99,6 +99,19 @@ export const WorkflowSchema = z.object({
     edges: DiagramSchema.shape.edges
 });
 
+/** An IANA time zone the runtime knows, e.g. "Asia/Kathmandu". */
+const timeZone = z
+    .string()
+    .trim()
+    .refine((value) => {
+        try {
+            new Intl.DateTimeFormat("en", { timeZone: value });
+            return true;
+        } catch {
+            return false;
+        }
+    }, "Expected an IANA time zone such as Asia/Kathmandu");
+
 export const ProfileSchema = z.object({
     name: text,
     headline: text,
@@ -106,7 +119,12 @@ export const ProfileSchema = z.object({
     location: z.object({
         label: text,
         lat: z.number().min(-90).max(90),
-        lng: z.number().min(-180).max(180)
+        lng: z.number().min(-180).max(180),
+        /** Optional. Enables the local-time clock; without it the clock is hidden. */
+        timezone: z.preprocess(
+            (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
+            timeZone.optional()
+        )
     }),
     links: z.object({
         github: text,
@@ -157,7 +175,12 @@ export type ProfileData = {
     name: string;
     headline: string | null;
     intro: string | null;
-    location: { label: string; lat: number | null; lng: number | null } | null;
+    location: {
+        label: string;
+        lat: number | null;
+        lng: number | null;
+        timezone: string | null;
+    } | null;
     links: {
         github: string;
         linkedin: string | null;
