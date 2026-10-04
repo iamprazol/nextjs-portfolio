@@ -22,18 +22,20 @@ export const tags = {
     activity: "gh:activity"
 } as const;
 
-// The data cache persists on disk between runs, so the key carries where the
-// data came from. Without it, fixtures cached in mock mode would be served as
-// live data on the next run (and the other way round).
-const SOURCE = env.GITHUB_MOCK
-    ? `mock:${env.GITHUB_FIXTURES_DIR}`
-    : `live:${env.GITHUB_LOGIN}:${env.GITHUB_CONTENT_REPO}:${env.GITHUB_SYSTEM_OWNERS.join(",")}`;
+// The data cache persists on disk between runs, so the key carries which
+// account the data came from.
+const SOURCE = `${env.GITHUB_LOGIN}:${env.GITHUB_CONTENT_REPO}:${env.GITHUB_SYSTEM_OWNERS.join(",")}`;
 
+// Mock mode reads local files, so there is nothing to save by caching — and a
+// cached copy would keep serving old fixtures after they are regenerated, or
+// serve fixture data as live data on the next run.
 const cached = <T>(load: () => Promise<T>, key: string[], cacheTags: string[]) =>
-    unstable_cache(load, [SOURCE, ...key], {
-        revalidate: REVALIDATE_SECONDS,
-        tags: cacheTags
-    });
+    env.GITHUB_MOCK
+        ? load
+        : unstable_cache(load, [SOURCE, ...key], {
+              revalidate: REVALIDATE_SECONDS,
+              tags: cacheTags
+          });
 
 export const getProfile = cached(data.getProfile, ["gh:profile"], [tags.profile]);
 
