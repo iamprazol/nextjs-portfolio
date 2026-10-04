@@ -16,6 +16,8 @@ import {
     type SystemStatus
 } from "@/components/ui";
 
+import { DiagramDemo } from "./DiagramDemo";
+
 // Dev-only gallery of every primitive, in both themes. Served at /_ui (the
 // folder is %5Fui because a literal "_" prefix makes it private). All content
 // here is placeholder copy, not work data.
@@ -122,6 +124,10 @@ function Gallery({ theme }: { theme: "light" | "dark" }) {
                 <RingGauge value={0.72} label="Example" readout="72%" />
                 <RingGauge value={0.25} label="Small" readout="25%" size={72} />
                 <RingGauge value={1} label="Full" readout="100%" />
+            </Block>
+
+            <Block title="DiagramTree / DiagramFlow">
+                <DiagramDemo />
             </Block>
         </section>
     );
