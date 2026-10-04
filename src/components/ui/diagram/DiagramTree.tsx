@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 import { DiagramNode } from "./DiagramNode";
 import { EdgeList } from "./EdgeList";
 import { busHalves, layoutDiagram } from "./layout";
-import type { Diagram } from "./types";
+import type { Diagram } from "@/lib/github/schemas";
 
 type DiagramTreeProps = {
     diagram: Diagram;

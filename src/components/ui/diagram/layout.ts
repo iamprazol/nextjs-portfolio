@@ -1,4 +1,4 @@
-import type { Diagram, DiagramEdgeData, DiagramNodeData } from "./types";
+import type { Diagram, DiagramEdgeData, DiagramNodeData } from "@/lib/github/schemas";
 
 export type DiagramCell = {
     node: DiagramNodeData;

@@ -18,7 +18,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 
 ## M02 GitHub data layer
 - [x] 2.1 Client + mock mode
-- [ ] 2.2 Schemas
+- [x] 2.2 Schemas
 - [ ] 2.3 Queries
 - [ ] 2.4 Content loader
 - [ ] 2.5 Derivation rules + tests

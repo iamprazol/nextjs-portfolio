@@ -1,5 +1,5 @@
 import type { DiagramLayout } from "./layout";
-import type { Diagram } from "./types";
+import type { Diagram } from "@/lib/github/schemas";
 
 // Screen-reader text for the connector lines, which are drawn with CSS only.
 export function EdgeList({

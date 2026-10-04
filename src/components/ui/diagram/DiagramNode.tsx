@@ -1,6 +1,6 @@
 import { cn } from "@/lib/cn";
 
-import type { DiagramNodeData } from "./types";
+import type { DiagramNodeData } from "@/lib/github/schemas";
 
 type DiagramNodeProps = {
     node: DiagramNodeData;

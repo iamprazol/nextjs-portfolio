@@ -1,11 +1,6 @@
-// Defined here until the GitHub data layer exists; M02 moves it to
-// src/lib/github/schemas.ts and this file re-exports it.
-export type SystemStatus =
-    | "production"
-    | "building"
-    | "active"
-    | "experiment"
-    | "maintenance";
+import type { SystemStatus } from "@/lib/github/schemas";
+
+export type { SystemStatus };
 
 export const statusLabel: Record<SystemStatus, string> = {
     production: "Production",
