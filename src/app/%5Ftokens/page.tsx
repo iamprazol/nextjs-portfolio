@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+
 // Dev-only swatch sheet for the tokens in globals.css. Served at /_tokens:
 // the folder is named %5Ftokens because a literal "_" prefix makes it private.
 
@@ -91,9 +93,18 @@ export default function TokensPage() {
     if (process.env.NODE_ENV === "production") notFound();
 
     return (
-        <main className="flex min-h-screen flex-col lg:flex-row">
-            <TokenSheet theme="light" />
-            <TokenSheet theme="dark" />
+        <main className="min-h-screen">
+            <div className="flex items-center justify-between gap-4 p-6 sm:px-8">
+                <p className="text-ink-2 text-sm">
+                    Both themes are shown side by side. The toggle switches the
+                    page theme (this bar).
+                </p>
+                <ThemeToggle />
+            </div>
+            <div className="flex flex-col lg:flex-row">
+                <TokenSheet theme="light" />
+                <TokenSheet theme="dark" />
+            </div>
         </main>
     );
 }
