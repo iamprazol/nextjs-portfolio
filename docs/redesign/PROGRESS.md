@@ -7,7 +7,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 0.2 Dependencies and tooling
 - [x] 0.3 Fix Vercel branch config
 - [x] 0.4 Typed environment
-- [ ] 0.5 CLAUDE.md conventions
+- [x] 0.5 CLAUDE.md conventions
 
 ## M01 Design system
 - [ ] 1.1 Tokens + Tailwind theme
