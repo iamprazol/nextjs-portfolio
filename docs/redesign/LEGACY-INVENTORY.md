@@ -1,10 +1,11 @@
 # Legacy inventory
 
-Every hardcoded data array in the old single-page site (now under `src/legacy/`), and what replaces
-each field in the redesign. "Source" refers to the rules in `ARCHITECTURE.md` §4 and the schemas in
-§3.3. **Dropped** means GitHub cannot verify the value, so the redesign does not show it.
+Every hardcoded data array in the old single-page Chakra site, and what replaces each field in the
+redesign. "Source" refers to the rules in `ARCHITECTURE.md` §4 and the schemas in §3.3. **Dropped**
+means GitHub cannot verify the value, so the redesign does not show it.
 
-The legacy code is deleted in M01 step 1.5 (Chakra removal) once nothing imports it.
+The legacy code lived under `src/legacy/` and was deleted in M01 step 1.5 along with Chakra. Paths
+below are where each file was at that point; `git show e5c668d:<path>` recovers any of them.
 
 ## Hero — `src/legacy/components/Hero/Hero.tsx`
 
@@ -52,8 +53,8 @@ topic (or a `portfolio/systems/<slug>.json` file in the content repo).
 | --- | --- |
 | `title` | `SystemMeta.name`, defaulting to the repo name (`getSystems`) |
 | `description` | Repo description from GitHub; `SystemMeta.proves` for the one-line claim |
-| `image` | Dropped — system cards have no screenshots. `public/images/*` goes with the legacy code |
-| `icon` | Dropped — `IconTile` primitive. `public/icons/*` goes with the legacy code |
+| `image` | Dropped — system cards have no screenshots. `public/images/*` is now unused |
+| `icon` | Dropped — `IconTile` primitive. `public/icons/*` is now unused |
 | `technicalPoints[]` | **Stack tags** (top 4 languages + topics) for the tech; narrative points move to `.portfolio/problems/*.md` case studies |
 | `projectOverview.overviewPoints[]` | Dropped — "5 star rating", "200+ active installations" are WordPress.org numbers GitHub can't verify. Stars and release count come from the repo instead |
 | `projectOverview.links.github[]` | Repo URL from GitHub |
