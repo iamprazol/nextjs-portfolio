@@ -1,7 +1,7 @@
 "use client";
 
-import FloatingIcon from "@/components/Hero/FloatingIcon";
-import SkillBadge from "@/components/Hero/SkillBadge";
+import FloatingIcon from "@/legacy/components/Hero/FloatingIcon";
+import SkillBadge from "@/legacy/components/Hero/SkillBadge";
 import { ArrowDownIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import {
     Box,

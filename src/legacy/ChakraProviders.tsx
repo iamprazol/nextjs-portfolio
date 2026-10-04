@@ -1,7 +1,7 @@
 "use client";
 
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
-import theme from "@/theme";
+import theme from "@/legacy/theme";
 
 export function ChakraProviders({ children }: { children: React.ReactNode }) {
     return (

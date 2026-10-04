@@ -3,7 +3,7 @@
 Tick each step when its acceptance criteria pass and it is committed.
 
 ## M00 Foundations
-- [ ] 0.1 Isolate legacy components + inventory
+- [x] 0.1 Isolate legacy components + inventory
 - [ ] 0.2 Dependencies and tooling
 - [ ] 0.3 Fix Vercel branch config
 - [ ] 0.4 Typed environment
