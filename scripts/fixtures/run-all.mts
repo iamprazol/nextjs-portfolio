@@ -1,54 +1,44 @@
-import { gql } from "../../src/lib/github/client";
-import { getConfig } from "../../src/lib/github/config";
-import { REPO_FILE } from "../../src/lib/github/queries";
-import {
-    LAB_TOPIC,
-    SYSTEM_TOPIC,
-    fetchCommitCounts,
-    fetchEvents,
-    fetchMergedPrs,
-    fetchRecentContributions,
-    fetchStars,
-    fetchTopicRepos,
-    fetchUser,
-    fetchYearlyContributions
-} from "../../src/lib/github/sources";
+import * as data from "../../src/lib/github/data";
 
 /**
- * Every request the data layer makes, so the recorder can capture each one.
- * Step 2.6 replaces this with calls to the public get* functions.
+ * Calls every public getter (the uncached versions), so the recorder captures
+ * each request the site can make — including one detail page per system and
+ * problem.
  */
 export async function runAll() {
-    const { contentRepo } = getConfig();
+    const [profile, systems, log, timeline, now, activity, experiments, tools, stats] =
+        await Promise.all([
+            data.getProfile(),
+            data.getSystems(),
+            data.getFullLog(),
+            data.getTimeline(),
+            data.getNow(),
+            data.getActivity(),
+            data.getExperiments(),
+            data.getToolUsage(),
+            data.getStats()
+        ]);
 
-    const [user, systems, labs] = await Promise.all([
-        fetchUser(),
-        fetchTopicRepos(SYSTEM_TOPIC),
-        fetchTopicRepos(LAB_TOPIC)
-    ]);
-    const repos = [...systems, ...labs].map((repo) => repo.nameWithOwner);
+    let problems = 0;
+    for (const { slug } of systems) {
+        const system = await data.getSystem(slug);
+        for (const problem of system?.problems ?? []) {
+            if (await data.getProblem(slug, problem.slug)) problems++;
+        }
+    }
 
-    const [prs, years, recent, stars, events, commits, profile] = await Promise.all([
-        fetchMergedPrs(repos),
-        fetchYearlyContributions(),
-        fetchRecentContributions(),
-        fetchStars(),
-        fetchEvents(),
-        fetchCommitCounts(repos),
-        gql(REPO_FILE, { ...contentRepo, e0: "HEAD:portfolio/profile.json" })
-    ]);
-
-    console.log({
-        user: user.login,
-        systems: systems.length,
-        labs: labs.length,
-        mergedPrs: prs.total,
-        years: years.map((y) => `${y.year}:${y.contributions.contributionCalendar.totalContributions}`).join(" "),
-        recentCommits: recent.recent.totalCommitContributions,
-        baselineCommits: recent.baseline.totalCommitContributions,
-        stars: stars.length,
-        events: events.length,
-        commitCounts: commits.length,
-        hasProfileFile: Boolean((profile as { repository: { f0: unknown } | null }).repository?.f0)
-    });
+    return {
+        profile: `${profile.name} (from ${profile.source})`,
+        systems: systems.map((system) => `${system.slug}:${system.status}`).join(" ") || "none",
+        problems,
+        experiments: experiments.length,
+        logEntries: log.length,
+        timelineYears: timeline.map((year) => year.year).join(" ") || "none",
+        building: now.building?.slug ?? "nothing",
+        learning: now.learning.join(", ") || "nothing",
+        exploring: now.exploring.join(", ") || "nothing",
+        activity: activity.length,
+        tools: tools.length,
+        stats
+    };
 }

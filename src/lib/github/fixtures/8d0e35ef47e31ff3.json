@@ -1,0 +1,51 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "Contributions",
+    "variables": {
+      "from": "2023-01-01T00:00:00.000Z",
+      "login": "demo-dev",
+      "to": "2023-12-31T23:59:59.000Z"
+    }
+  },
+  "response": {
+    "user": {
+      "contributionsCollection": {
+        "totalCommitContributions": 640,
+        "totalPullRequestContributions": 71,
+        "totalPullRequestReviewContributions": 190,
+        "totalRepositoryContributions": 1,
+        "totalRepositoriesWithContributedCommits": 2,
+        "commitContributionsByRepository": [
+          {
+            "repository": {
+              "nameWithOwner": "demo-labs/atlas-membership",
+              "isPrivate": false,
+              "primaryLanguage": {
+                "name": "PHP"
+              }
+            },
+            "contributions": {
+              "totalCount": 380
+            }
+          },
+          {
+            "repository": {
+              "nameWithOwner": "demo-labs/docsmith",
+              "isPrivate": true,
+              "primaryLanguage": {
+                "name": "TypeScript"
+              }
+            },
+            "contributions": {
+              "totalCount": 260
+            }
+          }
+        ],
+        "contributionCalendar": {
+          "totalContributions": 901
+        }
+      }
+    }
+  }
+}

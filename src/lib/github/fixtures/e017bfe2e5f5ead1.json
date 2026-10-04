@@ -1,0 +1,51 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "Contributions",
+    "variables": {
+      "from": "2020-01-01T00:00:00.000Z",
+      "login": "demo-dev",
+      "to": "2020-12-31T23:59:59.000Z"
+    }
+  },
+  "response": {
+    "user": {
+      "contributionsCollection": {
+        "totalCommitContributions": 500,
+        "totalPullRequestContributions": 48,
+        "totalPullRequestReviewContributions": 15,
+        "totalRepositoryContributions": 1,
+        "totalRepositoriesWithContributedCommits": 2,
+        "commitContributionsByRepository": [
+          {
+            "repository": {
+              "nameWithOwner": "demo-labs/atlas-membership",
+              "isPrivate": false,
+              "primaryLanguage": {
+                "name": "PHP"
+              }
+            },
+            "contributions": {
+              "totalCount": 410
+            }
+          },
+          {
+            "repository": {
+              "nameWithOwner": "demo-dev/formkit-legacy",
+              "isPrivate": false,
+              "primaryLanguage": {
+                "name": "PHP"
+              }
+            },
+            "contributions": {
+              "totalCount": 90
+            }
+          }
+        ],
+        "contributionCalendar": {
+          "totalContributions": 563
+        }
+      }
+    }
+  }
+}

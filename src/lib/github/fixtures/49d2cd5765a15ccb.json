@@ -1,0 +1,121 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "RecentStars",
+    "variables": {
+      "login": "demo-dev"
+    }
+  },
+  "response": {
+    "user": {
+      "starredRepositories": {
+        "edges": [
+          {
+            "starredAt": "2026-09-28T09:00:00.000Z",
+            "node": {
+              "nameWithOwner": "example/agent-kit",
+              "repositoryTopics": {
+                "nodes": [
+                  {
+                    "topic": {
+                      "name": "agents"
+                    }
+                  },
+                  {
+                    "topic": {
+                      "name": "llm"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "starredAt": "2026-09-20T09:00:00.000Z",
+            "node": {
+              "nameWithOwner": "example/evals",
+              "repositoryTopics": {
+                "nodes": [
+                  {
+                    "topic": {
+                      "name": "llm"
+                    }
+                  },
+                  {
+                    "topic": {
+                      "name": "evaluation"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "starredAt": "2026-09-07T09:00:00.000Z",
+            "node": {
+              "nameWithOwner": "example/browser-agent",
+              "repositoryTopics": {
+                "nodes": [
+                  {
+                    "topic": {
+                      "name": "agents"
+                    }
+                  },
+                  {
+                    "topic": {
+                      "name": "playwright"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "starredAt": "2026-08-14T09:00:00.000Z",
+            "node": {
+              "nameWithOwner": "example/sqlite-vec",
+              "repositoryTopics": {
+                "nodes": [
+                  {
+                    "topic": {
+                      "name": "sqlite"
+                    }
+                  },
+                  {
+                    "topic": {
+                      "name": "embeddings"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "starredAt": "2026-05-14T09:00:00.000Z",
+            "node": {
+              "nameWithOwner": "example/old-favorite",
+              "repositoryTopics": {
+                "nodes": [
+                  {
+                    "topic": {
+                      "name": "php"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "starredAt": "2026-03-15T09:00:00.000Z",
+            "node": {
+              "nameWithOwner": "example/untagged",
+              "repositoryTopics": {
+                "nodes": []
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

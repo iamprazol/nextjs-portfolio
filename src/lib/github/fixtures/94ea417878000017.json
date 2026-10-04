@@ -1,0 +1,75 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "Contributions",
+    "variables": {
+      "from": "2026-07-03T00:00:00.000Z",
+      "login": "demo-dev",
+      "to": "2026-10-02T00:00:00.000Z"
+    }
+  },
+  "response": {
+    "user": {
+      "contributionsCollection": {
+        "totalCommitContributions": 163,
+        "totalPullRequestContributions": 14,
+        "totalPullRequestReviewContributions": 40,
+        "totalRepositoryContributions": 1,
+        "totalRepositoriesWithContributedCommits": 4,
+        "commitContributionsByRepository": [
+          {
+            "repository": {
+              "nameWithOwner": "demo-dev/relay-qa",
+              "isPrivate": false,
+              "primaryLanguage": {
+                "name": "TypeScript"
+              }
+            },
+            "contributions": {
+              "totalCount": 80
+            }
+          },
+          {
+            "repository": {
+              "nameWithOwner": "demo-labs/atlas-membership",
+              "isPrivate": false,
+              "primaryLanguage": {
+                "name": "PHP"
+              }
+            },
+            "contributions": {
+              "totalCount": 60
+            }
+          },
+          {
+            "repository": {
+              "nameWithOwner": "demo-dev/tiny-shell",
+              "isPrivate": false,
+              "primaryLanguage": {
+                "name": "Rust"
+              }
+            },
+            "contributions": {
+              "totalCount": 14
+            }
+          },
+          {
+            "repository": {
+              "nameWithOwner": "demo-dev/vector-notes",
+              "isPrivate": false,
+              "primaryLanguage": {
+                "name": "Python"
+              }
+            },
+            "contributions": {
+              "totalCount": 9
+            }
+          }
+        ],
+        "contributionCalendar": {
+          "totalContributions": 217
+        }
+      }
+    }
+  }
+}

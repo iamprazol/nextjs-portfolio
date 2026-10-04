@@ -14,14 +14,29 @@ Tests: `vitest` for the data layer, Playwright for pages.
 
 | Path | What lives there |
 | --- | --- |
-| `src/app/` | Routes, layouts, API handlers. `%5Ftokens/` and `%5Fui/` are dev-only galleries at `/_tokens` and `/_ui` |
+| `src/app/` | Routes, layouts, API handlers. `%5Ftokens/`, `%5Fui/` and `%5Fdata/` are dev-only pages at `/_tokens`, `/_ui` and `/_data` |
 | `src/components/ui/` | Design-system primitives (`Panel`, `Tag`, `Button`, …); `ui/diagram/` for diagrams |
 | `src/components/<page>/` | Sections for one page (`home/`, `systems/`, `log/`, …) |
-| `src/lib/github/` | Data layer: client, queries, schemas, derivation rules, public `get*` API |
+| `src/lib/github/` | Data layer. Pages import only from `@/lib/github` (`index.ts`: cached `get*` functions and types) |
 | `src/env.ts` | Typed, server-only environment. Never read `process.env` elsewhere |
 | `docs/redesign/` | Architecture, design tokens, milestones, step prompts |
 
 Import with the `@/*` alias (`@/lib/github`, `@/components/ui/Panel`).
+
+## Data layer
+
+`client` (Octokit, retries, mock mode) → `sources` (one fetch per GitHub source) + `content`
+(files written on GitHub) → `derive` (pure rules from `ARCHITECTURE.md` §4, tested) → `data`
+(composition) → `index` (`unstable_cache`, tags).
+
+- New rule or changed rule: edit `derive.ts` and its table-driven test. Coverage on `derive.ts` is
+  enforced at 90%.
+- `GITHUB_MOCK=1` replays `src/lib/github/fixtures/`, a **fictional** account generated from
+  `scripts/fixtures/demo-world.mts`. Fixtures are matched by a hash of query + variables, so after
+  changing a query or the demo world run `npm run fixtures:demo` and commit the result.
+- `npm run fixtures:record` records your real account into `fixtures.local/` (git-ignored — it can
+  contain private repo names). Never commit real recordings.
+- In domain types `null` means GitHub could not provide the value: hide the element.
 
 ## Ground rules
 
@@ -47,8 +62,11 @@ npm run dev         # dev server
 npm run build       # production build
 npm run lint        # eslint
 npm run typecheck   # tsc --noEmit
-npm run test        # vitest
+npm run test        # vitest (with coverage thresholds)
 npm run test:e2e    # playwright
+npm run fixtures:demo     # regenerate the committed mock fixtures
+npm run fixtures:record   # record your real account into fixtures.local/
+GITHUB_MOCK=1 npm run dev # run against fixtures, no network
 ```
 
 Formatting follows `.prettierrc`: 4-space indent, double quotes, no trailing commas.

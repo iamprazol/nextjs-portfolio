@@ -1,0 +1,246 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "MergedPrs",
+    "variables": {
+      "after": null,
+      "q": "is:pr is:merged author:demo-dev repo:demo-dev/formkit-legacy repo:demo-dev/relay-qa repo:demo-dev/tiny-shell repo:demo-dev/vector-notes repo:demo-labs/atlas-membership repo:demo-labs/docsmith sort:created-desc"
+    }
+  },
+  "response": {
+    "search": {
+      "issueCount": 14,
+      "pageInfo": {
+        "hasNextPage": false,
+        "endCursor": null
+      },
+      "nodes": [
+        {
+          "number": 58,
+          "title": "Retry a repaired selector once before failing",
+          "body": "<!-- Describe your change -->\n\n## Description\n\nA repaired selector is now retried once, so a single slow render no longer fails the run.\n\n## Checklist\n\n- [x] Tests added",
+          "mergedAt": "2026-09-30T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/relay-qa/pull/58",
+          "additions": 86,
+          "deletions": 12,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/relay-qa"
+          }
+        },
+        {
+          "number": 412,
+          "title": "Make webhook activation idempotent",
+          "body": "<!-- Describe your change -->\n\n## Description\n\nOrder activation now takes a row lock and records the webhook id, so a redelivered event is a no-op.\n\n- [x] Tested with duplicate deliveries",
+          "mergedAt": "2026-09-28T11:00:00.000Z",
+          "url": "https://github.com/demo-labs/atlas-membership/pull/412",
+          "additions": 240,
+          "deletions": 61,
+          "labels": {
+            "nodes": [
+              {
+                "name": "portfolio:highlight"
+              },
+              {
+                "name": "bug"
+              }
+            ]
+          },
+          "repository": {
+            "nameWithOwner": "demo-labs/atlas-membership"
+          }
+        },
+        {
+          "number": 55,
+          "title": "Score selectors by stability",
+          "body": "Ranks role and label selectors above class names when choosing a replacement.",
+          "mergedAt": "2026-09-27T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/relay-qa/pull/55",
+          "additions": 310,
+          "deletions": 44,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/relay-qa"
+          }
+        },
+        {
+          "number": 409,
+          "title": "Lock the order row during checkout",
+          "body": "Prevents two checkout requests from activating the same order.",
+          "mergedAt": "2026-09-25T11:00:00.000Z",
+          "url": "https://github.com/demo-labs/atlas-membership/pull/409",
+          "additions": 95,
+          "deletions": 20,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-labs/atlas-membership"
+          }
+        },
+        {
+          "number": 4,
+          "title": "Chunk notes by heading before embedding",
+          "body": "Splits each note at its headings so results point at a section, not a whole file.",
+          "mergedAt": "2026-09-22T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/vector-notes/pull/4",
+          "additions": 140,
+          "deletions": 15,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/vector-notes"
+          }
+        },
+        {
+          "number": 405,
+          "title": "Bump dev dependencies",
+          "body": "",
+          "mergedAt": "2026-09-19T11:00:00.000Z",
+          "url": "https://github.com/demo-labs/atlas-membership/pull/405",
+          "additions": 8,
+          "deletions": 8,
+          "labels": {
+            "nodes": [
+              {
+                "name": "portfolio:hide"
+              }
+            ]
+          },
+          "repository": {
+            "nameWithOwner": "demo-labs/atlas-membership"
+          }
+        },
+        {
+          "number": 51,
+          "title": "Store a DOM snapshot per step",
+          "body": "Each recorded step now keeps the DOM it ran against, which the repair loop reads later.",
+          "mergedAt": "2026-09-16T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/relay-qa/pull/51",
+          "additions": 420,
+          "deletions": 30,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/relay-qa"
+          }
+        },
+        {
+          "number": 398,
+          "title": "Migrate existing users to subscriptions",
+          "body": "",
+          "mergedAt": "2026-09-06T11:00:00.000Z",
+          "url": "https://github.com/demo-labs/atlas-membership/pull/398",
+          "additions": 530,
+          "deletions": 210,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-labs/atlas-membership"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Add pipes",
+          "body": "Supports `a | b` by wiring stdout to stdin between two child processes.",
+          "mergedAt": "2026-08-17T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/tiny-shell/pull/2",
+          "additions": 160,
+          "deletions": 22,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/tiny-shell"
+          }
+        },
+        {
+          "number": 40,
+          "title": "First working recorder",
+          "body": "Records clicks and typing into a replayable script.",
+          "mergedAt": "2026-08-12T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/relay-qa/pull/40",
+          "additions": 900,
+          "deletions": 0,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/relay-qa"
+          }
+        },
+        {
+          "number": 380,
+          "title": "Add the subscriptions table",
+          "body": "Introduces the table that lets one user hold several memberships. The old column stays as a mirror.",
+          "mergedAt": "2026-08-02T11:00:00.000Z",
+          "url": "https://github.com/demo-labs/atlas-membership/pull/380",
+          "additions": 340,
+          "deletions": 12,
+          "labels": {
+            "nodes": [
+              {
+                "name": "portfolio:highlight"
+              }
+            ]
+          },
+          "repository": {
+            "nameWithOwner": "demo-labs/atlas-membership"
+          }
+        },
+        {
+          "number": 23,
+          "title": "Build search index at compile time",
+          "body": "Moves search indexing out of the browser.",
+          "mergedAt": "2026-07-21T11:00:00.000Z",
+          "url": "https://github.com/demo-labs/docsmith/pull/23",
+          "additions": 210,
+          "deletions": 95,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-labs/docsmith"
+          }
+        },
+        {
+          "number": 371,
+          "title": "Cache membership checks per request",
+          "body": "Avoids repeating the same access query for every block on a page.",
+          "mergedAt": "2026-06-23T11:00:00.000Z",
+          "url": "https://github.com/demo-labs/atlas-membership/pull/371",
+          "additions": 70,
+          "deletions": 18,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-labs/atlas-membership"
+          }
+        },
+        {
+          "number": 9,
+          "title": "Fix file upload on multisite",
+          "body": "Uses the site's own upload directory instead of the network's.",
+          "mergedAt": "2025-11-25T11:00:00.000Z",
+          "url": "https://github.com/demo-dev/formkit-legacy/pull/9",
+          "additions": 24,
+          "deletions": 6,
+          "labels": {
+            "nodes": []
+          },
+          "repository": {
+            "nameWithOwner": "demo-dev/formkit-legacy"
+          }
+        }
+      ]
+    }
+  }
+}

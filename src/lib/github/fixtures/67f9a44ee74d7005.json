@@ -1,0 +1,14 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "MergedPrCount",
+    "variables": {
+      "q": "is:pr is:merged author:demo-dev repo:demo-dev/formkit-legacy repo:demo-dev/relay-qa repo:demo-labs/atlas-membership repo:demo-labs/docsmith sort:created-desc"
+    }
+  },
+  "response": {
+    "search": {
+      "issueCount": 12
+    }
+  }
+}

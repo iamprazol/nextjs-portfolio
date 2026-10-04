@@ -1,0 +1,81 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "RepoByName",
+    "variables": {
+      "name": "docsmith",
+      "owner": "demo-labs"
+    }
+  },
+  "response": {
+    "repository": {
+      "nameWithOwner": "demo-labs/docsmith",
+      "name": "docsmith",
+      "description": "Docs site generator for plugin teams (demo data)",
+      "url": "https://github.com/demo-labs/docsmith",
+      "homepageUrl": null,
+      "isArchived": false,
+      "isPrivate": true,
+      "pushedAt": "2026-07-23T16:00:00.000Z",
+      "createdAt": "2023-06-20T10:00:00Z",
+      "stargazerCount": 0,
+      "repositoryTopics": {
+        "nodes": [
+          {
+            "topic": {
+              "name": "documentation"
+            }
+          },
+          {
+            "topic": {
+              "name": "mdx"
+            }
+          }
+        ]
+      },
+      "languages": {
+        "totalSize": 212000,
+        "edges": [
+          {
+            "size": 140000,
+            "node": {
+              "name": "TypeScript"
+            }
+          },
+          {
+            "size": 60000,
+            "node": {
+              "name": "MDX"
+            }
+          },
+          {
+            "size": 12000,
+            "node": {
+              "name": "CSS"
+            }
+          }
+        ]
+      },
+      "latestRelease": {
+        "tagName": "v1.0.0",
+        "name": null,
+        "publishedAt": "2025-05-19T14:00:00.000Z",
+        "isPrerelease": false,
+        "isDraft": false,
+        "url": "https://github.com/demo-labs/docsmith/releases/tag/v1.0.0"
+      },
+      "releases": {
+        "nodes": [
+          {
+            "tagName": "v1.0.0",
+            "name": null,
+            "publishedAt": "2025-05-19T14:00:00.000Z",
+            "isPrerelease": false,
+            "isDraft": false,
+            "url": "https://github.com/demo-labs/docsmith/releases/tag/v1.0.0"
+          }
+        ]
+      }
+    }
+  }
+}

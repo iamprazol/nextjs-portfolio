@@ -1,0 +1,30 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "RepoFiles",
+    "variables": {
+      "e0": "HEAD:.portfolio/system.json",
+      "e1": "HEAD:.portfolio/architecture.json",
+      "e2": "HEAD:.portfolio/workflow.json",
+      "e3": "HEAD:.portfolio/problems",
+      "name": "relay-qa",
+      "owner": "demo-dev"
+    }
+  },
+  "response": {
+    "repository": {
+      "f0": {
+        "__typename": "Blob",
+        "text": "{\"name\":\"Relay QA\",\"kind\":\"AI QA Framework\",\"role\":[\"Design\",\"Engineering\"],\"proves\":\"Test suites can survive refactors\",\"order\":2}",
+        "isBinary": false
+      },
+      "f1": null,
+      "f2": {
+        "__typename": "Blob",
+        "text": "{\"steps\":[{\"title\":\"Record\",\"subtitle\":\"Capture the flow\",\"detail\":\"Run the flow once and store a DOM snapshot per step.\",\"node\":\"record\"},{\"title\":\"Run\",\"subtitle\":\"Replay in CI\",\"detail\":\"Replay the steps against the current build.\",\"node\":\"run\"},{\"title\":\"Repair\",\"subtitle\":\"Fix broken selectors\",\"detail\":\"When a selector fails, pick the best match from the snapshot and propose a patch.\",\"node\":\"repair\"}],\"nodes\":[{\"id\":\"record\",\"label\":\"Recorder\"},{\"id\":\"run\",\"label\":\"Runner\"},{\"id\":\"repair\",\"label\":\"Repair loop\"},{\"id\":\"store\",\"label\":\"Snapshot store\"}],\"edges\":[{\"from\":\"record\",\"to\":\"run\"},{\"from\":\"run\",\"to\":\"repair\"},{\"from\":\"repair\",\"to\":\"store\"},{\"from\":\"store\",\"to\":\"repair\"}]}",
+        "isBinary": false
+      },
+      "f3": null
+    }
+  }
+}

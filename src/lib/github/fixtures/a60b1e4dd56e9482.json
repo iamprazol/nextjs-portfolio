@@ -1,0 +1,53 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "RepoFiles",
+    "variables": {
+      "e0": "HEAD:portfolio/profile.json",
+      "e1": "HEAD:portfolio/systems",
+      "e2": "HEAD:portfolio/timeline",
+      "name": "demo-dev",
+      "owner": "demo-dev"
+    }
+  },
+  "response": {
+    "repository": {
+      "f0": {
+        "__typename": "Blob",
+        "text": "{\"name\":\"Demo Developer\",\"headline\":\"Software Engineer / Product Builder\",\"intro\":\"Fictional profile used for local development. Real content comes from the content repo.\",\"location\":{\"label\":\"Example City\",\"lat\":27.7172,\"lng\":85.324},\"links\":{\"github\":\"https://github.com/demo-dev\",\"linkedin\":\"\",\"x\":\"\",\"email\":\"demo@demo-dev.example\"},\"howIWork\":[\"Understand the system before changing it\",\"Find the real constraint\",\"Ship the smallest change that proves the idea\",\"Leave the code easier to change than I found it\"],\"leadership\":{\"developersLed\":6,\"since\":\"2022\"}}",
+        "isBinary": false
+      },
+      "f1": {
+        "__typename": "Tree",
+        "entries": [
+          {
+            "name": "docsmith.json",
+            "type": "blob",
+            "object": {
+              "text": "{\"repo\":\"demo-labs/docsmith\",\"name\":\"DocSmith\",\"kind\":\"Documentation Tool\",\"role\":[\"Product Engineering\"],\"proves\":\"A docs pipeline a whole team can run without a build engineer\",\"order\":3}",
+              "isBinary": false
+            }
+          },
+          {
+            "name": "relay-qa",
+            "type": "tree",
+            "object": null
+          }
+        ]
+      },
+      "f2": {
+        "__typename": "Tree",
+        "entries": [
+          {
+            "name": "2024.md",
+            "type": "blob",
+            "object": {
+              "text": "---\ntitle: The multi-membership rewrite\nsummary: Most of the year went into replacing the single-membership data model.\n---\nPlanned the migration in the spring and shipped it behind a flag in the autumn.\n",
+              "isBinary": false
+            }
+          }
+        ]
+      }
+    }
+  }
+}

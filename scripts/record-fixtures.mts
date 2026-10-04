@@ -1,15 +1,21 @@
 /**
- * Records every GitHub response the data layer needs as fixtures for
- * GITHUB_MOCK=1.
+ * Writes the fixtures GITHUB_MOCK=1 replays, by running every getter with a
+ * recording transport.
  *
- *   npm run fixtures:record   real API → src/lib/github/fixtures.local (git-ignored)
+ *   npm run fixtures:demo     fictional account → src/lib/github/fixtures (committed)
+ *   npm run fixtures:record   your real account → src/lib/github/fixtures.local (git-ignored)
  *
- * Recordings of your real account can contain private repository names, so
- * they are written to a git-ignored folder. Point GITHUB_FIXTURES_DIR at it to
- * replay them. Only response bodies are stored — never headers or the token.
+ * A recording of a real account can contain private repository names, so it
+ * goes to a git-ignored folder; set GITHUB_FIXTURES_DIR to that folder to
+ * replay it. Only response bodies are stored — never headers or the token.
+ *
+ * Re-run `fixtures:demo` whenever a query document or its variables change:
+ * fixtures are matched by a hash of both.
  */
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+
+const demo = process.argv.includes("--demo");
 
 try {
     process.loadEnvFile(".env.local");
@@ -17,23 +23,35 @@ try {
     // No .env.local: rely on the environment.
 }
 process.env.GITHUB_MOCK = "0";
+if (demo) process.env.GITHUB_LOGIN ||= "demo-dev";
 
-const outDir = path.resolve("src/lib/github/fixtures.local");
+const outDir = path.resolve(demo ? "src/lib/github/fixtures" : "src/lib/github/fixtures.local");
 
 const { liveTransport, recordingTransport, setTransport } = await import(
     "../src/lib/github/client"
 );
-const { getConfig } = await import("../src/lib/github/config");
+const { getConfig, setConfig } = await import("../src/lib/github/config");
 const { runAll } = await import("./fixtures/run-all.mts");
 
-await rm(outDir, { recursive: true, force: true });
+let inner = liveTransport;
+if (demo) {
+    const { DEMO_CONFIG, DEMO_NOW, demoTransport } = await import("./fixtures/demo-world.mts");
+    setConfig({ ...DEMO_CONFIG, now: () => DEMO_NOW });
+    inner = demoTransport;
+}
+
+// Clear old fixtures so renamed queries do not leave stale files behind.
 await mkdir(outDir, { recursive: true });
+for (const file of await readdir(outDir)) {
+    if (file.endsWith(".json")) await rm(path.join(outDir, file));
+}
 
 const config = getConfig();
 const recordedAt = config.now();
-setTransport(recordingTransport(liveTransport, outDir));
+setConfig({ ...config, now: () => recordedAt });
+setTransport(recordingTransport(inner, outDir));
 
-await runAll();
+console.log(await runAll());
 
 await writeFile(
     path.join(outDir, "meta.json"),
@@ -49,4 +67,5 @@ await writeFile(
     ) + "\n"
 );
 
-console.log(`Fixtures written to ${path.relative(process.cwd(), outDir)}`);
+const count = (await readdir(outDir)).length;
+console.log(`${count} files written to ${path.relative(process.cwd(), outDir)}`);

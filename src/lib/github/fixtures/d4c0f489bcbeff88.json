@@ -1,0 +1,48 @@
+{
+  "request": {
+    "kind": "rest",
+    "name": "GET /repos/{owner}/{repo}/commits",
+    "variables": {
+      "author": "demo-dev",
+      "owner": "demo-labs",
+      "per_page": 100,
+      "repo": "atlas-membership",
+      "since": "2026-09-17T00:00:00.000Z"
+    }
+  },
+  "response": [
+    {
+      "sha": "demo0"
+    },
+    {
+      "sha": "demo1"
+    },
+    {
+      "sha": "demo2"
+    },
+    {
+      "sha": "demo3"
+    },
+    {
+      "sha": "demo4"
+    },
+    {
+      "sha": "demo5"
+    },
+    {
+      "sha": "demo6"
+    },
+    {
+      "sha": "demo7"
+    },
+    {
+      "sha": "demo8"
+    },
+    {
+      "sha": "demo9"
+    },
+    {
+      "sha": "demo10"
+    }
+  ]
+}

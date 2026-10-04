@@ -1,0 +1,50 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "RepoFiles",
+    "variables": {
+      "e0": "HEAD:.portfolio/system.json",
+      "e1": "HEAD:.portfolio/architecture.json",
+      "e2": "HEAD:.portfolio/workflow.json",
+      "e3": "HEAD:.portfolio/problems",
+      "name": "atlas-membership",
+      "owner": "demo-labs"
+    }
+  },
+  "response": {
+    "repository": {
+      "f0": {
+        "__typename": "Blob",
+        "text": "{\"name\":\"Atlas Membership\",\"kind\":\"WordPress Product\",\"role\":[\"Product Engineering\",\"Architecture\"],\"proves\":\"Evolving a legacy data model without breaking existing sites\",\"order\":1}",
+        "isBinary": false
+      },
+      "f1": {
+        "__typename": "Blob",
+        "text": "{\"nodes\":[{\"id\":\"atlas\",\"label\":\"Atlas\"},{\"id\":\"membership\",\"label\":\"Membership\"},{\"id\":\"payments\",\"label\":\"Payments\"},{\"id\":\"users\",\"label\":\"Users\"},{\"id\":\"core\",\"label\":\"WordPress Core\"},{\"id\":\"db\",\"label\":\"Database\"}],\"edges\":[{\"from\":\"atlas\",\"to\":\"membership\"},{\"from\":\"atlas\",\"to\":\"payments\"},{\"from\":\"atlas\",\"to\":\"users\"},{\"from\":\"membership\",\"to\":\"core\"},{\"from\":\"payments\",\"to\":\"core\"},{\"from\":\"users\",\"to\":\"core\"},{\"from\":\"core\",\"to\":\"db\"},{\"from\":\"db\",\"to\":\"core\"}]}",
+        "isBinary": false
+      },
+      "f2": null,
+      "f3": {
+        "__typename": "Tree",
+        "entries": [
+          {
+            "name": "multi-membership.md",
+            "type": "blob",
+            "object": {
+              "text": "---\nnumber: 1\ntitle: Moving from single-membership to multi-membership\nsummary: The original model assumed one membership per user.\nrole: [Designed the new data model, Wrote the migration]\ntradeoffs: [More complex queries, Larger test matrix]\nresult: [Users can hold several memberships, No breaking changes for existing sites]\nconstraints: [Existing sites must keep working, No downtime during migration]\nrelatedPRs: [380, 398]\ndate: 2026-03-05\ndiagrams:\n  before:\n    nodes: [{ id: user, label: User }, { id: plan, label: Membership }]\n    edges: [{ from: user, to: plan }]\n  after:\n    nodes: [{ id: user, label: User }, { id: link, label: Subscription }, { id: a, label: Membership A }, { id: b, label: Membership B }]\n    edges: [{ from: user, to: link }, { from: link, to: a }, { from: link, to: b }]\n---\n## The Problem\n\nA user row stored a single membership id, and dozens of checks read it directly.\n\n## The Decision\n\nIntroduce a subscription table and keep the old column as a read-only mirror for one major version.\n",
+              "isBinary": false
+            }
+          },
+          {
+            "name": "checkout-race.md",
+            "type": "blob",
+            "object": {
+              "text": "---\nnumber: 2\ntitle: Double charges under concurrent checkout\nsummary: Two webhook deliveries could both activate the same order.\nrelatedPRs: [409]\n---\n## The Problem\n\nPayment webhooks are delivered at least once, and the handler was not idempotent.\n",
+              "isBinary": false
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "RepoFiles",
+    "variables": {
+      "e0": "HEAD:portfolio/systems/old-importer/architecture.json",
+      "e1": "HEAD:portfolio/systems/old-importer/workflow.json",
+      "e2": "HEAD:portfolio/systems/old-importer/problems",
+      "name": "demo-dev",
+      "owner": "demo-dev"
+    }
+  },
+  "response": {
+    "repository": {
+      "f0": null,
+      "f1": null,
+      "f2": null
+    }
+  }
+}

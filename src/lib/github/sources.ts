@@ -8,6 +8,7 @@ import {
     COMMITS_ROUTE,
     CONTRIBUTIONS,
     EVENTS_ROUTE,
+    MERGED_PR_COUNT,
     MERGED_PRS,
     RECENT_STARS,
     REPO_BY_NAME,
@@ -18,6 +19,7 @@ import {
     type ContributionsNode,
     type ContributionsResponse,
     type EventNode,
+    type MergedPrCountResponse,
     type MergedPrsResponse,
     type PullRequestNode,
     type RecentStarsResponse,
@@ -148,6 +150,20 @@ export async function fetchMergedPrs(repos: string[]): Promise<MergedPrs> {
 
     // PRs the token cannot read are counted by search but cannot be shown.
     return { prs, total: Math.max(prs.length, total - unreadable) };
+}
+
+/** How many merged PRs the owner has in `repos`, without downloading them. */
+export async function countMergedPrs(repos: string[]): Promise<number> {
+    if (repos.length === 0) return 0;
+    const { login } = getConfig();
+
+    const counts = await Promise.all(
+        chunk([...repos].sort(), REPOS_PER_SEARCH).map(async (group) => {
+            const q = prSearchQuery(login, group);
+            return (await gql<MergedPrCountResponse>(MERGED_PR_COUNT, { q })).search.issueCount;
+        })
+    );
+    return counts.reduce((sum, count) => sum + count, 0);
 }
 
 async function fetchContributions(from: Date, to: Date): Promise<ContributionsNode> {

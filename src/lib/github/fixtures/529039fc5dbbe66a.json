@@ -1,0 +1,21 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "UserProfile",
+    "variables": {
+      "login": "demo-dev"
+    }
+  },
+  "response": {
+    "user": {
+      "login": "demo-dev",
+      "name": "Demo Developer",
+      "bio": "Fictional account for local development",
+      "location": "Example City",
+      "websiteUrl": "https://demo-dev.example",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/0?v=4",
+      "url": "https://github.com/demo-dev",
+      "createdAt": "2019-04-02T08:00:00Z"
+    }
+  }
+}

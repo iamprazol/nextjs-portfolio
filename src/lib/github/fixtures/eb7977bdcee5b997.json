@@ -1,0 +1,130 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "ReposByTopic",
+    "variables": {
+      "after": null,
+      "q": "topic:portfolio-lab user:demo-dev user:demo-labs fork:true"
+    }
+  },
+  "response": {
+    "search": {
+      "repositoryCount": 2,
+      "pageInfo": {
+        "hasNextPage": false,
+        "endCursor": null
+      },
+      "nodes": [
+        {
+          "nameWithOwner": "demo-dev/vector-notes",
+          "name": "vector-notes",
+          "description": "Local semantic search over markdown notes (demo data)",
+          "url": "https://github.com/demo-dev/vector-notes",
+          "homepageUrl": null,
+          "isArchived": false,
+          "isPrivate": false,
+          "pushedAt": "2026-09-22T16:00:00.000Z",
+          "createdAt": "2026-07-12T10:00:00Z",
+          "stargazerCount": 5,
+          "repositoryTopics": {
+            "nodes": [
+              {
+                "topic": {
+                  "name": "portfolio-lab"
+                }
+              },
+              {
+                "topic": {
+                  "name": "embeddings"
+                }
+              },
+              {
+                "topic": {
+                  "name": "sqlite"
+                }
+              }
+            ]
+          },
+          "languages": {
+            "totalSize": 42000,
+            "edges": [
+              {
+                "size": 40000,
+                "node": {
+                  "name": "Python"
+                }
+              },
+              {
+                "size": 2000,
+                "node": {
+                  "name": "Shell"
+                }
+              }
+            ]
+          },
+          "latestRelease": null,
+          "releases": {
+            "nodes": []
+          }
+        },
+        {
+          "nameWithOwner": "demo-dev/tiny-shell",
+          "name": "tiny-shell",
+          "description": "A shell in 500 lines (demo data)",
+          "url": "https://github.com/demo-dev/tiny-shell",
+          "homepageUrl": null,
+          "isArchived": false,
+          "isPrivate": false,
+          "pushedAt": "2026-08-17T16:00:00.000Z",
+          "createdAt": "2026-05-02T10:00:00Z",
+          "stargazerCount": 2,
+          "repositoryTopics": {
+            "nodes": [
+              {
+                "topic": {
+                  "name": "portfolio-lab"
+                }
+              },
+              {
+                "topic": {
+                  "name": "cli"
+                }
+              }
+            ]
+          },
+          "languages": {
+            "totalSize": 18000,
+            "edges": [
+              {
+                "size": 18000,
+                "node": {
+                  "name": "Rust"
+                }
+              }
+            ]
+          },
+          "latestRelease": {
+            "tagName": "v0.1.0",
+            "name": null,
+            "publishedAt": "2026-08-22T14:00:00.000Z",
+            "isPrerelease": false,
+            "isDraft": false,
+            "url": "https://github.com/demo-dev/tiny-shell/releases/tag/v0.1.0"
+          },
+          "releases": {
+            "nodes": [
+              {
+                "tagName": "v0.1.0",
+                "name": null,
+                "publishedAt": "2026-08-22T14:00:00.000Z",
+                "isPrerelease": false,
+                "isDraft": false,
+                "url": "https://github.com/demo-dev/tiny-shell/releases/tag/v0.1.0"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "request": {
+    "kind": "rest",
+    "name": "GET /users/{username}/events/public",
+    "variables": {
+      "per_page": 50,
+      "username": "demo-dev"
+    }
+  },
+  "response": [
+    {
+      "id": "9007",
+      "type": "PushEvent",
+      "created_at": "2026-10-01T09:00:00.000Z",
+      "repo": {
+        "name": "demo-dev/relay-qa"
+      },
+      "payload": {
+        "ref": "refs/heads/main"
+      }
+    },
+    {
+      "id": "9006",
+      "type": "PullRequestEvent",
+      "created_at": "2026-09-30T16:00:00.000Z",
+      "repo": {
+        "name": "demo-dev/relay-qa"
+      },
+      "payload": {
+        "action": "closed",
+        "pull_request": {
+          "title": "Retry a repaired selector once before failing",
+          "html_url": "https://github.com/demo-dev/relay-qa/pull/58",
+          "merged": true,
+          "number": 58
+        }
+      }
+    },
+    {
+      "id": "9005",
+      "type": "WatchEvent",
+      "created_at": "2026-09-30T06:00:00.000Z",
+      "repo": {
+        "name": "example/agent-kit"
+      },
+      "payload": {}
+    },
+    {
+      "id": "9004",
+      "type": "PushEvent",
+      "created_at": "2026-09-29T10:00:00.000Z",
+      "repo": {
+        "name": "demo-labs/atlas-membership"
+      },
+      "payload": {
+        "ref": "refs/heads/develop"
+      }
+    },
+    {
+      "id": "9003",
+      "type": "PullRequestEvent",
+      "created_at": "2026-09-28T14:00:00.000Z",
+      "repo": {
+        "name": "demo-labs/atlas-membership"
+      },
+      "payload": {
+        "action": "closed",
+        "pull_request": {
+          "title": "Make webhook activation idempotent",
+          "html_url": "https://github.com/demo-labs/atlas-membership/pull/412",
+          "merged": true,
+          "number": 412
+        }
+      }
+    },
+    {
+      "id": "9002",
+      "type": "ReleaseEvent",
+      "created_at": "2026-09-11T12:00:00.000Z",
+      "repo": {
+        "name": "demo-labs/atlas-membership"
+      },
+      "payload": {
+        "action": "published",
+        "release": {
+          "name": "4.2 — faster checkout",
+          "tag_name": "v4.2.0",
+          "html_url": "https://github.com/demo-labs/atlas-membership/releases/tag/v4.2.0"
+        }
+      }
+    },
+    {
+      "id": "9001",
+      "type": "PushEvent",
+      "created_at": "2026-09-22T12:00:00.000Z",
+      "repo": {
+        "name": "demo-dev/vector-notes"
+      },
+      "payload": {
+        "ref": "refs/heads/main"
+      }
+    },
+    {
+      "id": "9000",
+      "type": "CreateEvent",
+      "created_at": "2026-07-14T08:00:00.000Z",
+      "repo": {
+        "name": "demo-dev/vector-notes"
+      },
+      "payload": {
+        "ref": "main"
+      }
+    }
+  ]
+}

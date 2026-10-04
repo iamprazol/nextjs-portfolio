@@ -157,6 +157,15 @@ export const MERGED_PRS = /* GraphQL */ `
     }
 `;
 
+/** Just the number of merged PRs matching `$q`. */
+export const MERGED_PR_COUNT = /* GraphQL */ `
+    query MergedPrCount($q: String!) {
+        search(query: $q, type: ISSUE, first: 1) {
+            issueCount
+        }
+    }
+`;
+
 export const USER_PROFILE = /* GraphQL */ `
     query UserProfile($login: String!) {
         user(login: $login) {
@@ -331,6 +340,8 @@ export type MergedPrsResponse = {
         nodes: (Partial<PullRequestNode> | null)[];
     };
 };
+
+export type MergedPrCountResponse = { search: { issueCount: number } };
 
 export type UserNode = {
     login: string;

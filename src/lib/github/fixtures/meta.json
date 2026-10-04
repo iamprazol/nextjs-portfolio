@@ -1,0 +1,9 @@
+{
+  "recordedAt": "2026-10-01T12:00:00.000Z",
+  "login": "demo-dev",
+  "owners": [
+    "demo-dev",
+    "demo-labs"
+  ],
+  "contentRepo": "demo-dev/demo-dev"
+}

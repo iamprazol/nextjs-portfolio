@@ -1,0 +1,285 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "ReposByTopic",
+    "variables": {
+      "after": null,
+      "q": "topic:portfolio-system user:demo-dev user:demo-labs fork:true"
+    }
+  },
+  "response": {
+    "search": {
+      "repositoryCount": 4,
+      "pageInfo": {
+        "hasNextPage": false,
+        "endCursor": null
+      },
+      "nodes": [
+        {
+          "nameWithOwner": "demo-labs/atlas-membership",
+          "name": "atlas-membership",
+          "description": "Membership and access control plugin (demo data)",
+          "url": "https://github.com/demo-labs/atlas-membership",
+          "homepageUrl": "https://atlas.example",
+          "isArchived": false,
+          "isPrivate": false,
+          "pushedAt": "2026-09-29T16:00:00.000Z",
+          "createdAt": "2020-02-10T10:00:00Z",
+          "stargazerCount": 184,
+          "repositoryTopics": {
+            "nodes": [
+              {
+                "topic": {
+                  "name": "portfolio-system"
+                }
+              },
+              {
+                "topic": {
+                  "name": "wordpress"
+                }
+              },
+              {
+                "topic": {
+                  "name": "membership"
+                }
+              },
+              {
+                "topic": {
+                  "name": "rest-api"
+                }
+              }
+            ]
+          },
+          "languages": {
+            "totalSize": 915000,
+            "edges": [
+              {
+                "size": 620000,
+                "node": {
+                  "name": "PHP"
+                }
+              },
+              {
+                "size": 210000,
+                "node": {
+                  "name": "JavaScript"
+                }
+              },
+              {
+                "size": 60000,
+                "node": {
+                  "name": "SCSS"
+                }
+              },
+              {
+                "size": 20000,
+                "node": {
+                  "name": "HTML"
+                }
+              },
+              {
+                "size": 5000,
+                "node": {
+                  "name": "Shell"
+                }
+              }
+            ]
+          },
+          "latestRelease": {
+            "tagName": "v4.2.0",
+            "name": "4.2 — faster checkout",
+            "publishedAt": "2026-09-11T14:00:00.000Z",
+            "isPrerelease": false,
+            "isDraft": false,
+            "url": "https://github.com/demo-labs/atlas-membership/releases/tag/v4.2.0"
+          },
+          "releases": {
+            "nodes": [
+              {
+                "tagName": "v4.0.0",
+                "name": "4.0 — multi-membership",
+                "publishedAt": "2026-03-05T14:00:00.000Z",
+                "isPrerelease": false,
+                "isDraft": false,
+                "url": "https://github.com/demo-labs/atlas-membership/releases/tag/v4.0.0"
+              },
+              {
+                "tagName": "v4.1.0",
+                "name": null,
+                "publishedAt": "2026-06-28T14:00:00.000Z",
+                "isPrerelease": false,
+                "isDraft": false,
+                "url": "https://github.com/demo-labs/atlas-membership/releases/tag/v4.1.0"
+              },
+              {
+                "tagName": "v4.2.0",
+                "name": "4.2 — faster checkout",
+                "publishedAt": "2026-09-11T14:00:00.000Z",
+                "isPrerelease": false,
+                "isDraft": false,
+                "url": "https://github.com/demo-labs/atlas-membership/releases/tag/v4.2.0"
+              },
+              {
+                "tagName": "v4.3.0-beta.1",
+                "name": null,
+                "publishedAt": "2026-09-26T14:00:00.000Z",
+                "isPrerelease": true,
+                "isDraft": false,
+                "url": "https://github.com/demo-labs/atlas-membership/releases/tag/v4.3.0-beta.1"
+              }
+            ]
+          }
+        },
+        {
+          "nameWithOwner": "demo-dev/relay-qa",
+          "name": "relay-qa",
+          "description": "Browser test runner that repairs its own selectors (demo data)",
+          "url": "https://github.com/demo-dev/relay-qa",
+          "homepageUrl": null,
+          "isArchived": false,
+          "isPrivate": false,
+          "pushedAt": "2026-09-30T16:00:00.000Z",
+          "createdAt": "2025-11-03T10:00:00Z",
+          "stargazerCount": 27,
+          "repositoryTopics": {
+            "nodes": [
+              {
+                "topic": {
+                  "name": "portfolio-system"
+                }
+              },
+              {
+                "topic": {
+                  "name": "playwright"
+                }
+              },
+              {
+                "topic": {
+                  "name": "testing"
+                }
+              },
+              {
+                "topic": {
+                  "name": "ai"
+                }
+              }
+            ]
+          },
+          "languages": {
+            "totalSize": 320000,
+            "edges": [
+              {
+                "size": 300000,
+                "node": {
+                  "name": "TypeScript"
+                }
+              },
+              {
+                "size": 20000,
+                "node": {
+                  "name": "JavaScript"
+                }
+              }
+            ]
+          },
+          "latestRelease": null,
+          "releases": {
+            "nodes": []
+          }
+        },
+        {
+          "nameWithOwner": "demo-dev/formkit-legacy",
+          "name": "formkit-legacy",
+          "description": null,
+          "url": "https://github.com/demo-dev/formkit-legacy",
+          "homepageUrl": null,
+          "isArchived": false,
+          "isPrivate": false,
+          "pushedAt": "2025-12-05T16:00:00.000Z",
+          "createdAt": "2019-08-15T10:00:00Z",
+          "stargazerCount": 12,
+          "repositoryTopics": {
+            "nodes": [
+              {
+                "topic": {
+                  "name": "portfolio-system"
+                }
+              },
+              {
+                "topic": {
+                  "name": "forms"
+                }
+              }
+            ]
+          },
+          "languages": {
+            "totalSize": 120000,
+            "edges": [
+              {
+                "size": 90000,
+                "node": {
+                  "name": "PHP"
+                }
+              },
+              {
+                "size": 30000,
+                "node": {
+                  "name": "JavaScript"
+                }
+              }
+            ]
+          },
+          "latestRelease": null,
+          "releases": {
+            "nodes": [
+              {
+                "tagName": "v2.0.0-rc.1",
+                "name": null,
+                "publishedAt": "2025-11-15T14:00:00.000Z",
+                "isPrerelease": true,
+                "isDraft": false,
+                "url": "https://github.com/demo-dev/formkit-legacy/releases/tag/v2.0.0-rc.1"
+              }
+            ]
+          }
+        },
+        {
+          "nameWithOwner": "demo-dev/old-importer",
+          "name": "old-importer",
+          "description": "Archived importer (demo data)",
+          "url": "https://github.com/demo-dev/old-importer",
+          "homepageUrl": null,
+          "isArchived": true,
+          "isPrivate": false,
+          "pushedAt": "2024-04-14T16:00:00.000Z",
+          "createdAt": "2019-05-01T10:00:00Z",
+          "stargazerCount": 0,
+          "repositoryTopics": {
+            "nodes": [
+              {
+                "topic": {
+                  "name": "portfolio-system"
+                }
+              }
+            ]
+          },
+          "languages": {
+            "totalSize": 10000,
+            "edges": [
+              {
+                "size": 10000,
+                "node": {
+                  "name": "PHP"
+                }
+              }
+            ]
+          },
+          "latestRelease": null,
+          "releases": {
+            "nodes": []
+          }
+        }
+      ]
+    }
+  }
+}

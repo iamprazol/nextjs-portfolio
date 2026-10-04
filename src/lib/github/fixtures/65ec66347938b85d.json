@@ -1,0 +1,32 @@
+{
+  "request": {
+    "kind": "graphql",
+    "name": "RepoFiles",
+    "variables": {
+      "e0": "HEAD:portfolio/systems/relay-qa/architecture.json",
+      "e1": "HEAD:portfolio/systems/relay-qa/workflow.json",
+      "e2": "HEAD:portfolio/systems/relay-qa/problems",
+      "name": "demo-dev",
+      "owner": "demo-dev"
+    }
+  },
+  "response": {
+    "repository": {
+      "f0": null,
+      "f1": null,
+      "f2": {
+        "__typename": "Tree",
+        "entries": [
+          {
+            "name": "flaky-selectors.md",
+            "type": "blob",
+            "object": {
+              "text": "---\nnumber: 1\ntitle: Tests that broke every time the markup changed\nsummary: Selectors were tied to class names, so harmless refactors failed the suite.\nrole: [Designed the repair loop, Built the selector scorer]\ntradeoffs: [Slower first run, Needs a snapshot store]\nresult: [Refactors no longer fail unrelated tests]\nrelatedPRs: [51, 55]\ndate: 2026-09-10\n---\n## The Problem\n\nEvery markup refactor broke tests that had nothing to do with the change.\n\n## The Approach\n\nScore candidate selectors by stability, then **repair** a failing one from the last good snapshot.\n\n| Selector kind | Survived refactors |\n| --- | --- |\n| class name | rarely |\n| role + name | usually |\n",
+              "isBinary": false
+            }
+          }
+        ]
+      }
+    }
+  }
+}
