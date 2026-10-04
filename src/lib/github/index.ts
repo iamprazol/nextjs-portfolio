@@ -68,6 +68,14 @@ export async function getLogEntry(n: number): Promise<LogEntry | null> {
     return (await getFullLog()).find((entry) => entry.number === n) ?? null;
 }
 
+/** A system's releases with the PRs merged since the one before each. */
+export const getReleaseNotes = (slug: string) =>
+    cached(
+        () => data.getReleaseNotes(slug),
+        ["gh:release-notes", slug],
+        [tags.systems, tags.system(slug), tags.log]
+    )();
+
 export const getTimeline = cached(data.getTimeline, ["gh:timeline"], [tags.timeline, tags.systems]);
 
 export const getNow = cached(data.getNow, ["gh:now"], [tags.activity, tags.systems]);
@@ -84,4 +92,5 @@ export const getStats = cached(
     [tags.systems, tags.timeline, tags.log, tags.profile]
 );
 
+export type { ReleaseNotes } from "./derive";
 export type * from "./schemas";

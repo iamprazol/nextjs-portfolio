@@ -6,10 +6,11 @@ import { StaticUrlState, UrlStateProvider } from "@/components/shell/url-state";
 import { ArchitectureExplorer } from "@/components/system/ArchitectureExplorer";
 import { OverviewTab } from "@/components/system/OverviewTab";
 import { ProblemsTab } from "@/components/system/ProblemsTab";
+import { ReleasesTab } from "@/components/system/ReleasesTab";
 import { SystemHeader } from "@/components/system/SystemHeader";
 import { SystemTabs } from "@/components/system/SystemTabs";
 import { MonoLabel, type TabItem } from "@/components/ui";
-import { getLog, getSystem, getSystems } from "@/lib/github";
+import { getLog, getReleaseNotes, getSystem, getSystems } from "@/lib/github";
 
 export const revalidate = 3600;
 
@@ -36,7 +37,10 @@ export default async function SystemPage({ params }: Props) {
     if (!system) notFound();
 
     // getLog() lists pinned entries first; "recent" means newest.
-    const log = await getLog({ system: system.slug });
+    const [log, releaseNotes] = await Promise.all([
+        getLog({ system: system.slug }),
+        getReleaseNotes(system.slug)
+    ]);
     const recent = [...log].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
 
     // A tab exists only when GitHub has something to put in it.
@@ -71,8 +75,8 @@ export default async function SystemPage({ params }: Props) {
                   }
               ]
             : []),
-        ...(system.releases.length > 0
-            ? [{ id: "releases", label: "Releases", panel: <MonoLabel>Releases</MonoLabel> }]
+        ...(releaseNotes && releaseNotes.length > 0
+            ? [{ id: "releases", label: "Releases", panel: <ReleasesTab notes={releaseNotes} /> }]
             : []),
         ...(system.workflow
             ? [{ id: "workflow", label: "Workflow", panel: <MonoLabel>Workflow</MonoLabel> }]

@@ -19,6 +19,7 @@ import {
     deriveExperiment,
     deriveLog,
     deriveNow,
+    deriveReleaseNotes,
     deriveReleases,
     deriveStats,
     deriveSystem,
@@ -26,7 +27,8 @@ import {
     deriveToolUsage,
     sortSystems,
     topicsOf,
-    type LogSource
+    type LogSource,
+    type ReleaseNotes
 } from "./derive";
 import type { RepoNode } from "./queries";
 import type {
@@ -210,6 +212,18 @@ const loadLog = cache(async (): Promise<MergedPrsOfSources> => {
 /** The whole log: pinned entries first, then newest. */
 export async function getFullLog(): Promise<LogEntry[]> {
     return (await loadLog()).log;
+}
+
+/** A system's releases, each with the PRs merged since the one before. Null for an unknown slug. */
+export async function getReleaseNotes(slug: string): Promise<ReleaseNotes[] | null> {
+    const [world, { log }] = await Promise.all([loadWorld(), loadLog()]);
+    const system = world.systems.find((item) => item.slug === slug);
+    if (!system) return null;
+
+    return deriveReleaseNotes(
+        system.releases,
+        log.filter((entry) => entry.systemSlug === slug)
+    );
 }
 
 export async function getTimeline(): Promise<TimelineYear[]> {

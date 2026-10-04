@@ -6,6 +6,7 @@ import {
     deriveLanguages,
     deriveLog,
     deriveNow,
+    deriveReleaseNotes,
     deriveReleases,
     deriveStack,
     deriveStats,
@@ -427,6 +428,69 @@ describe("deriveLog", () => {
 
     it("returns an empty log for no input", () => {
         expect(deriveLog({ prs: [], total: 0, sources: [] })).toEqual([]);
+    });
+});
+
+describe("deriveReleaseNotes", () => {
+    const rel = (tag: string, days: number) => ({
+        tag,
+        name: null,
+        publishedAt: daysAgo(days),
+        url: null,
+        isPrerelease: false
+    });
+    const entry = (number: number, days: number, type: "pr" | "release" = "pr") => ({
+        id: `${type}:${number}`,
+        type,
+        number,
+        title: `Entry ${number}`,
+        summary: null,
+        date: daysAgo(days),
+        url: null,
+        repo: "demo-dev/atlas",
+        systemSlug: "atlas",
+        systemName: "Atlas",
+        pinned: false,
+        pr: type === "pr" ? { number, additions: 0, deletions: 0 } : null,
+        releaseTag: null
+    });
+
+    const notes = deriveReleaseNotes(
+        [rel("v1", 100), rel("v3", 10), rel("v2", 50)],
+        [
+            entry(1, 120),
+            entry(2, 100),
+            entry(3, 60),
+            entry(4, 50.5),
+            entry(5, 20),
+            entry(6, 5),
+            entry(7, 30, "release")
+        ]
+    );
+
+    it("orders releases newest first", () => {
+        expect(notes.map((item) => item.release.tag)).toEqual(["v3", "v2", "v1"]);
+    });
+
+    it.each<[string, number[]]>([
+        ["v3", [5]],
+        ["v2", [4, 3]],
+        // the oldest release collects everything before it, including a PR merged at the same instant
+        ["v1", [2, 1]]
+    ])("lists the PRs merged up to %s since the release before it", (tag, numbers) => {
+        const item = notes.find((entry) => entry.release.tag === tag)!;
+        expect(item.changes.map((change) => change.number)).toEqual(numbers);
+    });
+
+    it("leaves out PRs merged after the newest release, and non-PR entries", () => {
+        const listed = notes.flatMap((item) => item.changes.map((change) => change.number));
+        expect(listed).not.toContain(6);
+        expect(listed).not.toContain(7);
+    });
+
+    it("handles no releases and no entries", () => {
+        expect(deriveReleaseNotes([], [entry(1, 1)])).toEqual([]);
+        expect(deriveReleaseNotes([rel("v1", 1)], [])).toEqual([{ release: rel("v1", 1), changes: [] }]);
     });
 });
 

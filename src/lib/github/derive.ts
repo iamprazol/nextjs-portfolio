@@ -343,6 +343,31 @@ export function deriveLog(input: {
     );
 }
 
+export type ReleaseNotes = { release: Release; changes: LogEntry[] };
+
+/**
+ * Each release with the PRs merged since the release before it, newest
+ * release first. The oldest release collects every earlier PR in `entries`.
+ * Only PRs present in `entries` can be listed, so a release older than the
+ * fetched log window simply has no changes shown.
+ */
+export function deriveReleaseNotes(releases: Release[], entries: LogEntry[]): ReleaseNotes[] {
+    const ordered = [...releases].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+    const prs = entries
+        .filter((entry) => entry.type === "pr")
+        .sort((a, b) => b.date.localeCompare(a.date));
+
+    return ordered.map((release, index) => {
+        const previous = ordered[index + 1]?.publishedAt;
+        return {
+            release,
+            changes: prs.filter(
+                (pr) => pr.date <= release.publishedAt && (!previous || pr.date > previous)
+            )
+        };
+    });
+}
+
 // ---------------------------------------------------------------------------
 // Now: building / learning / exploring
 // ---------------------------------------------------------------------------
