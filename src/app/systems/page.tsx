@@ -1,9 +1,22 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { SystemsBrowser, SystemsView } from "@/components/systems/SystemsBrowser";
 import { getSystems } from "@/lib/github";
 
 export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+    const count = (await getSystems()).length;
+
+    return {
+        title: "Systems",
+        description:
+            count > 0
+                ? `${count} ${count === 1 ? "system" : "systems"}: what each one is, its status, stack and what it proves.`
+                : "Systems: what each one is, its status, stack and what it proves."
+    };
+}
 
 export default async function SystemsPage() {
     // Already ordered: featured order first, then most recently pushed.
