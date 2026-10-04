@@ -5,8 +5,11 @@ import type { LogEntry } from "@/lib/github";
 
 const link = "text-link inline-flex min-h-11 items-center gap-1 font-mono text-sm hover:underline";
 
-/** What an entry reveals when opened: description, size, and where to read more. */
-export function LogEntryDetails({ entry }: { entry: LogEntry }) {
+/**
+ * What an entry reveals when opened: description, size, and where to read more.
+ * `permalink` adds a link to the entry's own page (for use in the list).
+ */
+export function LogEntryDetails({ entry, permalink }: { entry: LogEntry; permalink?: boolean }) {
     return (
         <>
             {entry.body && (
@@ -31,7 +34,7 @@ export function LogEntryDetails({ entry }: { entry: LogEntry }) {
                 </p>
             )}
 
-            {(entry.url || entry.problems.length > 0) && (
+            {(entry.url || entry.problems.length > 0 || (permalink && entry.number !== null)) && (
                 <ul className="mt-2 flex flex-wrap gap-x-6">
                     {entry.problems.map((problem) => (
                         <li key={problem.slug}>
@@ -44,6 +47,14 @@ export function LogEntryDetails({ entry }: { entry: LogEntry }) {
                             </Link>
                         </li>
                     ))}
+                    {permalink && entry.number !== null && (
+                        <li>
+                            <Link href={`/log/${entry.number}`} className={link}>
+                                Open entry #{entry.number}
+                                <ArrowRight aria-hidden="true" className="size-4 shrink-0" />
+                            </Link>
+                        </li>
+                    )}
                     {entry.url && (
                         <li>
                             <a href={entry.url} target="_blank" rel="noreferrer" className={link}>

@@ -61,7 +61,7 @@ export function LogEntryDisclosure({ entry }: { entry: LogEntry }) {
 
                 {expandable && (
                     <div id={panelId} hidden={!open} className="border-line mt-5 border-t pt-5">
-                        <LogEntryDetails entry={entry} />
+                        <LogEntryDetails entry={entry} permalink />
                     </div>
                 )}
             </div>

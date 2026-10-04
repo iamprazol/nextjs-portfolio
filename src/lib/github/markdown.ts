@@ -21,8 +21,8 @@ function textOf(node: HastNode): string {
 }
 
 /**
- * Gives every heading an id and reports the headings found, and makes
- * scrolling blocks focusable. Runs after the sanitizer, so these attributes are
+ * Gives every heading an id and reports the headings found, makes scrolling
+ * blocks focusable and labels task-list checkboxes. Runs after the sanitizer, so these attributes are
  * ours (the sanitizer would prefix or strip author ids).
  */
 function collectHeadings(tree: HastNode, headings: Heading[]) {
@@ -44,6 +44,13 @@ function collectHeadings(tree: HastNode, headings: Heading[]) {
         // box has to be focusable to be reachable by keyboard.
         if (node.type === "element" && (node.tagName === "pre" || node.tagName === "table")) {
             node.properties = { ...node.properties, tabIndex: 0 };
+        }
+        // GFM task-list checkboxes are bare inputs; give them a name.
+        if (node.type === "element" && node.tagName === "input" && node.properties?.type === "checkbox") {
+            node.properties = {
+                ...node.properties,
+                ariaLabel: node.properties.checked ? "Done" : "Not done"
+            };
         }
         node.children?.forEach(visit);
     };

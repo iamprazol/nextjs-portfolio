@@ -227,6 +227,16 @@
         margin-top: 0.35em;
     }
 
+    /* GFM task lists: the checkbox replaces the bullet. */
+    & .contains-task-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    & .task-list-item input {
+        margin-right: 0.5em;
+    }
+
     & blockquote {
         border-left: 2px solid var(--line-2);
         padding-left: 1rem;

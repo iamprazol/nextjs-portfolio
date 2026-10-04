@@ -256,7 +256,10 @@ describe("loadProblems", () => {
                 "",
                 "| a | b |",
                 "| - | - |",
-                "| 1 | 2 |"
+                "| 1 | 2 |",
+                "",
+                "- [x] Shipped",
+                "- [ ] Documented"
             ].join("\n")
         );
         const { loadProblems, loadSystemMeta } = await load();
@@ -270,6 +273,9 @@ describe("loadProblems", () => {
         expect(item.html).toContain('<a href="https://example.com">link</a>');
         expect(item.html).toContain('<table tabindex="0">');
         expect(item.html).not.toMatch(/<script|javascript:/);
+        // task-list checkboxes get an accessible name
+        expect(item.html).toMatch(/<input[^>]*aria-label="Done"/);
+        expect(item.html).toMatch(/<input[^>]*aria-label="Not done"/);
     });
 
     it("returns an empty list when neither location has problems", async () => {

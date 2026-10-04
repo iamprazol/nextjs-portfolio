@@ -26,7 +26,10 @@ export async function generateMetadata(): Promise<Metadata> {
     return {
         metadataBase: new URL(env.SITE_URL),
         title: { default: profile.name, template: `%s — ${profile.name}` },
-        description: profile.headline ?? undefined
+        description: profile.headline ?? undefined,
+        alternates: {
+            types: { "application/rss+xml": [{ url: "/log/rss.xml", title: "Engineering Log" }] }
+        }
     };
 }
 

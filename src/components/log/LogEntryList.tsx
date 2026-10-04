@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Tag } from "@/components/ui";
 import { formatDate } from "@/lib/format";
 import type { LogEntry } from "@/lib/github";
@@ -19,7 +21,16 @@ export function LogEntryList({ entries, showSystem = true }: LogEntryListProps) 
                         {entry.number !== null ? `#${entry.number}` : "REL"}
                     </span>
                     <span className="min-w-0 flex-1">
-                        <span className="block font-medium">{entry.title}</span>
+                        {entry.number !== null ? (
+                            <Link
+                                href={`/log/${entry.number}`}
+                                className="hover:text-link block font-medium hover:underline"
+                            >
+                                {entry.title}
+                            </Link>
+                        ) : (
+                            <span className="block font-medium">{entry.title}</span>
+                        )}
                         {entry.summary && (
                             <span className="text-ink-2 mt-1 line-clamp-2 block text-sm">
                                 {entry.summary}
