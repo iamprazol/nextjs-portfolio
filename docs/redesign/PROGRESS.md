@@ -31,7 +31,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 3.4 Footer, 404, loading, error
 
 ## M04 Home
-- [ ] 4.1 Scaffold
+- [x] 4.1 Scaffold
 - [ ] 4.2 Hero + stats
 - [ ] 4.3 Local time + system status
 - [ ] 4.4 Live session card
