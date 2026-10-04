@@ -45,3 +45,7 @@ wp-dev-portfolio.tsx
 
 # real-account fixture recordings (may contain private repo names)
 /src/lib/github/fixtures.local/
+
+# playwright
+/test-results/
+/playwright-report/

@@ -38,7 +38,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 4.5 Now card
 - [x] 4.6 Globe + command bar
 - [x] 4.7 Systems, log preview, activity
-- [ ] 4.8 QA
+- [x] 4.8 QA
 
 ## M05 Systems index
 - [ ] 5.1 Page + cards

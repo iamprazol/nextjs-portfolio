@@ -7,10 +7,10 @@ function Group({ label, children }: { label: string; children: React.ReactNode }
     return (
         <div className="px-5 py-4">
             {/* --link, not --acc: accent orange is too light for small text. */}
-            <h3 className="text-link flex items-center gap-2 font-mono text-[11px] tracking-[.16em] uppercase">
+            <h2 className="text-link flex items-center gap-2 font-mono text-[11px] tracking-[.16em] uppercase">
                 <span aria-hidden="true" className="bg-acc size-1.5 rounded-full" />
                 {label}
-            </h3>
+            </h2>
             <div className="mt-2">{children}</div>
         </div>
     );

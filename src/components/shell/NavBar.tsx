@@ -16,17 +16,19 @@ export async function NavBar() {
                 aria-label="Main"
                 className="relative mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-8"
             >
+                {/*
+                  The ">_" mark is drawn with a pseudo-element so the link's
+                  accessible name is exactly its visible text plus "home".
+                */}
                 <Link
                     href="/"
-                    aria-label={`${name} — home`}
-                    className="flex min-h-11 min-w-0 items-center gap-2 font-mono text-sm font-medium tracking-[.16em] uppercase"
+                    data-mark=">_"
+                    className="before:text-acc flex min-h-11 min-w-0 items-center gap-2 font-mono text-sm font-medium tracking-[.16em] uppercase before:content-[attr(data-mark)]"
                 >
-                    <span aria-hidden="true" className="text-acc">
-                        &gt;_
-                    </span>
                     <span className="truncate">
                         {first}
                         {rest.length > 0 && <span className="text-mute"> {rest.join(" ")}</span>}
+                        <span className="sr-only"> — home</span>
                     </span>
                 </Link>
 

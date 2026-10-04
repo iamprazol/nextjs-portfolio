@@ -67,7 +67,7 @@ npm run build       # production build
 npm run lint        # eslint
 npm run typecheck   # tsc --noEmit
 npm run test        # vitest (with coverage thresholds)
-npm run test:e2e    # playwright
+npm run test:e2e    # playwright, against a dev server in mock mode (stop your own dev server first)
 npm run fixtures:demo     # regenerate the committed mock fixtures
 npm run fixtures:record   # record your real account into fixtures.local/
 GITHUB_MOCK=1 npm run dev # run against fixtures, no network

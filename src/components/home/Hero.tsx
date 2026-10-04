@@ -75,21 +75,23 @@ export function Hero({ profile, stats }: { profile: ProfileData; stats: Stats })
             {items.length > 0 && (
                 <dl className="border-line divide-line mt-10 flex divide-x border-t pt-6">
                     {items.map((item) => (
-                        <div key={item.label} className="min-w-0 flex-1 px-4 first:pl-0 last:pr-0">
-                            {/* Value first visually; dt/dd order kept for assistive tech. */}
-                            <div className="flex flex-col-reverse">
-                                <dt>
-                                    <span className="text-ink-2 mt-2 block font-mono text-[11px] tracking-[.16em] uppercase">
-                                        {item.label}
-                                    </span>
-                                    <span className="text-mute mt-1 block text-xs sm:text-sm">
-                                        {item.detail}
-                                    </span>
-                                </dt>
-                                <dd className="font-mono text-3xl font-semibold sm:text-4xl">
-                                    {item.value}
-                                </dd>
-                            </div>
+                        // The value sits above its label visually; dt still
+                        // comes first in the markup, as a <dl> group requires.
+                        <div
+                            key={item.label}
+                            className="flex min-w-0 flex-1 flex-col-reverse justify-end px-4 first:pl-0 last:pr-0"
+                        >
+                            <dt>
+                                <span className="text-ink-2 mt-2 block font-mono text-[11px] tracking-[.16em] uppercase">
+                                    {item.label}
+                                </span>
+                                <span className="text-mute mt-1 block text-xs sm:text-sm">
+                                    {item.detail}
+                                </span>
+                            </dt>
+                            <dd className="font-mono text-3xl font-semibold sm:text-4xl">
+                                {item.value}
+                            </dd>
                         </div>
                     ))}
                 </dl>

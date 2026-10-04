@@ -12,9 +12,11 @@ export function monogram(name: string) {
 
 export function SystemStatusCard({ systems }: { systems: System[] }) {
     return (
-        <Panel padding="none">
+        <Panel as="section" padding="none" aria-labelledby="system-status">
             <div className="flex items-center justify-between gap-3 px-5 pt-5">
-                <MonoLabel as="h2">System status</MonoLabel>
+                <MonoLabel as="h2" id="system-status">
+                    System status
+                </MonoLabel>
                 <span className="bg-ok-soft text-ink-2 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-mono text-[11px] tracking-[.12em] uppercase">
                     <span aria-hidden="true" className="bg-ok size-1.5 rounded-full" />
                     Online
