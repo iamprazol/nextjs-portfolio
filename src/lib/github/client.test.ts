@@ -170,6 +170,35 @@ describe("live mode", () => {
         warn.mockRestore();
     });
 
+    it("returns partial data when only inaccessible nodes failed", async () => {
+        const client = await loadClient(liveEnv);
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        graphqlHandler = () =>
+            HttpResponse.json({
+                data: { search: { nodes: [null, { number: 7 }] } },
+                errors: [{ type: "FORBIDDEN", message: "org forbids this token" }]
+            });
+
+        await expect(client.gql(QUERY, { login: "x" })).resolves.toEqual({
+            search: { nodes: [null, { number: 7 }] }
+        });
+        expect(warn).toHaveBeenCalledWith(
+            expect.stringContaining("org forbids this token")
+        );
+        warn.mockRestore();
+    });
+
+    it("still throws on other graphql errors", async () => {
+        const client = await loadClient(liveEnv);
+        graphqlHandler = () =>
+            HttpResponse.json({
+                data: { user: null },
+                errors: [{ type: "INVALID", message: "bad query" }]
+            });
+
+        await expect(client.gql(QUERY, { login: "x" })).rejects.toThrow(/bad query/);
+    });
+
     it("refuses to call GitHub without a token", async () => {
         const client = await loadClient({ GITHUB_MOCK: "0", GITHUB_TOKEN: "" });
 

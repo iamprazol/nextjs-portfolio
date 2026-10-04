@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
+import { GraphqlResponseError } from "@octokit/graphql";
 import { Octokit } from "@octokit/rest";
 
 import { env } from "@/env";
@@ -151,9 +152,43 @@ function getOctokit() {
     return octokit;
 }
 
+const warned = new Set<string>();
+
+/**
+ * GitHub answers a query that touches something the token cannot read with
+ * the rest of the data plus FORBIDDEN / NOT_FOUND errors, and null in place of
+ * the unreadable parts. Octokit throws on any error; here that case becomes a
+ * one-time warning and the partial data, so one inaccessible repo cannot take
+ * the whole site down. Callers must treat nodes as nullable.
+ */
+function partialData(error: unknown): unknown | undefined {
+    if (!(error instanceof GraphqlResponseError) || !error.data) return undefined;
+
+    const errors = (error.errors ?? []) as { type?: string; message: string }[];
+    const skippable = errors.every(
+        (item) => item.type === "FORBIDDEN" || item.type === "NOT_FOUND"
+    );
+    if (!skippable) return undefined;
+
+    for (const { message } of errors) {
+        if (warned.has(message)) continue;
+        warned.add(message);
+        console.warn(`[github] skipped inaccessible data: ${message}`);
+    }
+    return error.data;
+}
+
 const liveTransport: Transport = {
     graphql: (query, variables) =>
-        withRetry(() => getOctokit().graphql(query, variables)),
+        withRetry(async () => {
+            try {
+                return await getOctokit().graphql(query, variables);
+            } catch (error) {
+                const data = partialData(error);
+                if (data === undefined) throw error;
+                return data;
+            }
+        }),
     rest: (route, params) =>
         withRetry(async () => (await getOctokit().request(route, params)).data)
 };
