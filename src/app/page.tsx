@@ -1,4 +1,4 @@
-import { MonoLabel, Panel, ThemeToggle } from "@/components/ui";
+import { MonoLabel, Panel } from "@/components/ui";
 
 // Placeholder until M04 builds the home page from GitHub data.
 export default function Home() {
@@ -12,9 +12,6 @@ export default function Home() {
                 <p className="text-ink-2 mt-4 text-base sm:text-[17px]">
                     This site is being rebuilt. The new pages are on their way.
                 </p>
-                <div className="mt-8">
-                    <ThemeToggle />
-                </div>
             </Panel>
         </div>
     );

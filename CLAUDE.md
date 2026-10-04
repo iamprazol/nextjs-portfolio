@@ -16,6 +16,7 @@ Tests: `vitest` for the data layer, Playwright for pages.
 | --- | --- |
 | `src/app/` | Routes, layouts, API handlers. `%5Ftokens/`, `%5Fui/` and `%5Fdata/` are dev-only pages at `/_tokens`, `/_ui` and `/_data` |
 | `src/components/ui/` | Design-system primitives (`Panel`, `Tag`, `Button`, …); `ui/diagram/` for diagrams |
+| `src/components/shell/` | Nav bar, footer, command palette (⌘K) and the error state shown when GitHub fails |
 | `src/components/<page>/` | Sections for one page (`home/`, `systems/`, `log/`, …) |
 | `src/lib/github/` | Data layer. Pages import only from `@/lib/github` (`index.ts`: cached `get*` functions and types) |
 | `src/env.ts` | Typed, server-only environment. Never read `process.env` elsewhere |
@@ -46,6 +47,9 @@ Import with the `@/*` alias (`@/lib/github`, `@/components/ui/Panel`).
 - **Both themes.** Check every component in light and dark, at 1440px and 390px.
 - **Token colors only.** Style with the tokens in `src/app/globals.css` (`bg-panel`, `text-ink-2`, …).
   The default Tailwind palette is disabled; don't add raw hex values in components.
+- **Real 404s.** The root `loading.tsx` wraps pages in Suspense, so `notFound()` called inside a
+  page is served with status 200. For a true 404, decide before the page renders (unmatched route,
+  `generateStaticParams`, or `src/middleware.ts` as the dev-only pages do).
 - **Small commits.** One step prompt = one commit, using the message given in the step. Tick the
   step in `docs/redesign/PROGRESS.md` in the same commit.
 

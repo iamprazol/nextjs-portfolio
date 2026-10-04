@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { CommandPaletteLoader } from "@/components/shell/CommandPaletteLoader";
+import { Footer } from "@/components/shell/Footer";
 import { NavBar } from "@/components/shell/NavBar";
 import { env } from "@/env";
 import { getProfile } from "@/lib/github";
@@ -53,6 +54,7 @@ export default function RootLayout({
                     <main id="content" tabIndex={-1} className="flex-1 outline-none">
                         {children}
                     </main>
+                    <Footer />
                     <CommandPaletteLoader />
                 </Providers>
             </body>

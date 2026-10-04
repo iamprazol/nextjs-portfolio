@@ -28,7 +28,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 3.1 Root layout
 - [x] 3.2 Navigation bar
 - [x] 3.3 Command palette
-- [ ] 3.4 Footer, 404, loading, error
+- [x] 3.4 Footer, 404, loading, error
 
 ## M04 Home
 - [ ] 4.1 Scaffold

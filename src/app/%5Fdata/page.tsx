@@ -6,7 +6,8 @@ import { MonoLabel, Panel } from "@/components/ui";
 // returns. Served at /_data (the folder is %5Fdata because a literal "_"
 // prefix makes it private).
 
-export const dynamic = "force-dynamic";
+// Not force-dynamic on purpose: a production build prerenders this page, hits
+// notFound() below and ships a real 404 without ever loading the data layer.
 
 async function settle(load: () => Promise<unknown>) {
     try {
