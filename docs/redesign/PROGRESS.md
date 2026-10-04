@@ -36,7 +36,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 4.3 Local time + system status
 - [x] 4.4 Live session card
 - [x] 4.5 Now card
-- [ ] 4.6 Globe + command bar
+- [x] 4.6 Globe + command bar
 - [ ] 4.7 Systems, log preview, activity
 - [ ] 4.8 QA
 

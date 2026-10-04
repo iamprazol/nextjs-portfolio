@@ -1,4 +1,6 @@
+import { CommandBar } from "@/components/home/CommandBar";
 import { Hero } from "@/components/home/Hero";
+import { LocationGlobe } from "@/components/home/LocationGlobe";
 import { NowCard } from "@/components/home/NowCard";
 import { LocalTimeCard } from "@/components/home/LocalTimeCard";
 import { SessionCard } from "@/components/home/SessionCard";
@@ -55,6 +57,14 @@ export default async function Home() {
                     </div>
                     <aside aria-label="Now" className={`${rail} order-3 md:flex-[1_1_280px]`}>
                         <NowCard now={now} systems={systems} experiments={experiments} />
+                        {profile.location?.lat != null && profile.location.lng != null && (
+                            <LocationGlobe
+                                label={profile.location.label}
+                                lat={profile.location.lat}
+                                lng={profile.location.lng}
+                            />
+                        )}
+                        <CommandBar />
                     </aside>
                 </div>
             </div>
