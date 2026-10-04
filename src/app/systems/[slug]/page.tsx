@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { StaticUrlState, UrlStateProvider } from "@/components/shell/url-state";
 import { ArchitectureExplorer } from "@/components/system/ArchitectureExplorer";
 import { OverviewTab } from "@/components/system/OverviewTab";
+import { ProblemsTab } from "@/components/system/ProblemsTab";
 import { SystemHeader } from "@/components/system/SystemHeader";
 import { SystemTabs } from "@/components/system/SystemTabs";
 import { MonoLabel, type TabItem } from "@/components/ui";
@@ -62,7 +63,13 @@ export default async function SystemPage({ params }: Props) {
               ]
             : []),
         ...(system.problems.length > 0
-            ? [{ id: "problems", label: "Engineering Problems", panel: <MonoLabel>Problems</MonoLabel> }]
+            ? [
+                  {
+                      id: "problems",
+                      label: "Engineering Problems",
+                      panel: <ProblemsTab systemSlug={system.slug} problems={system.problems} />
+                  }
+              ]
             : []),
         ...(system.releases.length > 0
             ? [{ id: "releases", label: "Releases", panel: <MonoLabel>Releases</MonoLabel> }]
