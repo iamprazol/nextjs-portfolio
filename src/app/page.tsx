@@ -17,7 +17,7 @@ const rail =
 
 export default async function Home() {
     // Later steps add the sections that use the rest of these results.
-    const [profile] = await Promise.all([
+    const [profile, , , , stats] = await Promise.all([
         getProfile(),
         getSystems(),
         getExperiments(),
@@ -38,7 +38,7 @@ export default async function Home() {
                 <div className="flex flex-wrap items-start gap-6 py-8 lg:py-12">
                     <aside aria-label="Status" className={`${rail} order-2 md:flex-[1_1_260px]`} />
                     <div className="order-1 min-w-0 flex-[999_1_100%] min-[1100px]:order-none min-[1100px]:flex-[999_1_520px]">
-                        <Hero profile={profile} />
+                        <Hero profile={profile} stats={stats} />
                     </div>
                     <aside aria-label="Now" className={`${rail} order-3 md:flex-[1_1_280px]`} />
                 </div>
