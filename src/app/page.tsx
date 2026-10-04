@@ -1,4 +1,5 @@
 import { Hero } from "@/components/home/Hero";
+import { NowCard } from "@/components/home/NowCard";
 import { LocalTimeCard } from "@/components/home/LocalTimeCard";
 import { SessionCard } from "@/components/home/SessionCard";
 import { SystemStatusCard } from "@/components/home/SystemStatusCard";
@@ -20,7 +21,7 @@ const rail =
 
 export default async function Home() {
     // Later steps add the sections that use the rest of these results.
-    const [profile, systems, , , stats] = await Promise.all([
+    const [profile, systems, experiments, now, stats] = await Promise.all([
         getProfile(),
         getSystems(),
         getExperiments(),
@@ -52,7 +53,9 @@ export default async function Home() {
                     <div className="order-1 min-w-0 flex-[999_1_100%] min-[1100px]:order-none min-[1100px]:flex-[999_1_520px]">
                         <Hero profile={profile} stats={stats} />
                     </div>
-                    <aside aria-label="Now" className={`${rail} order-3 md:flex-[1_1_280px]`} />
+                    <aside aria-label="Now" className={`${rail} order-3 md:flex-[1_1_280px]`}>
+                        <NowCard now={now} systems={systems} experiments={experiments} />
+                    </aside>
                 </div>
             </div>
         </div>
