@@ -41,7 +41,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 4.8 QA
 
 ## M05 Systems index
-- [ ] 5.1 Page + cards
+- [x] 5.1 Page + cards
 - [ ] 5.2 Status filter
 - [ ] 5.3 Metadata + test
 

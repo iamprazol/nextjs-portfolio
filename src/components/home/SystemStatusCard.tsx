@@ -1,14 +1,8 @@
 import Link from "next/link";
 
+import { monogram } from "@/components/systems/monogram";
 import { IconTile, MonoLabel, Panel, StatusDot, statusLabel } from "@/components/ui";
 import type { System } from "@/lib/github";
-
-/** "Atlas Membership" → "AM", "relay-qa" → "RQ". */
-export function monogram(name: string) {
-    const words = name.split(/[\s\-_]+/).filter(Boolean);
-    const letters = words.length > 1 ? words.slice(0, 2).map((word) => word[0]) : [name.slice(0, 2)];
-    return letters.join("").toUpperCase();
-}
 
 export function SystemStatusCard({ systems }: { systems: System[] }) {
     return (
