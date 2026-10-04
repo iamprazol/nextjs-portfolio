@@ -104,7 +104,7 @@ describe("data layer in mock mode", () => {
         ]);
 
         const inContentRepo = await data.getProblem("relay-qa", "flaky-selectors");
-        expect(inContentRepo?.html).toContain("<table>");
+        expect(inContentRepo?.html).toContain('<table tabindex="0">');
         expect(await data.getProblem("relay-qa", "nope")).toBeNull();
         expect(await data.getProblem("nope", "nope")).toBeNull();
     });

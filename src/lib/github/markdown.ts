@@ -21,8 +21,9 @@ function textOf(node: HastNode): string {
 }
 
 /**
- * Gives every heading an id and reports the headings found. Runs after the
- * sanitizer, so ids are ours (the sanitizer would prefix or strip author ids).
+ * Gives every heading an id and reports the headings found, and makes
+ * scrolling blocks focusable. Runs after the sanitizer, so these attributes are
+ * ours (the sanitizer would prefix or strip author ids).
  */
 function collectHeadings(tree: HastNode, headings: Heading[]) {
     const used = new Map<string, number>();
@@ -38,6 +39,11 @@ function collectHeadings(tree: HastNode, headings: Heading[]) {
             const id = seen === 0 ? base : `${base}-${seen + 1}`;
             node.properties = { ...node.properties, id };
             headings.push({ id, text, depth: Number(depth) });
+        }
+        // Code blocks and tables scroll sideways on narrow screens; a scrolling
+        // box has to be focusable to be reachable by keyboard.
+        if (node.type === "element" && (node.tagName === "pre" || node.tagName === "table")) {
+            node.properties = { ...node.properties, tabIndex: 0 };
         }
         node.children?.forEach(visit);
     };

@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { BeforeAfter } from "@/components/problem/BeforeAfter";
 import { ProblemAside } from "@/components/problem/ProblemAside";
+import { ProblemNav } from "@/components/problem/ProblemNav";
 import { ProblemArticle } from "@/components/problem/ProblemArticle";
 import { getProblem, getProblemEvidence, getSystem, getSystems } from "@/lib/github";
 
@@ -20,6 +22,17 @@ export async function generateStaticParams() {
     );
 }
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { slug, problem: problemSlug } = await params;
+    const [system, problem] = await Promise.all([getSystem(slug), getProblem(slug, problemSlug)]);
+    if (!system || !problem) return {};
+
+    return {
+        title: `${problem.title} · ${system.name}`,
+        description: problem.summary
+    };
+}
+
 export default async function ProblemPage({ params }: Props) {
     const { slug, problem: problemSlug } = await params;
     const [system, problem, evidence] = await Promise.all([
@@ -28,6 +41,9 @@ export default async function ProblemPage({ params }: Props) {
         getProblemEvidence(slug, problemSlug)
     ]);
     if (!system || !problem) notFound();
+
+    // system.problems is ordered by number.
+    const index = system.problems.findIndex((item) => item.slug === problem.slug);
 
     const hasAside =
         evidence.length > 0 ||
@@ -45,6 +61,11 @@ export default async function ProblemPage({ params }: Props) {
                             after={problem.diagrams?.after}
                         />
                     </ProblemArticle>
+                    <ProblemNav
+                        systemSlug={system.slug}
+                        previous={system.problems[index - 1]}
+                        next={system.problems[index + 1]}
+                    />
                 </div>
                 {hasAside && (
                     <aside

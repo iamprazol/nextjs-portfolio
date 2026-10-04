@@ -268,7 +268,7 @@ describe("loadProblems", () => {
         ]);
         expect(item.html).toContain('<h2 id="the-problem">The Problem</h2>');
         expect(item.html).toContain('<a href="https://example.com">link</a>');
-        expect(item.html).toContain("<table>");
+        expect(item.html).toContain('<table tabindex="0">');
         expect(item.html).not.toMatch(/<script|javascript:/);
     });
 
