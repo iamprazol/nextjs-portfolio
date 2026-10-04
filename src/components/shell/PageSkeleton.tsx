@@ -2,8 +2,14 @@ import { Panel } from "@/components/ui";
 
 const bar = "bg-chip rounded-sm";
 
-// Skeleton in the shape of a page: a heading block and a grid of cards.
-export default function Loading() {
+/**
+ * Skeleton in the shape of a page: a heading block and a grid of cards.
+ *
+ * Use it as a <Suspense fallback> around a slow section. Do not turn it into a
+ * route-level loading.tsx: that wraps the whole page in a Suspense boundary,
+ * and a notFound() thrown inside one is served with status 200.
+ */
+export function PageSkeleton() {
     return (
         <div
             role="status"

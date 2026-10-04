@@ -7,7 +7,7 @@ import { MonoLabel, Panel } from "@/components/ui";
 // prefix makes it private).
 
 // Not force-dynamic on purpose: a production build prerenders this page, hits
-// notFound() below and ships a real 404 without ever loading the data layer.
+// notFound() below and ships a 404 without ever loading the data layer.
 
 async function settle(load: () => Promise<unknown>) {
     try {

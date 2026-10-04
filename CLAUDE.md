@@ -47,9 +47,9 @@ Import with the `@/*` alias (`@/lib/github`, `@/components/ui/Panel`).
 - **Both themes.** Check every component in light and dark, at 1440px and 390px.
 - **Token colors only.** Style with the tokens in `src/app/globals.css` (`bg-panel`, `text-ink-2`, …).
   The default Tailwind palette is disabled; don't add raw hex values in components.
-- **Real 404s.** The root `loading.tsx` wraps pages in Suspense, so `notFound()` called inside a
-  page is served with status 200. For a true 404, decide before the page renders (unmatched route,
-  `generateStaticParams`, or `src/middleware.ts` as the dev-only pages do).
+- **Real 404s.** Do not add a route-level `loading.tsx`: it wraps the page in Suspense, and a
+  `notFound()` thrown inside one is served with status 200. For loading states, put
+  `<Suspense fallback={<PageSkeleton />}>` around the slow section, below the `notFound()` check.
 - **Small commits.** One step prompt = one commit, using the message given in the step. Tick the
   step in `docs/redesign/PROGRESS.md` in the same commit.
 
