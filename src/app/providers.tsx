@@ -2,6 +2,8 @@
 
 import { ThemeProvider } from "next-themes";
 
+import { CommandPaletteProvider } from "@/components/shell/command-palette-context";
+
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <ThemeProvider
@@ -10,7 +12,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             enableSystem={false}
             storageKey="pp-theme"
         >
-            {children}
+            <CommandPaletteProvider>{children}</CommandPaletteProvider>
         </ThemeProvider>
     );
 }

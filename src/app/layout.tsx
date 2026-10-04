@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { NavBar } from "@/components/shell/NavBar";
 import { env } from "@/env";
 import { getProfile } from "@/lib/github";
 
@@ -46,6 +47,7 @@ export default function RootLayout({
                     Skip to content
                 </a>
                 <Providers>
+                    <NavBar />
                     {/* tabIndex lets the skip link move focus here, not just scroll. */}
                     <main id="content" tabIndex={-1} className="flex-1 outline-none">
                         {children}
