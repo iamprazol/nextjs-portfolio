@@ -94,8 +94,16 @@ if (!parsed.success) {
     );
 }
 
+// Vercel sets these itself. Production uses the project's production domain;
+// previews use the deployment's own URL.
+const vercelHost =
+    (process.env.VERCEL_ENV === "production" && process.env.VERCEL_PROJECT_PRODUCTION_URL) ||
+    process.env.VERCEL_URL;
+
 export const env = {
     ...parsed.data,
+    /** Absolute origin of the site, for metadata and feeds. */
+    SITE_URL: vercelHost ? `https://${vercelHost}` : "http://localhost:3000",
     // With no owners listed, systems are searched under the site owner only.
     GITHUB_SYSTEM_OWNERS: parsed.data.GITHUB_SYSTEM_OWNERS.length
         ? parsed.data.GITHUB_SYSTEM_OWNERS

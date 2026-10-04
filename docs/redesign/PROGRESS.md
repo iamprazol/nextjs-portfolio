@@ -25,7 +25,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 2.6 Cached public API
 
 ## M03 App shell
-- [ ] 3.1 Root layout
+- [x] 3.1 Root layout
 - [ ] 3.2 Navigation bar
 - [ ] 3.3 Command palette
 - [ ] 3.4 Footer, 404, loading, error

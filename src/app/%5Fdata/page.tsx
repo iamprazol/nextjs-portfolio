@@ -59,7 +59,7 @@ export default async function DataPage() {
     ];
 
     return (
-        <main className="mx-auto max-w-[1040px] p-4 sm:p-8">
+        <div className="mx-auto max-w-[1040px] p-4 sm:p-8">
             <MonoLabel as="p">Data layer</MonoLabel>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight">src/lib/github</h1>
             <p className="text-ink-2 mt-3 text-sm">
@@ -88,6 +88,6 @@ export default async function DataPage() {
                     </Panel>
                 ))}
             </div>
-        </main>
+        </div>
     );
 }

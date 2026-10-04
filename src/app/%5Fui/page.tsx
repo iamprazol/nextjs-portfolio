@@ -137,7 +137,7 @@ export default function UiPage() {
     if (process.env.NODE_ENV === "production") notFound();
 
     return (
-        <main className="min-h-screen">
+        <div>
             <div className="flex items-center justify-between gap-4 p-6 sm:px-8">
                 <p className="text-ink-2 text-sm">
                     Every primitive, in both themes side by side.
@@ -148,6 +148,6 @@ export default function UiPage() {
                 <Gallery theme="light" />
                 <Gallery theme="dark" />
             </div>
-        </main>
+        </div>
     );
 }

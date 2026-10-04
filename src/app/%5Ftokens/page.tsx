@@ -93,7 +93,7 @@ export default function TokensPage() {
     if (process.env.NODE_ENV === "production") notFound();
 
     return (
-        <main className="min-h-screen">
+        <div>
             <div className="flex items-center justify-between gap-4 p-6 sm:px-8">
                 <p className="text-ink-2 text-sm">
                     Both themes are shown side by side. The toggle switches the
@@ -105,6 +105,6 @@ export default function TokensPage() {
                 <TokenSheet theme="light" />
                 <TokenSheet theme="dark" />
             </div>
-        </main>
+        </div>
     );
 }
