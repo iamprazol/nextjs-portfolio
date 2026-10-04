@@ -178,8 +178,8 @@ const repos: RepoNode[] = [
     })
 ];
 
-const diagram = (nodes: [string, string][], edges: [string, string][]) => ({
-    nodes: nodes.map(([id, label]) => ({ id, label })),
+const diagram = (nodes: [id: string, label: string, detail?: string][], edges: [string, string][]) => ({
+    nodes: nodes.map(([id, label, detail]) => ({ id, label, ...(detail ? { detail } : {}) })),
     edges: edges.map(([from, to]) => ({ from, to }))
 });
 
@@ -250,7 +250,14 @@ const files: Record<string, string> = {
     }),
     [`${ATLAS}:.portfolio/architecture.json`]: JSON.stringify(
         diagram(
-            [["atlas", "Atlas"], ["membership", "Membership"], ["payments", "Payments"], ["users", "Users"], ["core", "WordPress Core"], ["db", "Database"]],
+            [
+                ["atlas", "Atlas", "The plugin entry point: registers modules and routes requests to them."],
+                ["membership", "Membership", "Plans, subscriptions and the access rules that read them."],
+                ["payments", "Payments", "Checkout and payment webhooks. Activation must be idempotent."],
+                ["users", "Users"],
+                ["core", "WordPress Core"],
+                ["db", "Database", "Custom tables for subscriptions, alongside the core user tables."]
+            ],
             [["atlas", "membership"], ["atlas", "payments"], ["atlas", "users"], ["membership", "core"], ["payments", "core"], ["users", "core"], ["core", "db"], ["db", "core"]]
         )
     ),
@@ -264,6 +271,7 @@ const files: Record<string, string> = {
         "result: [Users can hold several memberships, No breaking changes for existing sites]",
         "constraints: [Existing sites must keep working, No downtime during migration]",
         "relatedPRs: [380, 398]",
+        "nodes: [membership, db]",
         "date: 2026-03-05",
         "diagrams:",
         "  before:",
@@ -288,6 +296,7 @@ const files: Record<string, string> = {
         "title: Double charges under concurrent checkout",
         "summary: Two webhook deliveries could both activate the same order.",
         "relatedPRs: [409]",
+        "nodes: [payments]",
         "---",
         "## The Problem",
         "",

@@ -37,6 +37,7 @@ export function DiagramNode({
         <button
             type="button"
             data-group={node.group}
+            data-node-id={node.id}
             aria-pressed={selected}
             onClick={() => onSelect(node.id)}
             className={cn(classes, "hover:border-acc-line cursor-pointer")}

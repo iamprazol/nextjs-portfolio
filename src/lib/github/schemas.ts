@@ -22,7 +22,13 @@ export const SystemStatusSchema = z.enum([
 
 export const DiagramSchema = z.object({
     nodes: z.array(
-        z.object({ id: text, label: text, group: optionalText })
+        z.object({
+            id: text,
+            label: text,
+            group: optionalText,
+            /** Shown when the node is inspected on the architecture tab. */
+            detail: optionalText
+        })
     ),
     edges: z.array(z.object({ from: text, to: text }))
 });
@@ -76,6 +82,8 @@ export const ProblemFrontmatterSchema = z.object({
     result: z.array(text).optional(),
     constraints: z.array(text).optional(),
     relatedPRs: z.array(z.number().int().positive()).optional(),
+    /** Ids of architecture nodes this problem is about; links it from those nodes. */
+    nodes: z.array(text).optional(),
     date: dateText.optional(),
     diagrams: z
         .object({

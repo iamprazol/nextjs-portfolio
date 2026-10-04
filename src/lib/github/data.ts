@@ -99,6 +99,7 @@ async function loadSystem(repo: RepoNode, now: Date) {
             result: problem.result,
             constraints: problem.constraints,
             relatedPRs: problem.relatedPRs,
+            nodes: problem.nodes,
             date: problem.date,
             slug: problem.slug,
             systemSlug: problem.systemSlug

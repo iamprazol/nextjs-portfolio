@@ -92,9 +92,10 @@ ProblemFrontmatter = {
   number: number, title: string, summary: string,
   role?: string[], tradeoffs?: string[], result?: string[],
   constraints?: string[], relatedPRs?: number[], date?: string,
+  nodes?: string[],                 // ids of architecture nodes this problem is about
   diagrams?: { before?: Diagram, after?: Diagram }
 }
-Diagram = { nodes: {id, label, group?}[], edges: {from, to}[] }
+Diagram = { nodes: {id, label, group?, detail?}[], edges: {from, to}[] }
 Workflow = { steps: {title, subtitle, detail, node?: string}[], nodes: Diagram["nodes"], edges: Diagram["edges"] }
 Profile = {
   name, headline, intro, location: {label, lat, lng},

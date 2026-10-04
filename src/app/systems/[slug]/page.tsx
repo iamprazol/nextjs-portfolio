@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { StaticUrlState, UrlStateProvider } from "@/components/shell/url-state";
+import { ArchitectureExplorer } from "@/components/system/ArchitectureExplorer";
 import { OverviewTab } from "@/components/system/OverviewTab";
 import { SystemHeader } from "@/components/system/SystemHeader";
 import { SystemTabs } from "@/components/system/SystemTabs";
@@ -45,7 +46,20 @@ export default async function SystemPage({ params }: Props) {
             panel: <OverviewTab system={system} recent={recent} />
         },
         ...(system.architecture
-            ? [{ id: "architecture", label: "Architecture", panel: <MonoLabel>Architecture</MonoLabel> }]
+            ? [
+                  {
+                      id: "architecture",
+                      label: "Architecture",
+                      panel: (
+                          <ArchitectureExplorer
+                              diagram={system.architecture}
+                              systemSlug={system.slug}
+                              systemName={system.name}
+                              problems={system.problems}
+                          />
+                      )
+                  }
+              ]
             : []),
         ...(system.problems.length > 0
             ? [{ id: "problems", label: "Engineering Problems", panel: <MonoLabel>Problems</MonoLabel> }]
