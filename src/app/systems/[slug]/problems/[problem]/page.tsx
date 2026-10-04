@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import { BeforeAfter } from "@/components/problem/BeforeAfter";
 import { ProblemArticle } from "@/components/problem/ProblemArticle";
 import { getProblem, getSystem, getSystems } from "@/lib/github";
 
@@ -27,7 +28,12 @@ export default async function ProblemPage({ params }: Props) {
         <div className="mx-auto max-w-[1240px] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
             <div className="flex flex-wrap items-start gap-x-10 gap-y-10">
                 <div className="min-w-0 flex-[999_1_640px]">
-                    <ProblemArticle problem={problem} system={system} />
+                    <ProblemArticle problem={problem} system={system}>
+                        <BeforeAfter
+                            before={problem.diagrams?.before}
+                            after={problem.diagrams?.after}
+                        />
+                    </ProblemArticle>
                 </div>
             </div>
         </div>
