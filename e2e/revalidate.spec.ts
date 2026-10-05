@@ -66,3 +66,27 @@ test.describe("webhook", () => {
         expect(tampered.status()).toBe(401);
     });
 });
+
+test.describe("cron", () => {
+    const authorization = "Bearer e2e-cron-secret";
+
+    test("revalidates every tag with the cron secret", async ({ request }) => {
+        const response = await request.get("/api/revalidate?all=1", { headers: { authorization } });
+        expect(response.status()).toBe(202);
+        expect(await response.json()).toEqual({
+            revalidated: ["gh:profile", "gh:systems", "gh:log", "gh:timeline", "gh:activity", "gh:now"]
+        });
+    });
+
+    test("needs the secret, and all=1", async ({ request }) => {
+        expect((await request.get("/api/revalidate?all=1")).status()).toBe(401);
+        expect(
+            (await request.get("/api/revalidate?all=1", { headers: { authorization: "Bearer nope" } })).status()
+        ).toBe(401);
+        // The webhook secret is not the cron secret.
+        expect(
+            (await request.get("/api/revalidate?all=1", { headers: { authorization: "Bearer e2e-webhook-secret" } })).status()
+        ).toBe(401);
+        expect((await request.get("/api/revalidate", { headers: { authorization } })).status()).toBe(400);
+    });
+});

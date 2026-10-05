@@ -4,11 +4,17 @@ import { NextResponse } from "next/server";
 import { env } from "@/env";
 import { getExperiments, getSystems } from "@/lib/github";
 import { getConfig } from "@/lib/github/config";
-import { ALL_TAGS, tagsForEvent, verifySignature } from "@/lib/github/revalidation";
+import {
+    ALL_TAGS,
+    tagsForEvent,
+    verifyBearer,
+    verifySignature
+} from "@/lib/github/revalidation";
 
 // GitHub webhook receiver (ARCHITECTURE.md §6): a push, pull request, release
 // or repository event marks the matching cache tags stale, so the next visit
-// refetches from GitHub instead of waiting out the hour.
+// refetches from GitHub instead of waiting out the hour. GET is the daily
+// cron fallback, for data that changes without any webhook (activity, "now").
 
 /** Systems and experiments, to recognise which repo an event is about. */
 async function loadSources() {
@@ -55,4 +61,25 @@ export async function POST(req: Request) {
 
     for (const tag of stale) revalidateTag(tag);
     return NextResponse.json({ event, repo, revalidated: stale }, { status: 202 });
+}
+
+/**
+ * `GET /api/revalidate?all=1` with `Authorization: Bearer <CRON_SECRET>`:
+ * marks every tag stale. Vercel cron sends that header by itself when the
+ * CRON_SECRET environment variable is set (see vercel.json).
+ */
+export async function GET(req: Request) {
+    if (!env.CRON_SECRET) {
+        return NextResponse.json({ message: "Cron secret is not configured" }, { status: 503 });
+    }
+    if (!verifyBearer(env.CRON_SECRET, req.headers.get("authorization"))) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+    if (new URL(req.url).searchParams.get("all") !== "1") {
+        return NextResponse.json({ message: "Nothing to do: pass ?all=1" }, { status: 400 });
+    }
+
+    // Per-system entries are tagged gh:systems as well, so this covers them.
+    for (const tag of ALL_TAGS) revalidateTag(tag);
+    return NextResponse.json({ revalidated: ALL_TAGS }, { status: 202 });
 }

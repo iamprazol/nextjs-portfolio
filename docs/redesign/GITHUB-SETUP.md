@@ -75,3 +75,8 @@ On each System repo and the content repo (or once at org/user level):
 - Payload URL: `https://<your-domain>/api/revalidate`
 - Content type: `application/json`, secret = `GITHUB_WEBHOOK_SECRET`
 - Events: Pushes, Pull requests, Releases, Repositories.
+
+## 6. Cron
+
+`vercel.json` schedules `GET /api/revalidate?all=1` daily at 00:15 UTC. Set `CRON_SECRET` in the
+Vercel project: Vercel then sends it as `Authorization: Bearer <CRON_SECRET>`, which the route requires.
