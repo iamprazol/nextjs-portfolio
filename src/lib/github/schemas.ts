@@ -124,6 +124,8 @@ export const ProfileSchema = z.object({
     name: text,
     headline: text,
     intro: text,
+    /** Optional longer introduction for the About page, as markdown. */
+    about: optionalText,
     location: z.object({
         label: text,
         lat: z.number().min(-90).max(90),
@@ -183,6 +185,8 @@ export type ProfileData = {
     name: string;
     headline: string | null;
     intro: string | null;
+    /** Sanitized HTML of the profile's `about` markdown, if it has one. */
+    aboutHtml: string | null;
     location: {
         label: string;
         lat: number | null;
@@ -383,6 +387,9 @@ export type Experiment = {
     pushedAt: string;
     createdAt: string;
 };
+
+/** A topic the owner keeps coming back to, with how many repos carry it. */
+export type Interest = { topic: string; count: number };
 
 export type ToolUsage = {
     name: string;

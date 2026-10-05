@@ -88,6 +88,8 @@ export const getTimeline = cached(data.getTimeline, ["gh:timeline"], [tags.timel
 
 export const getNow = cached(data.getNow, ["gh:now"], [tags.activity, tags.systems]);
 
+export const getInterests = cached(data.getInterests, ["gh:interests"], [tags.activity, tags.systems]);
+
 export const getActivity = cached(data.getActivity, ["gh:activity"], [tags.activity]);
 
 export const getExperiments = cached(data.getExperiments, ["gh:experiments"], [tags.systems]);

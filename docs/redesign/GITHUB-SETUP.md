@@ -34,6 +34,8 @@ In `iamprazol/iamprazol` (your profile repo) create `portfolio/profile.json`:
 }
 ```
 
+`about` is optional: markdown shown on the About page instead of `intro` (add `"about": "First paragraph.\n\nSecond…"`).
+
 `location.timezone` is optional (an IANA zone). The home page shows the local-time clock only when it
 is set, and the globe only when `lat`/`lng` are set.
 

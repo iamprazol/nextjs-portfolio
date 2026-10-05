@@ -189,6 +189,7 @@ const files: Record<string, string> = {
         name: "Demo Developer",
         headline: "Software Engineer / Product Builder",
         intro: "Fictional profile used for local development. Real content comes from the content repo.",
+        about: "This profile is **fictional** and exists for local development.\n\nThe real text is written in the content repo's `portfolio/profile.json`, so editing it never touches this codebase.",
         location: { label: "Example City, EX", lat: 27.7172, lng: 85.324, timezone: "Asia/Kathmandu" },
         links: { github: "https://github.com/demo-dev", linkedin: "", x: "", email: "demo@demo-dev.example" },
         howIWork: [

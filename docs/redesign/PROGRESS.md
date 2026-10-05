@@ -73,7 +73,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 10.2 Terminal
 
 ## M11 About
-- [ ] 11.1 Hero + aside
+- [x] 11.1 Hero + aside
 - [ ] 11.2 How I work
 - [ ] 11.3 Tools linked to systems
 

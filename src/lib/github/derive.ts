@@ -10,6 +10,7 @@ import type {
 import type {
     ActivityItem,
     Experiment,
+    Interest,
     LogEntry,
     NowState,
     ProblemEvidence,
@@ -505,6 +506,36 @@ export function deriveNow(input: {
         exploring,
         asOf: input.now.toISOString()
     };
+}
+
+// ---------------------------------------------------------------------------
+// Interests
+// ---------------------------------------------------------------------------
+
+const INTERESTS_LIMIT = 6;
+
+/**
+ * The topics that turn up most across the systems and the repos the owner
+ * starred: each system and each starred repo counts once per topic.
+ * `portfolio-*` topics are bookkeeping and never count.
+ */
+export function deriveInterests(input: {
+    systems: Pick<System, "topics">[];
+    stars: StarEdge[];
+}): Interest[] {
+    const counts = new Map<string, number>();
+    const topics = [
+        ...input.systems.flatMap((system) => [...new Set(system.topics)]),
+        ...input.stars.flatMap((star) => [...new Set(topicsOf(star.node))])
+    ];
+    for (const topic of topics) {
+        if (!isPortfolioTopic(topic)) counts.set(topic, (counts.get(topic) ?? 0) + 1);
+    }
+
+    return [...counts]
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+        .slice(0, INTERESTS_LIMIT)
+        .map(([topic, count]) => ({ topic, count }));
 }
 
 // ---------------------------------------------------------------------------

@@ -240,6 +240,13 @@ describe("data layer in mock mode", () => {
             "formkit-legacy"
         ]);
 
+        const interests = await data.getInterests();
+        expect(interests.length).toBeLessThanOrEqual(6);
+        expect(interests.slice(0, 2)).toEqual([
+            { topic: "agents", count: 2 },
+            { topic: "llm", count: 2 }
+        ]);
+
         expect(await data.getStats()).toEqual({
             yearsOfEngineering: 7,
             firstYear: 2019,

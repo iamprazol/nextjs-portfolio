@@ -94,6 +94,7 @@ describe("loadProfile", () => {
             name: "Demo Developer",
             headline: "Software Engineer",
             intro: "I build things.",
+            aboutHtml: null,
             location: { label: "Kathmandu, NP", lat: 27.7, lng: 85.3, timezone: "Asia/Kathmandu" },
             links: {
                 github: "https://github.com/demo-dev",
@@ -150,6 +151,21 @@ describe("loadProfile", () => {
             expect.stringMatching(/skipped invalid file demo-dev\/demo-dev:portfolio\/profile\.json/)
         );
         expect(warn.mock.calls[0][0]).toMatch(message);
+    });
+});
+
+describe("loadProfile about", () => {
+    it("renders the optional about markdown to sanitized HTML", async () => {
+        files[`${CONTENT}:portfolio/profile.json`] = JSON.stringify({
+            ...PROFILE,
+            about: "I like **hard** problems.<script>alert(1)</script>\n\nSecond paragraph."
+        });
+        const { loadProfile } = await load();
+
+        const { aboutHtml } = await loadProfile();
+        expect(aboutHtml).toContain("<p>I like <strong>hard</strong> problems.");
+        expect(aboutHtml).toContain("<p>Second paragraph.</p>");
+        expect(aboutHtml).not.toContain("script");
     });
 });
 

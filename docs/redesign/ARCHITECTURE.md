@@ -98,7 +98,8 @@ ProblemFrontmatter = {
 Diagram = { nodes: {id, label, group?, detail?}[], edges: {from, to}[] }
 Workflow = { steps: {title, subtitle, detail, node?: string}[], nodes: Diagram["nodes"], edges: Diagram["edges"] }
 Profile = {
-  name, headline, intro, location: {label, lat, lng},
+  name, headline, intro, about?,     // about: markdown for the About page; intro is used without it
+  location: {label, lat, lng},
   links: {github, linkedin?, x?, email?},
   howIWork: string[],
   leadership?: { developersLed?: number, since?: string }   // shown only if present
@@ -121,6 +122,7 @@ Profile = {
 | **Currently exploring** | Most common topics across repos you starred in the last 60 days (top 2) |
 | **Timeline years** | One entry per year with contributions: commits, PRs, reviews, repos contributed to, top languages, repos created, releases shipped. Optional title/body from `timeline/<year>.md`; otherwise title = the repo with most commits that year. Key work = top 4 repos by commits (unpublished private repos are never named; only Systems are linked). Notable release = latest non-prerelease release that year across Systems. Calendar = `contributionCalendar` days graded 0–4 by quartile of the year's active days. |
 | **Recent activity** | Last 5 public push/PR/release events (REST `GET /users/{login}/events/public`), grouped by repo, latest commit message |
+| **Interests** | Topics counted once per System and once per starred repo, `portfolio-*` excluded; top 6 by count, then name |
 | **Tools tied to work** | Languages + topics aggregated across Systems, each linked to the systems that use it |
 | **Résumé** | Composed from Profile + Systems + Timeline + Log highlights |
 

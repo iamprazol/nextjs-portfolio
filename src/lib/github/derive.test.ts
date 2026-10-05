@@ -4,6 +4,7 @@ import {
     deriveActivity,
     deriveEvidence,
     deriveExperiment,
+    deriveInterests,
     deriveLanguages,
     deriveLog,
     deriveNow,
@@ -667,6 +668,33 @@ describe("deriveNow", () => {
         const state = deriveNow({ ...base, commitCounts: [] });
         expect(state.exploring).toEqual([]);
         expect(state.asOf).toBe(NOW.toISOString());
+    });
+});
+
+describe("deriveInterests", () => {
+    const star = (topics: string[]): StarEdge => ({
+        starredAt: daysAgo(400),
+        node: { nameWithOwner: "x/y", repositoryTopics: { nodes: topics.map((name) => ({ topic: { name } })) } }
+    });
+
+    it("counts each system and each starred repo once per topic, most common first", () => {
+        expect(
+            deriveInterests({
+                systems: [{ topics: ["wordpress", "payments"] }, { topics: ["wordpress", "wordpress", "llm"] }],
+                stars: [star(["llm", "agents"]), star(["llm", "portfolio-system"]), star([])]
+            })
+        ).toEqual([
+            { topic: "llm", count: 3 },
+            { topic: "wordpress", count: 2 },
+            { topic: "agents", count: 1 },
+            { topic: "payments", count: 1 }
+        ]);
+    });
+
+    it("keeps the top six and is empty without topics", () => {
+        const topics = ["a", "b", "c", "d", "e", "f", "g"];
+        expect(deriveInterests({ systems: [{ topics }], stars: [] }).map((item) => item.topic)).toEqual(topics.slice(0, 6));
+        expect(deriveInterests({ systems: [], stars: [] })).toEqual([]);
     });
 });
 

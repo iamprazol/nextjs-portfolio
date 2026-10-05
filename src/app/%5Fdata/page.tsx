@@ -56,7 +56,8 @@ export default async function DataPage() {
         ["getTimeline()", await settle(github.getTimeline)],
         ["getNow()", await settle(github.getNow)],
         ["getActivity()", await settle(github.getActivity)],
-        ["getToolUsage()", await settle(github.getToolUsage)]
+        ["getToolUsage()", await settle(github.getToolUsage)],
+        ["getInterests()", await settle(github.getInterests)]
     ];
 
     return (

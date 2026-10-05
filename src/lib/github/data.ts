@@ -26,6 +26,7 @@ import {
     deriveReleases,
     deriveStats,
     deriveSystem,
+    deriveInterests,
     deriveTimeline,
     deriveToolUsage,
     excerptBody,
@@ -38,6 +39,7 @@ import type { RepoNode } from "./queries";
 import type {
     ActivityItem,
     Experiment,
+    Interest,
     LogEntry,
     NowState,
     Problem,
@@ -303,6 +305,11 @@ export async function getNow(): Promise<NowState> {
     ]);
 
     return deriveNow({ commitCounts, sources, recent, baseline, stars, now: getConfig().now() });
+}
+
+export async function getInterests(): Promise<Interest[]> {
+    const [{ systems }, stars] = await Promise.all([loadWorld(), fetchStars()]);
+    return deriveInterests({ systems, stars });
 }
 
 export async function getActivity(): Promise<ActivityItem[]> {
