@@ -229,6 +229,12 @@ export const CONTRIBUTIONS = /* GraphQL */ `
                 }
                 contributionCalendar {
                     totalContributions
+                    weeks {
+                        contributionDays {
+                            date
+                            contributionCount
+                        }
+                    }
                 }
             }
         }
@@ -409,7 +415,10 @@ export type ContributionsNode = {
         };
         contributions: { totalCount: number };
     }[];
-    contributionCalendar: { totalContributions: number };
+    contributionCalendar: {
+        totalContributions: number;
+        weeks: { contributionDays: { date: string; contributionCount: number }[] }[];
+    };
 };
 
 export type ContributionsResponse = {

@@ -1,9 +1,8 @@
 import { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/cn";
+import { formatCount } from "@/lib/format";
 import type { TimelineYear } from "@/lib/github";
-
-const countFormat = new Intl.NumberFormat("en-US");
 
 type YearRailProps = {
     years: TimelineYear[];
@@ -86,7 +85,7 @@ export function YearRail({ years, selected, onSelect }: YearRailProps) {
                             )}
                             <span className="text-ink-2 mt-0.5 block truncate text-sm">
                                 {entry.summary ??
-                                    `${countFormat.format(entry.totalContributions)} ${entry.totalContributions === 1 ? "contribution" : "contributions"}`}
+                                    `${formatCount(entry.totalContributions)} ${entry.totalContributions === 1 ? "contribution" : "contributions"}`}
                             </span>
                         </button>
                     </li>

@@ -512,34 +512,101 @@ export function deriveNow(input: {
 
 type YearNote = { title?: string; summary?: string; html: string | null };
 
+const KEY_WORK_LIMIT = 4;
+const CALENDAR_LEVELS = 4;
+
+/**
+ * The year as a grid of weeks (Sunday first), each day a level from 0 (no
+ * contributions) to 4. Levels are quartiles of the year's active days, so one
+ * unusually busy day does not flatten the rest. Days outside the year, after
+ * `now`, or missing from GitHub's answer are null.
+ */
+function deriveCalendar(
+    year: number,
+    calendar: ContributionsNode["contributionCalendar"],
+    now: Date
+): TimelineYear["calendar"] {
+    const today = now.toISOString().slice(0, 10);
+    const days = calendar.weeks
+        .flatMap((week) => week.contributionDays)
+        .filter((day) => day.date.startsWith(`${year}-`) && day.date <= today);
+    if (days.length === 0) return null;
+
+    const active = days
+        .map((day) => day.contributionCount)
+        .filter((count) => count > 0)
+        .sort((a, b) => a - b);
+    const thresholds = Array.from(
+        { length: CALENDAR_LEVELS - 1 },
+        (_, i) => active[Math.ceil(((i + 1) * active.length) / CALENDAR_LEVELS) - 1]
+    );
+    const level = (count: number) =>
+        count > 0 ? 1 + thresholds.filter((threshold) => count > threshold).length : 0;
+
+    const start = Date.UTC(year, 0, 1);
+    const offset = new Date(start).getUTCDay();
+    const length = Math.round((Date.UTC(year + 1, 0, 1) - start) / DAY_MS);
+    const weeks = Array.from({ length: Math.ceil((offset + length) / 7) }, () =>
+        Array<number | null>(7).fill(null)
+    );
+    for (const day of days) {
+        const index = offset + Math.round((Date.parse(`${day.date}T00:00:00Z`) - start) / DAY_MS);
+        weeks[Math.floor(index / 7)][index % 7] = level(day.contributionCount);
+    }
+    return weeks;
+}
+
 /**
  * One entry per year with contributions, newest first. Numbers come from
  * GitHub; title, summary and narrative come from the year's note if there is
- * one. Without a note the title is the repo with most commits that year —
- * private repos are never named unless they are listed in `namedRepos`
- * (the systems and experiments the owner chose to publish).
+ * one. Without a note the title is the repo with most commits that year.
+ * Private repos are never named unless they are in `sources` (the systems and
+ * experiments the owner chose to publish).
  */
 export function deriveTimeline(input: {
     years: YearContributions[];
     notes: Map<number, YearNote>;
-    /** Releases of every system and experiment. */
-    releases: Pick<Release, "publishedAt">[];
-    namedRepos: Map<string, string>;
+    /** Every system and experiment, with its releases. */
+    sources: Pick<LogSource, "repo" | "slug" | "name" | "releases">[];
+    /** The repos in `sources` that are systems. */
+    systemRepos: string[];
     now: Date;
 }): TimelineYear[] {
+    const sources = new Map(input.sources.map((source) => [source.repo.toLowerCase(), source]));
+    const systems = new Set(input.systemRepos.map((repo) => repo.toLowerCase()));
+
+    // Prereleases are not "shipped", matching the log.
+    const releases = input.sources
+        .flatMap((source) =>
+            source.releases
+                .filter((release) => !release.isPrerelease)
+                .map((release) => ({ release, source }))
+        )
+        .sort((a, b) => b.release.publishedAt.localeCompare(a.release.publishedAt));
+
     return input.years
         .filter((entry) => entry.contributions.contributionCalendar.totalContributions > 0)
         .map(({ year, contributions }) => {
             const note = input.notes.get(year);
-            const repos = [...contributions.commitContributionsByRepository].sort(
-                (a, b) => b.contributions.totalCount - a.contributions.totalCount
+            const keyWork = contributions.commitContributionsByRepository
+                .map((entry) => {
+                    const repo = entry.repository.nameWithOwner.toLowerCase();
+                    const source = sources.get(repo);
+                    return {
+                        name: source?.name ?? entry.repository.nameWithOwner.split("/")[1],
+                        commits: entry.contributions.totalCount,
+                        systemSlug: source && systems.has(repo) ? source.slug : null,
+                        hidden: entry.repository.isPrivate && !source
+                    };
+                })
+                .filter((entry) => entry.commits > 0 && !entry.hidden)
+                .sort((a, b) => b.commits - a.commits)
+                .map(({ name, commits, systemSlug }) => ({ name, commits, systemSlug }));
+
+            const shipped = releases.filter(
+                ({ release }) => new Date(release.publishedAt).getUTCFullYear() === year
             );
-            const topRepo = repos.find(
-                (entry) =>
-                    entry.contributions.totalCount > 0 &&
-                    (!entry.repository.isPrivate ||
-                        input.namedRepos.has(entry.repository.nameWithOwner.toLowerCase()))
-            )?.repository.nameWithOwner;
+            const notable = shipped.find(({ source }) => systems.has(source.repo.toLowerCase()));
 
             return {
                 year,
@@ -550,18 +617,24 @@ export function deriveTimeline(input: {
                 reviews: contributions.totalPullRequestReviewContributions,
                 reposContributedTo: contributions.totalRepositoriesWithContributedCommits,
                 reposCreated: contributions.totalRepositoryContributions,
-                releasesShipped: input.releases.filter(
-                    (release) => new Date(release.publishedAt).getUTCFullYear() === year
-                ).length,
+                releasesShipped: shipped.length,
                 topLanguages: [...languageShares(contributions)]
                     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
                     .slice(0, 3)
                     .map(([language]) => language),
-                title:
-                    note?.title ??
-                    (topRepo
-                        ? (input.namedRepos.get(topRepo.toLowerCase()) ?? topRepo.split("/")[1])
-                        : null),
+                keyWork: keyWork.slice(0, KEY_WORK_LIMIT),
+                notableRelease: notable
+                    ? {
+                          tag: notable.release.tag,
+                          name: notable.release.name,
+                          publishedAt: notable.release.publishedAt,
+                          url: notable.release.url,
+                          systemSlug: notable.source.slug,
+                          systemName: notable.source.name
+                      }
+                    : null,
+                calendar: deriveCalendar(year, contributions.contributionCalendar, input.now),
+                title: note?.title ?? keyWork[0]?.name ?? null,
                 summary: note?.summary ?? null,
                 html: note?.html ?? null
             };

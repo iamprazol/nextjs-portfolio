@@ -119,7 +119,7 @@ Profile = {
 | **Currently building** | System or Lab repo with most commits by you in the last 14 days |
 | **Currently learning** | Languages in your commits of the last 90 days that had < 5% share in the 365 days before |
 | **Currently exploring** | Most common topics across repos you starred in the last 60 days (top 2) |
-| **Timeline years** | One entry per year with contributions: commits, PRs, reviews, repos contributed to, top languages, repos created, releases shipped. Optional title/body from `timeline/<year>.md`; otherwise title = the repo with most commits that year. |
+| **Timeline years** | One entry per year with contributions: commits, PRs, reviews, repos contributed to, top languages, repos created, releases shipped. Optional title/body from `timeline/<year>.md`; otherwise title = the repo with most commits that year. Key work = top 4 repos by commits (unpublished private repos are never named; only Systems are linked). Notable release = latest non-prerelease release that year across Systems. Calendar = `contributionCalendar` days graded 0–4 by quartile of the year's active days. |
 | **Recent activity** | Last 5 public push/PR/release events (REST `GET /users/{login}/events/public`), grouped by repo, latest commit message |
 | **Tools tied to work** | Languages + topics aggregated across Systems, each linked to the systems that use it |
 | **Résumé** | Composed from Profile + Systems + Timeline + Log highlights |

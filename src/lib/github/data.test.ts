@@ -193,6 +193,25 @@ describe("data layer in mock mode", () => {
         // v4.3.0-beta.1 is a prerelease and is not counted
         // the busiest repo of 2022 is private and not a system, so the next one is named
         expect(byYear[2022].title).toBe("Atlas Membership");
+
+        // experiments are named but only systems have a page to link to
+        expect(byYear[2026].keyWork).toEqual([
+            { name: "Relay QA", commits: 310, systemSlug: "relay-qa" },
+            { name: "Atlas Membership", commits: 280, systemSlug: "atlas-membership" },
+            { name: "tiny-shell", commits: 31, systemSlug: null },
+            { name: "vector-notes", commits: 22, systemSlug: null }
+        ]);
+        expect(byYear[2022].keyWork.map((work) => work.name)).toEqual(["Atlas Membership"]);
+
+        expect(byYear[2026].notableRelease).toMatchObject({ tag: "v4.2.0", name: "4.2 — faster checkout", systemSlug: "atlas-membership" });
+        // a private system's release has no URL
+        expect(byYear[2025].notableRelease).toMatchObject({ tag: "v1.0.0", systemName: "DocSmith", url: null });
+        expect(byYear[2024].notableRelease).toBeNull();
+
+        // 2024 starts on a Monday and is complete; 2026 stops at the clock (1 Oct)
+        expect(byYear[2024].calendar).toHaveLength(53);
+        expect(byYear[2024].calendar!.flat().filter((level) => level !== null)).toHaveLength(366);
+        expect(byYear[2026].calendar!.flat().filter((level) => level !== null)).toHaveLength(274);
     });
 
     it("getNow, getActivity, getExperiments, getToolUsage and getStats return data", async () => {

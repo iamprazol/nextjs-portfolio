@@ -320,6 +320,28 @@ export type TimelineYear = {
     /** Releases published that year in System and Lab repos. */
     releasesShipped: number;
     topLanguages: string[];
+    /**
+     * Repos with most commits that year, busiest first. Private repos appear
+     * only when they are published systems or experiments. `systemSlug` is set
+     * when the repo is a system (it has a page).
+     */
+    keyWork: { name: string; commits: number; systemSlug: string | null }[];
+    /** The latest stable release that year across systems. */
+    notableRelease: {
+        tag: string;
+        name: string | null;
+        publishedAt: string;
+        /** null for private repos. */
+        url: string | null;
+        systemSlug: string;
+        systemName: string;
+    } | null;
+    /**
+     * The year's contribution calendar: weeks (Sunday first) of seven levels,
+     * 0 (none) to 4 (most). null marks a day outside the year or still in the
+     * future. The whole field is null when GitHub sent no calendar.
+     */
+    calendar: (number | null)[][] | null;
     /** From timeline/<year>.md, else the repo with most commits, else null. */
     title: string | null;
     summary: string | null;

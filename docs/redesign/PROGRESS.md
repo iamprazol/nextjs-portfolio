@@ -66,7 +66,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 
 ## M09 Timeline
 - [x] 9.1 Year rail
-- [ ] 9.2 Year detail + heatmap
+- [x] 9.2 Year detail + heatmap
 
 ## M10 Lab
 - [ ] 10.1 Experiments

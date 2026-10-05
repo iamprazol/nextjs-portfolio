@@ -277,7 +277,10 @@ export async function getReleaseNotes(slug: string): Promise<ReleaseNotes[] | nu
 }
 
 export async function getTimeline(): Promise<TimelineYear[]> {
-    const [years, { sources }] = await Promise.all([fetchYearlyContributions(), loadWorld()]);
+    const [years, { sources, systemRepos }] = await Promise.all([
+        fetchYearlyContributions(),
+        loadWorld()
+    ]);
     const notes = await Promise.all(
         years.map(async ({ year }) => [year, await loadTimelineNote(year)] as const)
     );
@@ -285,11 +288,8 @@ export async function getTimeline(): Promise<TimelineYear[]> {
     return deriveTimeline({
         years,
         notes: new Map(notes.flatMap(([year, note]) => (note ? [[year, note] as const] : []))),
-        // Prereleases are not "shipped", matching the log.
-        releases: sources.flatMap((source) =>
-            source.releases.filter((release) => !release.isPrerelease)
-        ),
-        namedRepos: new Map(sources.map((source) => [key(source.repo), source.name])),
+        sources,
+        systemRepos,
         now: getConfig().now()
     });
 }

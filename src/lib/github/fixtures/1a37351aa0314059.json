@@ -18,7 +18,8 @@
         "totalRepositoriesWithContributedCommits": 0,
         "commitContributionsByRepository": [],
         "contributionCalendar": {
-          "totalContributions": 0
+          "totalContributions": 0,
+          "weeks": []
         }
       }
     }

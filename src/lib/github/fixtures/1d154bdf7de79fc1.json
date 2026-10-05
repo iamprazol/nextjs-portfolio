@@ -3,19 +3,19 @@
     "kind": "graphql",
     "name": "Contributions",
     "variables": {
-      "from": "2024-01-01T00:00:00.000Z",
+      "from": "2025-07-03T00:00:00.000Z",
       "login": "demo-dev",
-      "to": "2024-12-31T23:59:59.000Z"
+      "to": "2026-07-03T00:00:00.000Z"
     }
   },
   "response": {
     "user": {
       "contributionsCollection": {
-        "totalCommitContributions": 790,
-        "totalPullRequestContributions": 110,
-        "totalPullRequestReviewContributions": 230,
-        "totalRepositoryContributions": 0,
-        "totalRepositoriesWithContributedCommits": 3,
+        "totalCommitContributions": 610,
+        "totalPullRequestContributions": 80,
+        "totalPullRequestReviewContributions": 220,
+        "totalRepositoryContributions": 2,
+        "totalRepositoriesWithContributedCommits": 5,
         "commitContributionsByRepository": [
           {
             "repository": {
@@ -26,7 +26,19 @@
               }
             },
             "contributions": {
-              "totalCount": 640
+              "totalCount": 400
+            }
+          },
+          {
+            "repository": {
+              "nameWithOwner": "demo-dev/relay-qa",
+              "isPrivate": false,
+              "primaryLanguage": {
+                "name": "TypeScript"
+              }
+            },
+            "contributions": {
+              "totalCount": 150
             }
           },
           {
@@ -38,7 +50,7 @@
               }
             },
             "contributions": {
-              "totalCount": 120
+              "totalCount": 30
             }
           },
           {
@@ -50,12 +62,25 @@
               }
             },
             "contributions": {
-              "totalCount": 30
+              "totalCount": 20
+            }
+          },
+          {
+            "repository": {
+              "nameWithOwner": "demo-dev/vector-notes",
+              "isPrivate": false,
+              "primaryLanguage": {
+                "name": "Python"
+              }
+            },
+            "contributions": {
+              "totalCount": 10
             }
           }
         ],
         "contributionCalendar": {
-          "totalContributions": 1130
+          "totalContributions": 910,
+          "weeks": []
         }
       }
     }

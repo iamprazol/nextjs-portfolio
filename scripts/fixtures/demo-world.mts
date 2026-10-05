@@ -431,11 +431,50 @@ const prs: PullRequestNode[] = [
 
 type RepoCommits = [repo: string, language: string | null, commits: number, isPrivate?: boolean];
 
+/**
+ * A year's contribution calendar adding up to `total`: busier on weekdays, with
+ * quiet days and the odd spike, and nothing after DEMO_NOW. The same year and
+ * total always give the same days.
+ */
+function calendarWeeks(year: number, total: number): ContributionsNode["contributionCalendar"]["weeks"] {
+    let seed = year * 7919 + total;
+    const random = () => {
+        seed = (seed * 1_103_515_245 + 12_345) % 2_147_483_648;
+        return seed / 2_147_483_648;
+    };
+
+    const dates: Date[] = [];
+    for (let date = new Date(Date.UTC(year, 0, 1)); date.getUTCFullYear() === year && date <= DEMO_NOW; date = new Date(date.getTime() + DAY)) {
+        dates.push(date);
+    }
+    const weights = dates.map((date) => {
+        const weekend = date.getUTCDay() === 0 || date.getUTCDay() === 6;
+        const roll = random();
+        if (roll < (weekend ? 0.7 : 0.15)) return 0;
+        return (weekend ? 0.4 : 1) * (roll > 0.97 ? 6 : 0.5 + random() * 2);
+    });
+    const weight = weights.reduce((sum, value) => sum + value, 0);
+    const counts = weights.map((value) => (weight > 0 ? Math.floor((total * value) / weight) : 0));
+
+    // Hand the rounding remainder to the busiest days so the days add up to the total.
+    const busiest = weights.map((value, index) => [value, index]).sort((a, b) => b[0] - a[0]);
+    let left = total - counts.reduce((sum, value) => sum + value, 0);
+    for (let i = 0; left > 0 && weight > 0; i = (i + 1) % busiest.length, left--) counts[busiest[i][1]]++;
+
+    const weeks: ContributionsNode["contributionCalendar"]["weeks"] = [];
+    dates.forEach((date, index) => {
+        if (index === 0 || date.getUTCDay() === 0) weeks.push({ contributionDays: [] });
+        weeks.at(-1)!.contributionDays.push({ date: date.toISOString().slice(0, 10), contributionCount: counts[index] });
+    });
+    return weeks;
+}
+
 function contributions(
     byRepo: RepoCommits[],
-    extra: { prs: number; reviews: number; reposCreated: number; other?: number }
+    extra: { prs: number; reviews: number; reposCreated: number; other?: number; year?: number }
 ): ContributionsNode {
     const commits = byRepo.reduce((sum, entry) => sum + entry[2], 0);
+    const total = commits + extra.prs + extra.reviews + (extra.other ?? 0);
     return {
         totalCommitContributions: commits,
         totalPullRequestContributions: extra.prs,
@@ -450,22 +489,23 @@ function contributions(
             },
             contributions: { totalCount: count }
         })),
-        contributionCalendar: { totalContributions: commits + extra.prs + extra.reviews + (extra.other ?? 0) }
+        // The "now" windows are not drawn as a calendar, so they carry no days.
+        contributionCalendar: { totalContributions: total, weeks: extra.year ? calendarWeeks(extra.year, total) : [] }
     };
 }
 
 const EMPTY = contributions([], { prs: 0, reviews: 0, reposCreated: 0 });
 
 const yearly: Record<number, ContributionsNode> = {
-    2019: contributions([[FORMKIT, "PHP", 140], [IMPORTER, "PHP", 60]], { prs: 12, reviews: 2, reposCreated: 2 }),
-    2020: contributions([[ATLAS, "PHP", 410], [FORMKIT, "PHP", 90]], { prs: 48, reviews: 15, reposCreated: 1 }),
+    2019: contributions([[FORMKIT, "PHP", 140], [IMPORTER, "PHP", 60]], { year: 2019, prs: 12, reviews: 2, reposCreated: 2 }),
+    2020: contributions([[ATLAS, "PHP", 410], [FORMKIT, "PHP", 90]], { year: 2020, prs: 48, reviews: 15, reposCreated: 1 }),
     // A year with no contributions: it must not appear in the timeline.
     2021: EMPTY,
-    2022: contributions([[ATLAS, "PHP", 520], ["demo-labs/internal-billing", "PHP", 700, true]], { prs: 96, reviews: 140, reposCreated: 0 }),
-    2023: contributions([[ATLAS, "PHP", 380], [DOCSMITH, "TypeScript", 260, true]], { prs: 71, reviews: 190, reposCreated: 1 }),
-    2024: contributions([[ATLAS, "PHP", 640], [DOCSMITH, "TypeScript", 120, true], [FORMKIT, "PHP", 30]], { prs: 110, reviews: 230, reposCreated: 0 }),
-    2025: contributions([[ATLAS, "PHP", 450], [RELAY, "TypeScript", 90], [FORMKIT, "PHP", 12]], { prs: 84, reviews: 260, reposCreated: 1 }),
-    2026: contributions([[RELAY, "TypeScript", 310], [ATLAS, "PHP", 280], [VECTOR, "Python", 22], [SHELL, "Rust", 31]], { prs: 67, reviews: 175, reposCreated: 2 })
+    2022: contributions([[ATLAS, "PHP", 520], ["demo-labs/internal-billing", "PHP", 700, true]], { year: 2022, prs: 96, reviews: 140, reposCreated: 0 }),
+    2023: contributions([[ATLAS, "PHP", 380], [DOCSMITH, "TypeScript", 260, true]], { year: 2023, prs: 71, reviews: 190, reposCreated: 1 }),
+    2024: contributions([[ATLAS, "PHP", 640], [DOCSMITH, "TypeScript", 120, true], [FORMKIT, "PHP", 30]], { year: 2024, prs: 110, reviews: 230, reposCreated: 0 }),
+    2025: contributions([[ATLAS, "PHP", 450], [RELAY, "TypeScript", 90], [FORMKIT, "PHP", 12]], { year: 2025, prs: 84, reviews: 260, reposCreated: 1 }),
+    2026: contributions([[RELAY, "TypeScript", 310], [ATLAS, "PHP", 280], [VECTOR, "Python", 22], [SHELL, "Rust", 31]], { year: 2026, prs: 67, reviews: 175, reposCreated: 2 })
 };
 
 const recent = contributions([[RELAY, "TypeScript", 80], [ATLAS, "PHP", 60], [SHELL, "Rust", 14], [VECTOR, "Python", 9]], { prs: 14, reviews: 40, reposCreated: 1 });

@@ -28,6 +28,7 @@ import type {
     RepoNode,
     StarEdge
 } from "./queries";
+import type { Release } from "./schemas";
 
 const NOW = new Date("2026-06-15T12:00:00Z");
 const daysAgo = (days: number) => new Date(NOW.getTime() - days * 86_400_000).toISOString();
@@ -85,7 +86,7 @@ const contributions = (
             },
             contributions: { totalCount: count }
         })),
-        contributionCalendar: { totalContributions: commits },
+        contributionCalendar: { totalContributions: commits, weeks: [] },
         ...extra
     };
 };
@@ -682,11 +683,33 @@ describe("deriveTimeline", () => {
         { year: 2025, contributions: contributions([["corp/secret", "Go", 10, true]]) },
         { year: 2026, contributions: contributions([["demo-labs/private-system", "PHP", 9, true], ["demo-dev/atlas", "PHP", 2]]) }
     ];
+    const release = (tag: string, publishedAt: string, extra: Partial<Release> = {}): Release => ({
+        tag,
+        name: null,
+        publishedAt,
+        url: `https://github.com/demo-dev/atlas/releases/tag/${tag}`,
+        isPrerelease: false,
+        ...extra
+    });
+    const sources = [
+        {
+            repo: "Demo-Dev/Atlas",
+            slug: "atlas",
+            name: "Atlas",
+            releases: [
+                release("v1.0.0", "2024-03-01T00:00:00Z"),
+                release("v1.1.0", "2024-12-31T23:00:00Z", { name: "1.1 — sync" }),
+                release("v2.0.0-beta.1", "2025-02-01T00:00:00Z", { isPrerelease: true })
+            ]
+        },
+        { repo: "demo-labs/private-system", slug: "private-system", name: "Private System", releases: [] },
+        { repo: "demo-dev/sh", slug: "sh", name: "sh", releases: [release("v0.1.0", "2026-01-05T00:00:00Z")] }
+    ];
     const timeline = deriveTimeline({
         years,
         notes: new Map([[2025, { title: "The quiet year", summary: "Mostly review.", html: "<p>Note</p>" }]]),
-        releases: [{ publishedAt: "2024-03-01T00:00:00Z" }, { publishedAt: "2024-12-31T23:00:00Z" }, { publishedAt: "2026-01-05T00:00:00Z" }],
-        namedRepos: new Map([["demo-labs/private-system", "Private System"]]),
+        sources,
+        systemRepos: ["demo-dev/atlas", "demo-labs/private-system"],
         now: NOW
     });
 
@@ -710,12 +733,50 @@ describe("deriveTimeline", () => {
             releasesShipped: 2,
             topLanguages: ["Go", "PHP", "CSS"]
         });
+        // An experiment's release counts as shipped; a prerelease does not.
         expect(timeline[0].releasesShipped).toBe(1);
         expect(timeline[1].releasesShipped).toBe(0);
     });
 
+    it("lists the busiest repos as key work, linking only systems", () => {
+        // corp/secret is private and unpublished; `sh` is an experiment.
+        expect(timeline[2].keyWork).toEqual([
+            { name: "Atlas", commits: 120, systemSlug: "atlas" },
+            { name: "site", commits: 40, systemSlug: null },
+            { name: "css", commits: 40, systemSlug: null },
+            { name: "sh", commits: 1, systemSlug: null }
+        ]);
+        expect(timeline[1].keyWork).toEqual([]);
+        expect(timeline[0].keyWork[0]).toEqual({ name: "Private System", commits: 9, systemSlug: "private-system" });
+    });
+
+    it("keeps at most four repos as key work", () => {
+        const [busy] = deriveTimeline({
+            years: [{ year: 2024, contributions: contributions(["a", "b", "c", "d", "e"].map((name, i) => [`demo-dev/${name}`, null, 10 - i])) }],
+            notes: new Map(),
+            sources: [],
+            systemRepos: [],
+            now: NOW
+        });
+        expect(busy.keyWork.map((entry) => entry.name)).toEqual(["a", "b", "c", "d"]);
+    });
+
+    it("picks the latest stable system release of the year as notable", () => {
+        expect(timeline[2].notableRelease).toEqual({
+            tag: "v1.1.0",
+            name: "1.1 — sync",
+            publishedAt: "2024-12-31T23:00:00Z",
+            url: "https://github.com/demo-dev/atlas/releases/tag/v1.1.0",
+            systemSlug: "atlas",
+            systemName: "Atlas"
+        });
+        // 2025 has only a prerelease, 2026 only an experiment's release.
+        expect(timeline[1].notableRelease).toBeNull();
+        expect(timeline[0].notableRelease).toBeNull();
+    });
+
     it("titles a year by its busiest repo, never naming an unpublished private repo", () => {
-        expect(timeline[2]).toMatchObject({ title: "atlas", summary: null, html: null });
+        expect(timeline[2]).toMatchObject({ title: "Atlas", summary: null, html: null });
     });
 
     it("names a private repo only when it is a published system", () => {
@@ -724,8 +785,56 @@ describe("deriveTimeline", () => {
 
     it("prefers the year's note, and has no title when only private repos exist", () => {
         expect(timeline[1]).toMatchObject({ title: "The quiet year", summary: "Mostly review.", html: "<p>Note</p>" });
-        const [bare] = deriveTimeline({ years: [years[2]], notes: new Map(), releases: [], namedRepos: new Map(), now: NOW });
+        const [bare] = deriveTimeline({ years: [years[2]], notes: new Map(), sources: [], systemRepos: [], now: NOW });
         expect(bare.title).toBeNull();
+    });
+
+    describe("calendar", () => {
+        const calendarOf = (year: number, days: [date: string, count: number][], now = NOW) =>
+            deriveTimeline({
+                years: [
+                    {
+                        year,
+                        contributions: contributions([["demo-dev/atlas", "PHP", 1]], {
+                            contributionCalendar: {
+                                totalContributions: 1,
+                                // GitHub groups days into weeks; the grouping is not relied on.
+                                weeks: [{ contributionDays: days.map(([date, contributionCount]) => ({ date, contributionCount })) }]
+                            }
+                        })
+                    }
+                ],
+                notes: new Map(),
+                sources: [],
+                systemRepos: [],
+                now
+            })[0].calendar;
+
+        it("is null when GitHub sent no days", () => {
+            expect(timeline[2].calendar).toBeNull();
+            expect(calendarOf(2024, [["2023-12-31", 4]])).toBeNull();
+        });
+
+        it("lays the whole year out in weeks that start on Sunday", () => {
+            // 1 Jan 2025 is a Wednesday and the year ends on a Wednesday: 53 weeks.
+            const calendar = calendarOf(2025, [["2025-01-01", 0], ["2025-01-04", 2], ["2025-01-05", 0], ["2025-12-31", 2]])!;
+            expect(calendar).toHaveLength(53);
+            expect(calendar.every((week) => week.length === 7)).toBe(true);
+            expect(calendar[0]).toEqual([null, null, null, 0, null, null, 1]);
+            expect(calendar[1][0]).toBe(0);
+            expect(calendar[52]).toEqual([null, null, null, 1, null, null, null]);
+        });
+
+        it("grades active days by quartile, so an outlier does not flatten the rest", () => {
+            const days: [string, number][] = [1, 2, 3, 4, 5, 6, 7, 300, 0].map((count, i) => [`2025-03-0${i + 1}`, count]);
+            const levels = calendarOf(2025, days)!.flat().filter((level) => level !== null);
+            expect(levels).toEqual([1, 1, 2, 2, 3, 3, 4, 4, 0]);
+        });
+
+        it("leaves out days after now and days of other years", () => {
+            const calendar = calendarOf(2026, [["2025-12-31", 9], ["2026-06-15", 1], ["2026-06-16", 0], ["2026-12-31", 0]])!;
+            expect(calendar.flat().filter((level) => level !== null)).toEqual([1]);
+        });
     });
 });
 

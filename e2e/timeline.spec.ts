@@ -44,4 +44,62 @@ test.describe("timeline", () => {
         await page.goto("/timeline?year=2021");
         await expect(years.getByRole("button", { name: /^2026/ })).toHaveAttribute("aria-current", "true");
     });
+
+    test("shows the selected year's narrative, key work, numbers and release", async ({ page }) => {
+        await page.goto("/timeline");
+        const detail = page.getByRole("region", { name: "Relay QA" });
+        await expect(detail).toContainText("2026 · in progress");
+
+        // Systems link to their page; experiments are named without a link.
+        const keyWork = detail.getByRole("region", { name: "Key work" });
+        await expect(keyWork.getByRole("listitem")).toHaveText([
+            /Relay QA\s*310 commits/,
+            /Atlas Membership\s*280 commits/,
+            /tiny-shell\s*31 commits/,
+            /vector-notes\s*22 commits/
+        ]);
+        await expect(keyWork.getByRole("link", { name: "Relay QA" })).toHaveAttribute("href", "/systems/relay-qa");
+        await expect(keyWork.getByRole("link", { name: "tiny-shell" })).toHaveCount(0);
+
+        await expect(detail.getByRole("region", { name: "Technologies" }).getByRole("listitem")).toHaveText([
+            "TypeScript",
+            "PHP",
+            "Rust"
+        ]);
+        await expect(detail.getByRole("region", { name: "Numbers" }).locator("dd")).toHaveText(["643", "67", "175", "4"]);
+
+        const release = detail.getByRole("region", { name: "Notable release" });
+        await expect(release).toContainText("v4.2.0");
+        await expect(release).toContainText("4.2 — faster checkout");
+        await expect(release.getByRole("link", { name: "Atlas Membership" })).toHaveAttribute(
+            "href",
+            "/systems/atlas-membership"
+        );
+        await expect(release.getByRole("link", { name: /Release notes on GitHub/ })).toHaveAttribute(
+            "href",
+            "https://github.com/demo-labs/atlas-membership/releases/tag/v4.2.0"
+        );
+
+        await expect(
+            detail.getByRole("img", { name: "Contribution calendar for 2026: 885 contributions so far." })
+        ).toBeVisible();
+    });
+
+    test("changes the detail with the year and hides what GitHub cannot provide", async ({ page }) => {
+        await page.goto("/timeline");
+        await page.getByRole("list", { name: "Years" }).getByRole("button", { name: /^2024/ }).click();
+
+        const detail = page.getByRole("region", { name: "The multi-membership rewrite" });
+        await expect(detail).toContainText("Planned the migration in the spring");
+        await expect(detail.getByRole("img", { name: "Contribution calendar for 2024: 1,130 contributions." })).toBeVisible();
+        // No stable system release in 2024, so there is no such block.
+        await expect(detail.getByRole("region", { name: "Notable release" })).toHaveCount(0);
+
+        // 2025's release is in a private repo: named, with no GitHub link.
+        await page.goto("/timeline?year=2025");
+        const release = page.getByRole("region", { name: "Notable release" });
+        await expect(release).toContainText("v1.0.0");
+        await expect(release.getByRole("link", { name: "DocSmith" })).toHaveAttribute("href", "/systems/docsmith");
+        await expect(release.locator("a[href*='github.com']")).toHaveCount(0);
+    });
 });
