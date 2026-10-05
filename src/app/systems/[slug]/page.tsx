@@ -12,6 +12,7 @@ import { SystemTabs } from "@/components/system/SystemTabs";
 import { WorkflowView } from "@/components/system/WorkflowView";
 import { type TabItem } from "@/components/ui";
 import { getLog, getReleaseNotes, getSystem, getSystems } from "@/lib/github";
+import { pageMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -27,10 +28,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const system = await getSystem((await params).slug);
     if (!system) return {};
 
-    return {
+    return pageMetadata({
         title: system.name,
-        description: system.proves ?? system.description ?? undefined
-    };
+        description: system.proves ?? system.description,
+        path: `/systems/${system.slug}`,
+        ownImage: true
+    });
 }
 
 export default async function SystemPage({ params }: Props) {

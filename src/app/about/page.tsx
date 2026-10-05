@@ -13,15 +13,17 @@ import {
     getToolUsage,
     groupTools
 } from "@/lib/github";
+import { pageMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
     const profile = await getProfile();
-    return {
+    return pageMetadata({
         title: "About",
-        description: profile.intro ?? profile.headline ?? `About ${profile.name}.`
-    };
+        description: profile.intro ?? profile.headline ?? `About ${profile.name}.`,
+        path: "/about"
+    });
 }
 
 export default async function AboutPage() {

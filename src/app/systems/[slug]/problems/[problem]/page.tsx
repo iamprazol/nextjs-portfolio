@@ -6,6 +6,7 @@ import { ProblemAside } from "@/components/problem/ProblemAside";
 import { ProblemNav } from "@/components/problem/ProblemNav";
 import { ProblemArticle } from "@/components/problem/ProblemArticle";
 import { getProblem, getProblemEvidence, getSystem, getSystems } from "@/lib/github";
+import { pageMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -27,10 +28,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const [system, problem] = await Promise.all([getSystem(slug), getProblem(slug, problemSlug)]);
     if (!system || !problem) return {};
 
-    return {
+    return pageMetadata({
         title: `${problem.title} · ${system.name}`,
-        description: problem.summary
-    };
+        description: problem.summary,
+        path: `/systems/${system.slug}/problems/${problem.slug}`,
+        ownImage: true
+    });
 }
 
 export default async function ProblemPage({ params }: Props) {

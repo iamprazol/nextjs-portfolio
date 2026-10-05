@@ -13,13 +13,15 @@ import {
     getToolUsage,
     type Experiment
 } from "@/lib/github";
+import { pageMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
     title: "Experiments",
-    description: "The lab: small repositories for trying tools, workflows and ideas, grouped by topic."
-};
+    description: "The lab: small repositories for trying tools, workflows and ideas, grouped by topic.",
+    path: "/lab"
+});
 
 const STACK_SIZE = 6;
 const LOG_SIZE = 5;

@@ -7,6 +7,7 @@ import { LogEntryDetails } from "@/components/log/LogEntryDetails";
 import { LogEntryMeta } from "@/components/log/LogEntryMeta";
 import { MonoLabel, Panel } from "@/components/ui";
 import { getLog, getLogEntry } from "@/lib/github";
+import { pageMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -28,10 +29,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const entry = number === null ? null : await getLogEntry(number);
     if (!entry) return {};
 
-    return {
+    return pageMetadata({
         title: `#${entry.number} ${entry.title}`,
-        description: entry.summary ?? `${entry.systemName}: ${entry.title}`
-    };
+        description: entry.summary ?? `${entry.systemName}: ${entry.title}`,
+        path: `/log/${entry.number}`
+    });
 }
 
 const neighbour =

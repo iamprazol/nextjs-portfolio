@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { CommandBar } from "@/components/home/CommandBar";
 import { Hero } from "@/components/home/Hero";
 import { LocationGlobe } from "@/components/home/LocationGlobe";
@@ -16,9 +18,18 @@ import {
     getStats,
     getSystems
 } from "@/lib/github";
+import { env } from "@/env";
 
 // Regenerated at most once an hour; webhooks refresh it sooner (M13).
 export const revalidate = 3600;
+
+// Title, description and preview text come from the root layout.
+export const metadata: Metadata = {
+    alternates: {
+        canonical: "/",
+        types: { "application/rss+xml": [{ url: "/log/rss.xml", title: "Engineering Log" }] }
+    }
+};
 
 const rail =
     "flex min-w-0 flex-[1_1_100%] flex-col gap-4 min-[1100px]:max-w-[320px]";
@@ -43,8 +54,32 @@ export default async function Home() {
     const eyebrow = (position: number, name: string) =>
         `${String(position).padStart(2, "0")} — ${name}`;
 
+    // schema.org Person, so search engines can tie the site to its owner's
+    // other profiles. Only what the profile actually has is included.
+    const person = {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: profile.name,
+        url: env.SITE_URL,
+        ...(profile.headline ? { jobTitle: profile.headline } : {}),
+        ...(profile.intro ? { description: profile.intro } : {}),
+        ...(profile.avatarUrl ? { image: profile.avatarUrl } : {}),
+        ...(profile.location ? { homeLocation: { "@type": "Place", name: profile.location.label } } : {}),
+        sameAs: [
+            profile.links.github,
+            profile.links.linkedin,
+            profile.links.x,
+            profile.links.website
+        ].filter((link): link is string => Boolean(link))
+    };
+
     return (
         <div className="bg-grid">
+            <script
+                type="application/ld+json"
+                // "<" is escaped so no value can close the script element.
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(person).replace(/</g, "\\u003c") }}
+            />
             <div className="mx-auto max-w-[1440px] px-4 pb-24 sm:px-6 lg:px-8">
                 {/*
                   The hero comes first in the markup, as the main content.

@@ -4,13 +4,15 @@ import { Suspense } from "react";
 import { StaticUrlState, UrlStateProvider } from "@/components/shell/url-state";
 import { TimelineBrowser } from "@/components/timeline/TimelineBrowser";
 import { getTimeline } from "@/lib/github";
+import { pageMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
     title: "Engineering Timeline",
-    description: "Year by year: what was built, in which languages, and how much — counted from GitHub."
-};
+    description: "Year by year: what was built, in which languages, and how much — counted from GitHub.",
+    path: "/timeline"
+});
 
 export default async function TimelinePage() {
     // Newest first; years without contributions are already left out.

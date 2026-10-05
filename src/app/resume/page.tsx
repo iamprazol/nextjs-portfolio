@@ -5,15 +5,17 @@ import { PrintButton } from "@/components/resume/PrintButton";
 import { MonoLabel, statusLabel } from "@/components/ui";
 import { formatCount, formatDate } from "@/lib/format";
 import { getLog, getProfile, getStats, getSystems, getTimeline } from "@/lib/github";
+import { pageMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
     const profile = await getProfile();
-    return {
+    return pageMetadata({
         title: "Résumé",
-        description: `Résumé of ${profile.name}, generated from the same GitHub data as the rest of the site.`
-    };
+        description: `Résumé of ${profile.name}, generated from the same GitHub data as the rest of the site.`,
+        path: "/resume"
+    });
 }
 
 const HIGHLIGHTS = 5;

@@ -5,13 +5,15 @@ import { LogFilter } from "@/components/log/LogFilter";
 import { LogList } from "@/components/log/LogList";
 import { Pagination } from "@/components/log/Pagination";
 import { getLog } from "@/lib/github";
+import { pageMetadata } from "@/lib/seo";
 
 const PAGE_SIZE = 20;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
     title: "Engineering Log",
-    description: "Merged pull requests and releases, newest first. Nothing here is typed by hand."
-};
+    description: "Merged pull requests and releases, newest first. Nothing here is typed by hand.",
+    path: "/log"
+});
 
 type Props = { searchParams: Promise<{ page?: string; system?: string }> };
 

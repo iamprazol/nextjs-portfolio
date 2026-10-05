@@ -35,6 +35,14 @@ export async function generateMetadata(): Promise<Metadata> {
         metadataBase: new URL(env.SITE_URL),
         title: { default: profile.name, template: `%s — ${profile.name}` },
         description: profile.headline ?? undefined,
+        openGraph: {
+            type: "website",
+            siteName: profile.name,
+            title: profile.name,
+            description: profile.headline ?? undefined,
+            url: "/"
+        },
+        twitter: { card: "summary_large_image" },
         alternates: {
             types: { "application/rss+xml": [{ url: "/log/rss.xml", title: "Engineering Log" }] }
         }
