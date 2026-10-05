@@ -70,7 +70,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 
 ## M10 Lab
 - [x] 10.1 Experiments
-- [ ] 10.2 Terminal
+- [x] 10.2 Terminal
 
 ## M11 About
 - [ ] 11.1 Hero + aside
