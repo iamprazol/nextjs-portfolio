@@ -9,6 +9,8 @@ import { Octokit } from "@octokit/rest";
 
 import { env } from "@/env";
 
+import { logEvent } from "./observe";
+
 type Variables = Record<string, unknown>;
 
 /** What actually answers a request: the GitHub API, the fixtures, or a test double. */
@@ -140,13 +142,39 @@ function getOctokit() {
     }
 
     octokit = new Octokit({ auth: env.GITHUB_TOKEN });
-    octokit.hook.after("request", (response) => {
-        const remaining = Number(response.headers["x-ratelimit-remaining"]);
-        if (Number.isFinite(remaining) && remaining < RATE_LIMIT_WARN_BELOW) {
-            console.warn(
-                `[github] rate limit low: ${remaining} requests left ` +
-                    `(${response.headers["x-ratelimit-resource"] ?? "core"})`
-            );
+    // Every request, GraphQL included, passes through here: log how long it
+    // took and how much of the rate limit is left. Never the token or the body.
+    octokit.hook.wrap("request", async (request, options) => {
+        const call =
+            typeof options.query === "string"
+                ? describe("graphql", options.query)
+                : `${options.method} ${options.url}`;
+        const started = performance.now();
+        const ms = () => Math.round(performance.now() - started);
+
+        try {
+            const response = await request(options);
+            const remaining = Number(response.headers["x-ratelimit-remaining"]);
+            const resource = response.headers["x-ratelimit-resource"] ?? "core";
+            logEvent("github", {
+                call,
+                status: response.status,
+                ms: ms(),
+                remaining: Number.isFinite(remaining) ? remaining : null,
+                resource
+            });
+            if (Number.isFinite(remaining) && remaining < RATE_LIMIT_WARN_BELOW) {
+                console.warn(`[github] rate limit low: ${remaining} requests left (${resource})`);
+            }
+            return response;
+        } catch (error) {
+            logEvent("github", {
+                call,
+                status: (error as { status?: number }).status ?? null,
+                ms: ms(),
+                error: error instanceof Error ? error.message : String(error)
+            });
+            throw error;
         }
     });
     return octokit;

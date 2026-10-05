@@ -170,6 +170,29 @@ describe("live mode", () => {
         warn.mockRestore();
     });
 
+    it("logs each call with its duration and the remaining rate limit, never the token", async () => {
+        const client = await loadClient(liveEnv);
+        const info = vi.spyOn(console, "info").mockImplementation(() => {});
+        graphqlHandler = () =>
+            HttpResponse.json(
+                { data: { user: null } },
+                { headers: { "x-ratelimit-remaining": "4990", "x-ratelimit-resource": "graphql" } }
+            );
+
+        await client.gql(QUERY, { login: "x" });
+        expect(info).toHaveBeenCalledTimes(1);
+        const line = JSON.parse(info.mock.calls[0][0] as string);
+        expect(line).toMatchObject({ scope: "github", call: "Example", status: 200, remaining: 4990, resource: "graphql" });
+        expect(line.ms).toBeGreaterThanOrEqual(0);
+        expect(info.mock.calls[0][0]).not.toContain("test-token");
+
+        // A failed call is logged too, with its status.
+        graphqlHandler = () => new HttpResponse(null, { status: 401 });
+        await expect(client.gql(QUERY, { login: "x" })).rejects.toThrow();
+        expect(JSON.parse(info.mock.calls[1][0] as string)).toMatchObject({ scope: "github", call: "Example", status: 401 });
+        info.mockRestore();
+    });
+
     it("returns partial data when only inaccessible nodes failed", async () => {
         const client = await loadClient(liveEnv);
         const warn = vi.spyOn(console, "warn").mockImplementation(() => {});

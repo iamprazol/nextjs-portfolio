@@ -5,6 +5,7 @@ import { unstable_cache } from "next/cache";
 import { env } from "@/env";
 
 import * as data from "./data";
+import { recordFetch } from "./observe";
 import { tags } from "./revalidation";
 import type { LogEntry } from "./schemas";
 
@@ -23,13 +24,21 @@ const SOURCE = `${env.GITHUB_LOGIN}:${env.GITHUB_CONTENT_REPO}:${env.GITHUB_SYST
 // Mock mode reads local files, so there is nothing to save by caching — and a
 // cached copy would keep serving old fixtures after they are regenerated, or
 // serve fixture data as live data on the next run.
-const cached = <T>(load: () => Promise<T>, key: string[], cacheTags: string[]) =>
-    env.GITHUB_MOCK
-        ? load
-        : unstable_cache(load, [SOURCE, ...key], {
+const cached = <T>(load: () => Promise<T>, key: string[], cacheTags: string[]) => {
+    // The loader only runs on a cache miss: note when, for /_data/health.
+    const tracked = async () => {
+        const value = await load();
+        recordFetch(cacheTags);
+        return value;
+    };
+
+    return env.GITHUB_MOCK
+        ? tracked
+        : unstable_cache(tracked, [SOURCE, ...key], {
               revalidate: REVALIDATE_SECONDS,
               tags: cacheTags
           });
+};
 
 export const getProfile = cached(data.getProfile, ["gh:profile"], [tags.profile]);
 

@@ -151,6 +151,7 @@ tagged: `gh:profile`, `gh:systems`, `gh:system:<slug>`, `gh:log`, `gh:timeline`,
   `GITHUB_WEBHOOK_SECRET`, maps the repo to its tags (`src/lib/github/revalidation.ts`) and calls `revalidateTag`. A `repository` event on any repo refreshes `gh:systems`, since it may have just gained or lost a portfolio topic.
 - **Cron fallback**: Vercel cron hits `/api/revalidate?all=1` (bearer `CRON_SECRET`) daily for
   activity/"now" data, which changes without webhooks.
+- **Observability**: every GitHub call and every revalidation prints one JSON line (`{"scope":"github"|"revalidate",…}`: call, status, duration, remaining rate limit / source, event, tags). The dev-only `/_data/health` page shows when each tag was last fetched and last revalidated, per server process.
 - **Failure mode**: if GitHub is down at revalidate time, Next keeps serving the last good page.
   If GitHub is down on a cold build, the fixtures snapshot is **not** used in production —
   the build fails loudly instead of shipping fake data.

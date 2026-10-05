@@ -84,7 +84,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 ## M13 Freshness
 - [x] 13.1 Webhook
 - [x] 13.2 Cron
-- [ ] 13.3 Observability
+- [x] 13.3 Observability
 
 ## M14 Quality & launch
 - [ ] 14.1 Accessibility

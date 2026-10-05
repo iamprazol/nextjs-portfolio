@@ -90,3 +90,25 @@ test.describe("cron", () => {
         expect((await request.get("/api/revalidate", { headers: { authorization } })).status()).toBe(400);
     });
 });
+
+test.describe("health page", () => {
+    test("shows when each tag was last fetched and revalidated", async ({ page, request }) => {
+        // Rendering the timeline runs its loader; the webhook marks a system stale.
+        await page.goto("/timeline");
+        await deliver(request, "push", repository("demo-dev/relay-qa"));
+
+        await page.goto("/_data/health");
+        await expect(page.getByRole("heading", { level: 1 })).toHaveText("Cache health");
+        const row = (tag: string) => page.getByRole("row").filter({ has: page.getByRole("rowheader", { name: tag, exact: true }) });
+
+        await expect(row("gh:timeline").getByRole("cell").first().locator("time")).toHaveAttribute(
+            "datetime",
+            /^\d{4}-\d\d-\d\dT/
+        );
+        await expect(row("gh:system:relay-qa").getByRole("cell").last().locator("time")).toHaveAttribute(
+            "datetime",
+            /^\d{4}-\d\d-\d\dT/
+        );
+        await expect(row("gh:log").getByRole("cell").last().locator("time")).toHaveCount(1);
+    });
+});

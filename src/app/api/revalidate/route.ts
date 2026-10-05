@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { env } from "@/env";
 import { getExperiments, getSystems } from "@/lib/github";
 import { getConfig } from "@/lib/github/config";
+import { logEvent, recordRevalidation } from "@/lib/github/observe";
 import {
     ALL_TAGS,
     tagsForEvent,
@@ -20,6 +21,12 @@ import {
 async function loadSources() {
     const [systems, experiments] = await Promise.all([getSystems(), getExperiments()]);
     return [...systems, ...experiments].map(({ repo, slug }) => ({ repo, slug }));
+}
+
+function revalidate(stale: string[], details: Record<string, unknown>) {
+    for (const tag of stale) revalidateTag(tag);
+    recordRevalidation(stale);
+    logEvent("revalidate", { ...details, tags: stale });
 }
 
 export async function POST(req: Request) {
@@ -59,7 +66,7 @@ export async function POST(req: Request) {
         stale = repo ? ALL_TAGS : [];
     }
 
-    for (const tag of stale) revalidateTag(tag);
+    revalidate(stale, { source: "webhook", event, repo });
     return NextResponse.json({ event, repo, revalidated: stale }, { status: 202 });
 }
 
@@ -80,6 +87,6 @@ export async function GET(req: Request) {
     }
 
     // Per-system entries are tagged gh:systems as well, so this covers them.
-    for (const tag of ALL_TAGS) revalidateTag(tag);
+    revalidate(ALL_TAGS, { source: "cron" });
     return NextResponse.json({ revalidated: ALL_TAGS }, { status: 202 });
 }

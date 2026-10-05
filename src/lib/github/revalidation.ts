@@ -15,7 +15,7 @@ export const tags = {
 } as const;
 
 /** Every tag that is not per-system. Each per-system entry also carries gh:systems. */
-export const ALL_TAGS = [
+export const ALL_TAGS: string[] = [
     tags.profile,
     tags.systems,
     tags.log,
