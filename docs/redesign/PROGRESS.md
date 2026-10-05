@@ -79,7 +79,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 
 ## M12 Résumé & contact
 - [x] 12.1 Generated résumé
-- [ ] 12.2 Contact form
+- [x] 12.2 Contact form
 
 ## M13 Freshness
 - [ ] 13.1 Webhook

@@ -14,7 +14,8 @@ export default defineConfig({
     webServer: {
         command: `npx next dev --turbopack -p ${PORT}`,
         url: `http://localhost:${PORT}`,
-        env: { GITHUB_MOCK: "1", GITHUB_LOGIN: "demo-dev" },
+        // WP_API_KEY is blanked so a test can never deliver a real contact message.
+        env: { GITHUB_MOCK: "1", GITHUB_LOGIN: "demo-dev", WP_API_KEY: "" },
         reuseExistingServer: !process.env.CI,
         timeout: 120_000
     }

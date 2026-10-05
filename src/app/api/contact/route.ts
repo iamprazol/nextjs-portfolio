@@ -1,5 +1,19 @@
 import { NextResponse } from "next/server";
 
+import { createRateLimiter } from "@/lib/rate-limit";
+
+// Five messages an hour per address is plenty for a person and little for a script.
+const checkRate = createRateLimiter({ limit: 5, windowMs: 60 * 60 * 1000 });
+
+/** The caller's address as the proxy reports it (Vercel sets x-forwarded-for). */
+function clientIp(req: Request) {
+    return (
+        req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+        req.headers.get("x-real-ip") ||
+        "unknown"
+    );
+}
+
 type ApiErrorResponse = {
     message?: string;
     raw?: string;
@@ -11,7 +25,21 @@ function isApiErrorResponse(value: unknown): value is ApiErrorResponse {
 
 export async function POST(req: Request) {
     try {
-        const { name, email, message } = await req.json();
+        const rate = checkRate(clientIp(req));
+        if (!rate.allowed) {
+            return NextResponse.json(
+                { message: "Too many messages. Please try again later." },
+                { status: 429, headers: { "Retry-After": String(rate.retryAfterSeconds) } }
+            );
+        }
+
+        const { name, email, message, company } = await req.json();
+
+        // `company` is the form's honeypot: people never see it, bots fill it
+        // in. Answer as if it worked so the bot learns nothing, and drop it.
+        if (company) {
+            return NextResponse.json({ success: true });
+        }
 
         if (!name || !email || !message) {
             return NextResponse.json(
