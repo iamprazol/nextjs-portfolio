@@ -12,6 +12,8 @@ type SectionHeaderProps = {
     /** Optional right-hand link, e.g. "All systems". */
     link?: { href: string; label: string };
     as?: "h1" | "h2" | "h3";
+    /** Id for the heading, so a section can be labelled by it. */
+    id?: string;
     className?: string;
 };
 
@@ -20,6 +22,7 @@ export function SectionHeader({
     title,
     link,
     as: Heading = "h2",
+    id,
     className
 }: SectionHeaderProps) {
     return (
@@ -31,7 +34,7 @@ export function SectionHeader({
         >
             <div>
                 {eyebrow && <MonoLabel as="p">{eyebrow}</MonoLabel>}
-                <Heading className="text-ink mt-2 text-[28px] leading-tight font-semibold tracking-tight sm:text-4xl">
+                <Heading id={id} className="text-ink mt-2 text-[28px] leading-tight font-semibold tracking-tight sm:text-4xl">
                     {title}
                 </Heading>
             </div>

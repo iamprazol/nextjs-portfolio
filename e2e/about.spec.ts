@@ -33,6 +33,14 @@ test.describe("about", () => {
         await expect(page.getByRole("region", { name: "Get in touch" })).toBeInViewport();
     });
 
+    test("numbers the profile's working principles", async ({ page }) => {
+        await page.goto("/about");
+        const steps = page.getByRole("region", { name: "How I work" }).getByRole("listitem");
+        await expect(steps).toHaveCount(4);
+        await expect(steps.first()).toHaveText("01Understand the system before changing it");
+        await expect(steps.last()).toHaveText("04Leave the code easier to change than I found it");
+    });
+
     test("shows where, what now and interests in the aside", async ({ page }) => {
         await page.goto("/about");
         const aside = page.getByRole("complementary", { name: "At a glance" });
