@@ -23,6 +23,7 @@ arrays, skill lists or experience entries in this codebase.
 | `GITHUB-SETUP.md` | What to configure on GitHub so the site has data to fetch |
 | `MILESTONES.md` | 15 milestones, their order, dependencies and definition of done |
 | `PROGRESS.md` | Checklist of every step prompt |
+| `LAUNCH.md` | What to set up and verify by hand before opening the PR to `master` |
 | `prompts/M00–M14` | Step-by-step prompts per milestone, page and section |
 
 ## Ground rules for every step (repeated in each prompt)

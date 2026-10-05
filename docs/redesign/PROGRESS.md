@@ -91,4 +91,4 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 14.2 Performance
 - [x] 14.3 SEO
 - [x] 14.4 Test suite + CI
-- [ ] 14.5 Launch PR
+- [ ] 14.5 Launch PR — checklist in `LAUNCH.md`; tick when the PR to `master` is open
