@@ -267,6 +267,12 @@ describe("deriveSystem / deriveExperiment / sortSystems", () => {
         });
     });
 
+    it("groups an experiment under its first topic that is not portfolio-*", () => {
+        expect(deriveExperiment(repo({ topics: ["portfolio-lab", "ai", "cli"] }))?.group).toBe("ai");
+        expect(deriveExperiment(repo({ topics: ["cli", "portfolio-lab"] }))?.group).toBe("cli");
+        expect(deriveExperiment(repo({ topics: ["portfolio-lab"] }))?.group).toBeNull();
+    });
+
     it("sorts by order, then most recently pushed, then slug", () => {
         const sorted = sortSystems([
             { slug: "c", order: null, pushedAt: "2026-01-01" },

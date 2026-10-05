@@ -69,7 +69,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 9.2 Year detail + heatmap
 
 ## M10 Lab
-- [ ] 10.1 Experiments
+- [x] 10.1 Experiments
 - [ ] 10.2 Terminal
 
 ## M11 About

@@ -182,6 +182,7 @@ export function deriveExperiment(repo: RepoNode): Experiment | null {
         homepageUrl: repo.homepageUrl?.trim() || null,
         isPrivate: repo.isPrivate,
         stack: deriveStack(repo),
+        group: topicsOf(repo).find((topic) => !isPortfolioTopic(topic)) ?? null,
         stars: repo.stargazerCount,
         pushedAt: repo.pushedAt ?? repo.createdAt,
         createdAt: repo.createdAt

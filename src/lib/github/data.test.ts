@@ -229,7 +229,9 @@ describe("data layer in mock mode", () => {
             ["demo-dev/vector-notes", "push", 1, null]
         ]);
 
-        expect((await data.getExperiments()).map((item) => item.slug)).toEqual(["vector-notes", "tiny-shell"]);
+        const experiments = await data.getExperiments();
+        expect(experiments.map((item) => item.slug)).toEqual(["vector-notes", "tiny-shell"]);
+        expect(experiments.map((item) => item.group)).toEqual(["embeddings", "cli"]);
 
         const tools = await data.getToolUsage();
         expect(tools[0]).toMatchObject({ name: "JavaScript", kind: "language" });

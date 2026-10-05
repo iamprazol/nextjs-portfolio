@@ -377,6 +377,8 @@ export type Experiment = {
     homepageUrl: string | null;
     isPrivate: boolean;
     stack: string[];
+    /** The repo's first topic that is not `portfolio-*`: what the lab groups it under. */
+    group: string | null;
     stars: number;
     pushedAt: string;
     createdAt: string;
