@@ -75,7 +75,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 ## M11 About
 - [x] 11.1 Hero + aside
 - [x] 11.2 How I work
-- [ ] 11.3 Tools linked to systems
+- [x] 11.3 Tools linked to systems
 
 ## M12 Résumé & contact
 - [ ] 12.1 Generated résumé

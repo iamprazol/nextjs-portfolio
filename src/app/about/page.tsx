@@ -4,7 +4,15 @@ import { AboutAside } from "@/components/about/AboutAside";
 import { AboutHero } from "@/components/about/AboutHero";
 import { ContactSection } from "@/components/about/ContactSection";
 import { HowIWork } from "@/components/about/HowIWork";
-import { getInterests, getNow, getProfile, getSystems } from "@/lib/github";
+import { ToolsSection } from "@/components/about/ToolsSection";
+import {
+    getInterests,
+    getNow,
+    getProfile,
+    getSystems,
+    getToolUsage,
+    groupTools
+} from "@/lib/github";
 
 export const revalidate = 3600;
 
@@ -17,11 +25,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-    const [profile, now, systems, interests] = await Promise.all([
+    const [profile, now, systems, interests, tools] = await Promise.all([
         getProfile(),
         getNow(),
         getSystems(),
-        getInterests()
+        getInterests(),
+        getToolUsage()
     ]);
 
     return (
@@ -33,6 +42,7 @@ export default async function AboutPage() {
 
             <div className="mt-16 space-y-16 empty:hidden">
                 <HowIWork steps={profile.howIWork} />
+                <ToolsSection groups={groupTools(tools)} />
             </div>
 
             <div className="mt-16">

@@ -102,5 +102,6 @@ export const getStats = cached(
     [tags.systems, tags.timeline, tags.log, tags.profile]
 );
 
+export { groupTools, type ToolGroup } from "./tool-groups";
 export type { ReleaseNotes } from "./derive";
 export type * from "./schemas";

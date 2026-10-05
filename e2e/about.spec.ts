@@ -41,6 +41,27 @@ test.describe("about", () => {
         await expect(steps.last()).toHaveText("04Leave the code easier to change than I found it");
     });
 
+    test("groups tools and links each to the systems that use it", async ({ page }) => {
+        await page.goto("/about");
+        const tools = page.getByRole("region", { name: "Tools attached to real work" });
+        await expect(tools).toContainText("No ratings — each tool is linked to the system it was used in.");
+        await expect(tools.getByRole("heading", { level: 3 })).toHaveText([
+            "Backend",
+            "Frontend",
+            "Engineering",
+            "AI / Automation"
+        ]);
+
+        const php = tools.getByRole("listitem").filter({ hasText: /^PHP/ });
+        await expect(php.getByRole("link")).toHaveText(["Atlas Membership", "formkit-legacy"]);
+        await expect(php.getByRole("link", { name: "Atlas Membership" })).toHaveAttribute(
+            "href",
+            "/systems/atlas-membership"
+        );
+        // A topic that names a domain, not a tool, is not listed.
+        await expect(tools.getByText("membership", { exact: true })).toHaveCount(0);
+    });
+
     test("shows where, what now and interests in the aside", async ({ page }) => {
         await page.goto("/about");
         const aside = page.getByRole("complementary", { name: "At a glance" });
