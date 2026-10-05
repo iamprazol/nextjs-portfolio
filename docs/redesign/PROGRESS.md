@@ -87,7 +87,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 13.3 Observability
 
 ## M14 Quality & launch
-- [ ] 14.1 Accessibility
+- [x] 14.1 Accessibility
 - [ ] 14.2 Performance
 - [ ] 14.3 SEO
 - [ ] 14.4 Test suite + CI

@@ -128,9 +128,18 @@
         outline-offset: 2px;
     }
 
+    /*
+     * Reduced motion: nothing animates and nothing eases. Colours and layout
+     * still change, just at once.
+     */
     @media (prefers-reduced-motion: reduce) {
-        body {
-            transition: none;
+        *,
+        ::before,
+        ::after {
+            transition-duration: 0.01ms !important;
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            scroll-behavior: auto !important;
         }
     }
 }
