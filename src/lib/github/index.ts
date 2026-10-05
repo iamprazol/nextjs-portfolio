@@ -5,6 +5,7 @@ import { unstable_cache } from "next/cache";
 import { env } from "@/env";
 
 import * as data from "./data";
+import { tags } from "./revalidation";
 import type { LogEntry } from "./schemas";
 
 // The public data API. Every page reads GitHub through these functions.
@@ -13,14 +14,7 @@ import type { LogEntry } from "./schemas";
 
 export const REVALIDATE_SECONDS = 3600;
 
-export const tags = {
-    profile: "gh:profile",
-    systems: "gh:systems",
-    system: (slug: string) => `gh:system:${slug}`,
-    log: "gh:log",
-    timeline: "gh:timeline",
-    activity: "gh:activity"
-} as const;
+export { tags };
 
 // The data cache persists on disk between runs, so the key carries which
 // account the data came from.
@@ -86,7 +80,7 @@ export const getReleaseNotes = (slug: string) =>
 
 export const getTimeline = cached(data.getTimeline, ["gh:timeline"], [tags.timeline, tags.systems]);
 
-export const getNow = cached(data.getNow, ["gh:now"], [tags.activity, tags.systems]);
+export const getNow = cached(data.getNow, ["gh:now"], [tags.now, tags.activity, tags.systems]);
 
 export const getInterests = cached(data.getInterests, ["gh:interests"], [tags.activity, tags.systems]);
 

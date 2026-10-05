@@ -15,7 +15,14 @@ export default defineConfig({
         command: `npx next dev --turbopack -p ${PORT}`,
         url: `http://localhost:${PORT}`,
         // WP_API_KEY is blanked so a test can never deliver a real contact message.
-        env: { GITHUB_MOCK: "1", GITHUB_LOGIN: "demo-dev", WP_API_KEY: "" },
+        env: {
+            GITHUB_MOCK: "1",
+            GITHUB_LOGIN: "demo-dev",
+            WP_API_KEY: "",
+            // Known secrets, so tests can sign requests to /api/revalidate.
+            GITHUB_WEBHOOK_SECRET: "e2e-webhook-secret",
+            CRON_SECRET: "e2e-cron-secret"
+        },
         reuseExistingServer: !process.env.CI,
         timeout: 120_000
     }

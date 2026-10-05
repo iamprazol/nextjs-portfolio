@@ -141,14 +141,14 @@ src/lib/github/
 ```
 
 Every public function is wrapped with `unstable_cache` (or `fetch` with `next: { tags }`) and
-tagged: `gh:profile`, `gh:systems`, `gh:system:<slug>`, `gh:log`, `gh:timeline`, `gh:activity`.
+tagged: `gh:profile`, `gh:systems`, `gh:system:<slug>`, `gh:log`, `gh:timeline`, `gh:activity`, `gh:now`.
 
 ## 6. Freshness
 
 - **ISR**: pages export `revalidate = 3600`.
 - **Webhook**: a GitHub webhook (push, pull_request, release, repository) on System repos and the
   content repo calls `/api/revalidate`. The route verifies `X-Hub-Signature-256` with
-  `GITHUB_WEBHOOK_SECRET`, maps the repo to its tags and calls `revalidateTag`.
+  `GITHUB_WEBHOOK_SECRET`, maps the repo to its tags (`src/lib/github/revalidation.ts`) and calls `revalidateTag`. A `repository` event on any repo refreshes `gh:systems`, since it may have just gained or lost a portfolio topic.
 - **Cron fallback**: Vercel cron hits `/api/revalidate?all=1` (bearer `CRON_SECRET`) daily for
   activity/"now" data, which changes without webhooks.
 - **Failure mode**: if GitHub is down at revalidate time, Next keeps serving the last good page.
