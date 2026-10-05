@@ -44,7 +44,7 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable}`}
             suppressHydrationWarning
         >
-            <body className="bg-bg text-ink flex min-h-screen flex-col">
+            <body className="bg-bg text-ink flex min-h-screen flex-col print:block print:min-h-0">
                 <a
                     href="#content"
                     className="bg-panel border-line-2 text-ink sr-only rounded-lg border px-4 py-3 font-mono text-sm focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"

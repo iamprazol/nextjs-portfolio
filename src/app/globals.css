@@ -331,3 +331,58 @@
         margin-top: 0;
     }
 }
+
+/*
+ * Paper is always light: printing from dark mode must not put a black page
+ * through the printer. Same values as :root above, with a white page.
+ */
+@media print {
+    @page {
+        size: A4;
+        margin: 14mm;
+    }
+
+    :root,
+    .light,
+    .dark {
+        color-scheme: light;
+
+        --panel: #ffffff;
+        --panel-2: #f2efe8;
+        --line: #e4e0d8;
+        --line-2: #dcd7cd;
+        --chip: #ede9e1;
+        --ink: #17171a;
+        --ink-2: #4a4740;
+        --mute: #6b6860;
+        --link: #a34e08;
+        --wire: #9c978c;
+        --acc: #f08a24;
+        --acc-soft: #fdf3e7;
+        --acc-line: #f3d3ae;
+        --acc-ink: #8a4309;
+        --on-acc: #17171a;
+        --ok: #2e9e5b;
+        --ok-soft: #e3f2e8;
+        --teal: #1f8a85;
+        --violet: #7c5cd6;
+        --term: #17171a;
+        --term-ink: #edeae3;
+        --term-mute: #a9a69e;
+        --grid: rgba(23, 23, 26, 0.045);
+        --glow: rgba(240, 138, 36, 0.18);
+        --bg: #ffffff;
+        --card-shadow: none;
+    }
+
+    /* On paper a link is just text: no colour to follow, nothing to click. */
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* The dev-mode indicator. */
+    nextjs-portal {
+        display: none;
+    }
+}

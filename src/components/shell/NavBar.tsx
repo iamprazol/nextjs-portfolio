@@ -11,7 +11,7 @@ export async function NavBar() {
     const [first, ...rest] = name.trim().split(/\s+/);
 
     return (
-        <header className="border-line bg-bg sticky top-0 z-40 border-b">
+        <header className="border-line bg-bg sticky top-0 z-40 border-b print:hidden">
             <nav
                 aria-label="Main"
                 className="relative mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-8"

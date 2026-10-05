@@ -78,7 +78,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 11.3 Tools linked to systems
 
 ## M12 Résumé & contact
-- [ ] 12.1 Generated résumé
+- [x] 12.1 Generated résumé
 - [ ] 12.2 Contact form
 
 ## M13 Freshness
