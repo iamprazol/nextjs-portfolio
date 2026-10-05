@@ -73,4 +73,8 @@ npm run fixtures:record   # record your real account into fixtures.local/
 GITHUB_MOCK=1 npm run dev # run against fixtures, no network
 ```
 
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, test and test:e2e in mock mode on every push
+and pull request. End-to-end suites: one spec per page, plus `a11y` (axe + keyboard), `smoke` (every
+route × both themes × 1440/390) and `seo`. A new route goes in `e2e/routes.ts` so those cover it.
+
 Formatting follows `.prettierrc`: 4-space indent, double quotes, no trailing commas.

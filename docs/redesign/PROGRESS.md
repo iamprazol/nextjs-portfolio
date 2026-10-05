@@ -90,5 +90,5 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 14.1 Accessibility
 - [x] 14.2 Performance
 - [x] 14.3 SEO
-- [ ] 14.4 Test suite + CI
+- [x] 14.4 Test suite + CI
 - [ ] 14.5 Launch PR

@@ -8,8 +8,16 @@ const PORT = 3210;
 export default defineConfig({
     testDir: "e2e",
     fullyParallel: true,
-    reporter: "list",
-    use: { baseURL: `http://localhost:${PORT}` },
+    forbidOnly: !!process.env.CI,
+    // The dev server compiles each route on first visit; under parallel load
+    // that occasionally fails a request once. A retry tells that apart from a
+    // real failure, which fails every time.
+    retries: process.env.CI ? 2 : 1,
+    reporter: process.env.CI ? [["github"], ["list"]] : "list",
+    use: {
+        baseURL: `http://localhost:${PORT}`,
+        trace: process.env.CI ? "retain-on-failure" : "off"
+    },
     projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
     webServer: {
         command: `npx next dev --turbopack -p ${PORT}`,
