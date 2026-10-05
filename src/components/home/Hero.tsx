@@ -27,6 +27,9 @@ function statsOf(stats: Stats): Stat[] {
     return items.filter((item): item is Stat => item !== null);
 }
 
+const cta =
+    "tracking-[.08em] whitespace-nowrap uppercase max-sm:flex-1 max-sm:px-2 max-sm:text-xs max-sm:tracking-normal";
+
 export function Hero({ profile, stats }: { profile: ProfileData; stats: Stats }) {
     const [first, ...rest] = profile.name.trim().split(/\s+/);
     const items = statsOf(stats);
@@ -47,7 +50,10 @@ export function Hero({ profile, stats }: { profile: ProfileData; stats: Stats })
             </h1>
 
             {profile.headline && (
-                <p className="mt-6 font-mono text-lg leading-snug sm:text-[23px]">
+                // Sized so a typical headline stays on one line at phone width
+                // in the fallback font too: a wrap that appears or disappears
+                // when the web font loads shifts everything below it.
+                <p className="mt-6 font-mono text-base leading-snug sm:text-[23px]">
                     {profile.headline}
                 </p>
             )}
@@ -57,15 +63,24 @@ export function Hero({ profile, stats }: { profile: ProfileData; stats: Stats })
                 </p>
             )}
 
-            <div className="mt-8 flex flex-wrap gap-3">
-                <Button href="/systems" arrow={false} className="tracking-[.08em] uppercase">
+            {/*
+              On phones the two buttons share one row at a size that fits in
+              the fallback font as well, so the row cannot wrap (and push the
+              page down) when the web font arrives.
+            */}
+            <div className="mt-8 flex gap-2 sm:flex-wrap sm:gap-3">
+                <Button
+                    href="/systems"
+                    arrow={false}
+                    className={cta}
+                >
                     Explore systems
                     <ArrowUpRight aria-hidden="true" className="size-4 shrink-0" />
                 </Button>
                 <Button
                     href="/resume"
                     variant="ghost"
-                    className="tracking-[.08em] uppercase"
+                    className={cta}
                 >
                     <FileText aria-hidden="true" className="size-4 shrink-0" />
                     View resume

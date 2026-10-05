@@ -88,7 +88,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 
 ## M14 Quality & launch
 - [x] 14.1 Accessibility
-- [ ] 14.2 Performance
+- [x] 14.2 Performance
 - [ ] 14.3 SEO
 - [ ] 14.4 Test suite + CI
 - [ ] 14.5 Launch PR

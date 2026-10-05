@@ -12,12 +12,20 @@ import { Providers } from "./providers";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
+    display: "swap",
     subsets: ["latin"]
 });
 
+// next/font's generated fallback is Arial stretched to the average glyph
+// width, which is far off for monospace text (uppercase labels came out ~15%
+// wider and wrapped until the font arrived). System monospace fonts share
+// Geist Mono's 0.6em advance, so they stand in with almost no layout shift.
 const geistMono = Geist_Mono({
     variable: "--font-geist-mono",
-    subsets: ["latin"]
+    display: "swap",
+    subsets: ["latin"],
+    adjustFontFallback: false,
+    fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"]
 });
 
 export async function generateMetadata(): Promise<Metadata> {
