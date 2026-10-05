@@ -686,11 +686,16 @@ describe("deriveTimeline", () => {
         years,
         notes: new Map([[2025, { title: "The quiet year", summary: "Mostly review.", html: "<p>Note</p>" }]]),
         releases: [{ publishedAt: "2024-03-01T00:00:00Z" }, { publishedAt: "2024-12-31T23:00:00Z" }, { publishedAt: "2026-01-05T00:00:00Z" }],
-        namedRepos: new Map([["demo-labs/private-system", "Private System"]])
+        namedRepos: new Map([["demo-labs/private-system", "Private System"]]),
+        now: NOW
     });
 
     it("has one entry per year with contributions, newest first", () => {
         expect(timeline.map((entry) => entry.year)).toEqual([2026, 2025, 2024]);
+    });
+
+    it("marks only the current year as in progress", () => {
+        expect(timeline.map((entry) => entry.inProgress)).toEqual([true, false, false]);
     });
 
     it("carries the year's numbers", () => {
@@ -719,7 +724,7 @@ describe("deriveTimeline", () => {
 
     it("prefers the year's note, and has no title when only private repos exist", () => {
         expect(timeline[1]).toMatchObject({ title: "The quiet year", summary: "Mostly review.", html: "<p>Note</p>" });
-        const [bare] = deriveTimeline({ years: [years[2]], notes: new Map(), releases: [], namedRepos: new Map() });
+        const [bare] = deriveTimeline({ years: [years[2]], notes: new Map(), releases: [], namedRepos: new Map(), now: NOW });
         expect(bare.title).toBeNull();
     });
 });

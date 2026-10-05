@@ -309,6 +309,8 @@ export type LogEntry = {
 
 export type TimelineYear = {
     year: number;
+    /** The current year: its numbers are still growing. */
+    inProgress: boolean;
     totalContributions: number;
     commits: number;
     pullRequests: number;

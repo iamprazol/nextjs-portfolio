@@ -525,6 +525,7 @@ export function deriveTimeline(input: {
     /** Releases of every system and experiment. */
     releases: Pick<Release, "publishedAt">[];
     namedRepos: Map<string, string>;
+    now: Date;
 }): TimelineYear[] {
     return input.years
         .filter((entry) => entry.contributions.contributionCalendar.totalContributions > 0)
@@ -542,6 +543,7 @@ export function deriveTimeline(input: {
 
             return {
                 year,
+                inProgress: year >= input.now.getUTCFullYear(),
                 totalContributions: contributions.contributionCalendar.totalContributions,
                 commits: contributions.totalCommitContributions,
                 pullRequests: contributions.totalPullRequestContributions,

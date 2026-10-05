@@ -289,7 +289,8 @@ export async function getTimeline(): Promise<TimelineYear[]> {
         releases: sources.flatMap((source) =>
             source.releases.filter((release) => !release.isPrerelease)
         ),
-        namedRepos: new Map(sources.map((source) => [key(source.repo), source.name]))
+        namedRepos: new Map(sources.map((source) => [key(source.repo), source.name])),
+        now: getConfig().now()
     });
 }
 

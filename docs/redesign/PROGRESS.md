@@ -65,7 +65,7 @@ Tick each step when its acceptance criteria pass and it is committed.
 - [x] 8.3 Entry pages + RSS
 
 ## M09 Timeline
-- [ ] 9.1 Year rail
+- [x] 9.1 Year rail
 - [ ] 9.2 Year detail + heatmap
 
 ## M10 Lab
